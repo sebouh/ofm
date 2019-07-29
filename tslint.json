@@ -1,0 +1,147 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier",
+    "tslint-react"
+  ],
+  "rules": {
+    "jsx-no-multiline-js": false,
+    "jsx-no-lambda": false,
+    "no-var-requires": false,
+    "align": [true, "parameters", "arguments", "statements"],
+    "ban": false,
+    "class-name": true,
+    "comment-format": [true, "check-space"],
+    "curly": false,
+    "eofline": false,
+    "forin": true,
+    "indent": [true, "spaces"],
+    "interface-name": [true, "always-prefix"],
+    "jsdoc-format": false,
+    "label-position": true,
+    "max-line-length": [true, 160],
+    "member-access": true,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "public-before-private",
+          "static-before-instance",
+          "variables-before-functions"
+        ]
+      }
+    ],
+    "no-any": false,
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-console": [
+      true,
+      "warn",
+      "error",
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
+    "no-consecutive-blank-lines": true,
+    "no-construct": true,
+    "no-debugger": true,
+    "no-duplicate-variable": true,
+    "no-empty": true,
+    "no-eval": true,
+    "no-shadowed-variable": true,
+    "no-string-literal": false,
+    "no-switch-case-fall-through": true,
+    "no-trailing-whitespace": false,
+    "no-unused-expression": true,
+    "no-use-before-declare": true,
+    "object-literal-sort-keys": false,
+    "one-line": [
+      true,
+      "check-catch",
+      "check-else",
+      "check-open-brace",
+      "check-whitespace"
+    ],
+    "ordered-imports": true,
+    "quotemark": [true, "single"],
+    "radix": true,
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
+    "switch-default": true,
+    "trailing-comma": [true],
+    "triple-equals": [true, "allow-null-check"],
+    "typedef": [true, "parameter", "property-declaration"],
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      }
+    ],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-module",
+      "check-operator",
+      "check-separator",
+      "check-type",
+      "check-typecast"
+    ],
+    "no-sequences": 0,
+    "react/display-name": 0,
+    "react/no-unused-prop-types": 0,
+    "react/jsx-key": 0,
+    "react/no-unescaped-entities": 0,
+    "eqeqeq": 2,
+    "react/prop-types": 0,
+    "jsx-quotes": 0,
+    "no-proto": 0,
+    "no-throw-literal": 0,
+    "no-useless-escape": 0,
+    "no-unused-vars": "error",
+    "key-spacing": 0,
+    "no-underscore-dangle": 0,
+    "no-unused-expressions": 0,
+    "no-shadow": 0,
+    "no-shadow-restricted-names": 0,
+    "no-extend-native": 0,
+    "no-var": 2,
+    "new-cap": 0,
+    "semi-spacing": 0,
+    "space-unary-ops": 0,
+    "space-infix-ops": 0,
+    "consistent-return": 0,
+    "strict": 0,
+    "camelcase": 0,
+    "max-statements": [
+      2,
+      13
+    ],
+    "complexity": [
+      "error",
+      {
+        "max": 10
+      }
+    ],
+    "max-nested-callbacks": [
+      2,
+      3
+    ],
+    "max-params": [
+      "error",
+      5
+    ]
+  }
+}
