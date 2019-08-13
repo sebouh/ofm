@@ -15,6 +15,22 @@ const colors = {
   bgColor: '#f0edf2'
 };
 
+const fonts = {
+  regular: {
+    fontFamily: 'SFProText-Regular'
+  },
+  light: {
+    fontFamily: 'SFProText-Light'
+  },
+  semiBold: {
+    fontFamily: 'SFProText-Semibold'
+  },
+  regularPro: {
+    fontFamily: 'SFProDisplay-Medium'
+  }
+};
+
 export const globalStyles = {
-  colors
+  colors,
+  fonts
 };

@@ -18,11 +18,12 @@ export default {
       },
       input: {
         fontSize: 15,
-        lineHeight: 20,
         letterSpacing: -0.24,
         color: globalStyles.colors.black,
         paddingLeft: 13,
-        fontFamily: 'SFProText'
+        ...globalStyles.fonts.regular,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
       }
     }
   ),
@@ -34,11 +35,13 @@ export default {
         paddingTop: 40
       },
       title: {
-        fontSize: 22,
+        ...globalStyles.fonts.regularPro,
         fontWeight: '300',
+        fontStyle: 'normal',
+        fontSize: 22,
         lineHeight: 28,
         letterSpacing: 0.35,
-        color: globalStyles.colors.black40
+        color: globalStyles.colors.black40,
       },
       icon: {
         fontSize: 20,
