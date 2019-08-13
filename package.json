@@ -10,11 +10,15 @@
     "android": "react-native run-android"
   },
   "dependencies": {
+    "intl": "^1.2.5",
+    "native-base": "^2.13.4",
     "react": "16.8.6",
-    "react-intl": "^3.1.7",
+    "react-intl": "^2.9.0",
     "react-native": "0.60.4",
     "react-native-camera": "^3.0.0",
+    "react-native-linear-gradient": "react-native-community/react-native-linear-gradient",
     "react-native-router-flux": "^4.0.6",
+    "react-native-vector-icons": "^6.6.0",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0"
@@ -25,6 +29,7 @@
     "@react-native-community/eslint-config": "^0.0.5",
     "@types/jest": "^24.0.15",
     "@types/react": "^16.8.23",
+    "@types/react-intl": "^2.3.18",
     "@types/react-native": "^0.60.2",
     "@types/react-redux": "^7.1.1",
     "@types/react-test-renderer": "^16.8.3",
@@ -42,5 +47,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./src/assets/fonts/"
+    ]
   }
 }

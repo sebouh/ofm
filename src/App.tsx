@@ -15,7 +15,7 @@ class App extends PureComponent<IProps> {
     const { locale } = this.props;
 
     return (
-      <IntlProvider locale={'en'} textComponent={Text} messages={translationMessages[locale]}>
+      <IntlProvider locale={locale} textComponent={Text} messages={translationMessages[locale]}>
         <View style={{ flex: 1 }}>
           <ConnectedRouter/>
         </View>

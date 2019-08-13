@@ -7,7 +7,7 @@ export interface ISettingsState {
 }
 
 const defaultState: ISettingsState = {
-  locale: ''
+  locale: 'en'
 };
 
 export default createReducer(defaultState, {
