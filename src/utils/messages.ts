@@ -7,7 +7,10 @@ export interface ILanguages {
 }
 
 const en: IMessages = {
-  signup_title: 'Sign Up'
+  signup_title: 'Sign Up',
+  signup_email: 'Email Address',
+  signup_password: 'Temporary Password',
+  next_button: 'NEXT'
 };
 
 export const translationMessages: ILanguages = {

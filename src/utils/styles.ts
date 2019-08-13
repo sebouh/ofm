@@ -8,6 +8,7 @@ const colors = {
   azure: '#00a5ff',
   darkLimeGreen: '#73c700',
   tangerine: '#ff9300',
+  purple: '#7714a1',
   electricPurple: '#a237f3',
   watermelon: '#fd4176',
   brownGrey: '#999999',

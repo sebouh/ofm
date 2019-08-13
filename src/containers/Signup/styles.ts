@@ -24,6 +24,18 @@ export default {
         ...globalStyles.fonts.regular,
         fontWeight: 'normal',
         fontStyle: 'normal',
+      },
+      button: {
+        backgroundColor: globalStyles.colors.purple,
+        borderRadius: 10,
+        height: 50
+      },
+      button_text: {
+        color: globalStyles.colors.white,
+        ...globalStyles.fonts.semiBold,
+        fontSize: 17,
+        fontWeight: '600',
+        letterSpacing: -0.41,
       }
     }
   ),
