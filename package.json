@@ -6,7 +6,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "ios": "react-native run-ios --simulator=\"iPhone X\"",
+    "ios": "react-native run-ios --simulator=\"iPhone 7\"",
     "android": "react-native run-android"
   },
   "dependencies": {

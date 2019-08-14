@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { globalStyles } from '../../utils';
+import { globalStyles } from '../utils';
 
 export default {
   common: StyleSheet.create(
@@ -24,18 +24,6 @@ export default {
         ...globalStyles.fonts.regular,
         fontWeight: 'normal',
         fontStyle: 'normal',
-      },
-      button: {
-        backgroundColor: globalStyles.colors.purple,
-        borderRadius: 10,
-        height: 50
-      },
-      button_text: {
-        color: globalStyles.colors.white,
-        ...globalStyles.fonts.semiBold,
-        fontSize: 17,
-        fontWeight: '600',
-        letterSpacing: -0.41,
       }
     }
   ),
@@ -56,10 +44,8 @@ export default {
         color: globalStyles.colors.black40,
       },
       icon: {
-        fontSize: 20,
-        paddingLeft: 10,
-        paddingRight: 0,
-        paddingTop: 5
+        marginLeft: 10,
+        marginTop: 5
       },
       sign_in: {
         position: 'absolute',
