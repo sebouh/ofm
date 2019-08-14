@@ -10,7 +10,10 @@ const en: IMessages = {
   signup_title: 'Sign Up',
   signup_email: 'Email Address',
   signup_password: 'Temporary Password',
-  next_button: 'NEXT'
+  signup_login_orefix: 'Already have account? Just',
+  signup_login_suffix: 'Sign In!',
+  next_button: 'NEXT',
+
 };
 
 export const translationMessages: ILanguages = {

@@ -19,7 +19,7 @@ class SignupEmailPassword extends PureComponent {
     return (
       <View style={styles.common.container}>
         <Header/>
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
           <View style={styles.email_pass.inner_container}>
             <Text style={styles.email_pass.title}>
               <FormattedMessage id={'signup_title'}/>
@@ -59,6 +59,16 @@ class SignupEmailPassword extends PureComponent {
             </Item>
             <Button block={true} style={[styles.common.button, { marginTop: 64 }]}>
               <Text style={styles.common.button_text}><FormattedMessage id={'next_button'}/></Text>
+            </Button>
+          </View>
+          <View style={styles.email_pass.sign_in}>
+            <Button transparent={true}>
+              <Text style={styles.email_pass.sign_in_text}>
+                <FormattedMessage id={'signup_login_orefix'}/> {' '}
+                <Text style={styles.email_pass.sign_in_text_bold}>
+                  <FormattedMessage id={'signup_login_suffix'}/>
+                </Text>
+              </Text>
             </Button>
           </View>
         </SafeAreaView>

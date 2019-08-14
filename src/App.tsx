@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Text, View } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import { connect } from 'react-redux';
 import { ConnectedRouter } from './components';
 import { IReduxState } from './store/store';
@@ -11,6 +12,10 @@ interface IProps {
 }
 
 class App extends PureComponent<IProps> {
+  public componentDidMount(): void {
+    SplashScreen.hide();
+  }
+
   public render() {
     const { locale } = this.props;
 

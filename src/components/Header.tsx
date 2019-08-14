@@ -3,7 +3,7 @@ import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { IReduxState } from '../store/store';
-import { getStatusBarHeight } from '../utils';
+import { getStatusBarHeight, isIphoneX } from '../utils';
 
 interface IProps {
   readonly routeName: string;
@@ -27,7 +27,7 @@ class Header extends PureComponent<IProps> {
 const styles = StyleSheet.create(
   {
     container: {
-      height: 139
+      height: isIphoneX ? 161 : 139
     },
     smallContainer: {
       height: 101
