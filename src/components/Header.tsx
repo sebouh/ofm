@@ -27,7 +27,7 @@ class Header extends PureComponent<IProps> {
 const styles = StyleSheet.create(
   {
     container: {
-      height: isIphoneX ? 161 : 139
+      height: isIphoneX() ? 161 : 139
     },
     smallContainer: {
       height: 101

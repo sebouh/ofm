@@ -24,6 +24,25 @@ export default {
         ...globalStyles.fonts.regular,
         fontWeight: 'normal',
         fontStyle: 'normal',
+      },
+      bottom_button: {
+        position: 'absolute',
+        bottom: 40,
+        left: 0,
+        right: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      bottom_button_text: {
+        fontSize: 15,
+        ...globalStyles.fonts.regular,
+        lineHeight: 20,
+        letterSpacing: -0.24,
+        color: globalStyles.colors.black
+      },
+      bottom_button_bold: {
+        ...globalStyles.fonts.semiBold
       }
     }
   ),
@@ -47,24 +66,20 @@ export default {
         marginLeft: 10,
         marginTop: 5
       },
-      sign_in: {
-        position: 'absolute',
-        bottom: 40,
-        left: 0,
-        right: 0,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+    }
+  ),
+  sign_in: StyleSheet.create(
+    {
+      forgot_button: {
+        marginTop: 40,
+        justifyContent: 'flex-end'
       },
-      sign_in_text: {
-        fontSize: 15,
+      forgot_button_text: {
         ...globalStyles.fonts.regular,
+        fontSize: 15,
         lineHeight: 20,
         letterSpacing: -0.24,
         color: globalStyles.colors.black
-      },
-      sign_in_text_bold: {
-        ...globalStyles.fonts.semiBold
       }
     }
   )

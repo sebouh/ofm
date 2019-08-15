@@ -16,8 +16,7 @@ const routes: IRoute[] = [
   },
   {
     key: 'sign_in_initial',
-    component: SignInInitial,
-    initial: true
+    component: SignInInitial
   }
 ];
 

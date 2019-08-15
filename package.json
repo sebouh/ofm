@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "intl": "^1.2.5",
+    "lodash": "^4.17.15",
     "native-base": "^2.13.4",
     "react": "16.8.6",
     "react-intl": "^2.9.0",
@@ -29,6 +30,7 @@
     "@babel/runtime": "^7.5.5",
     "@react-native-community/eslint-config": "^0.0.5",
     "@types/jest": "^24.0.15",
+    "@types/lodash": "^4.14.136",
     "@types/react": "^16.8.23",
     "@types/react-intl": "^2.3.18",
     "@types/react-native": "^0.60.2",

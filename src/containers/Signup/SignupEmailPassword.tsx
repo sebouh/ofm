@@ -1,7 +1,9 @@
+import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { EmailInput, Header, NextButton, PasswordInput } from '../../components';
 import styles from '../styles';
 
@@ -14,6 +16,12 @@ class SignupEmailPassword extends PureComponent {
   private onChange = (val: string, key: string) => {
     this.setState({ [key]: val });
   };
+
+  private navigateToSignin = () => {
+    return Actions.push('sign_in_initial');
+  };
+
+  private onSignInPress = debounce(this.navigateToSignin, 1000, { leading: true, trailing: false });
 
   public render() {
     return (
@@ -43,11 +51,11 @@ class SignupEmailPassword extends PureComponent {
             </Item>
             <NextButton buttonStyle={{ marginTop: 64 }} />
           </View>
-          <View style={styles.email_pass.sign_in}>
-            <Button transparent={true}>
-              <Text style={styles.email_pass.sign_in_text}>
-                <FormattedMessage id={'signup_login_orefix'}/> {' '}
-                <Text style={styles.email_pass.sign_in_text_bold}>
+          <View style={styles.common.bottom_button}>
+            <Button transparent={true} onPress={this.onSignInPress}>
+              <Text style={styles.common.bottom_button_text}>
+                <FormattedMessage id={'signup_login_prefix'}/> {' '}
+                <Text style={styles.common.bottom_button_bold}>
                   <FormattedMessage id={'signup_login_suffix'}/>
                 </Text>
               </Text>
