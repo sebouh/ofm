@@ -8,6 +8,11 @@ export default {
         backgroundColor: globalStyles.colors.bgColor,
         flex: 1
       },
+      inner_container: {
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingTop: 40
+      },
       input_container: {
         borderRadius: 10,
         backgroundColor: globalStyles.colors.white,
@@ -15,6 +20,15 @@ export default {
         borderBottomWidth: 0,
         borderLeftWidth: 0,
         borderRightWidth: 0
+      },
+      top_title: {
+        ...globalStyles.fonts.regularPro,
+        fontWeight: '300',
+        fontStyle: 'normal',
+        fontSize: 22,
+        lineHeight: 28,
+        letterSpacing: 0.35,
+        color: globalStyles.colors.black40,
       },
       input: {
         fontSize: 15,
@@ -56,20 +70,6 @@ export default {
   ),
   email_pass: StyleSheet.create(
     {
-      inner_container: {
-        paddingLeft: 24,
-        paddingRight: 24,
-        paddingTop: 40
-      },
-      title: {
-        ...globalStyles.fonts.regularPro,
-        fontWeight: '300',
-        fontStyle: 'normal',
-        fontSize: 22,
-        lineHeight: 28,
-        letterSpacing: 0.35,
-        color: globalStyles.colors.black40,
-      },
       icon: {
         marginLeft: 10,
         marginTop: 5
@@ -88,6 +88,19 @@ export default {
         lineHeight: 20,
         letterSpacing: -0.24,
         color: globalStyles.colors.black
+      }
+    }
+  ),
+  password_recovery: StyleSheet.create(
+    {
+      description: {
+        marginTop: 32,
+        fontSize: 15,
+        lineHeight: 20,
+        letterSpacing: -0.24,
+        ...globalStyles.fonts.regular,
+        color: globalStyles.colors.black,
+        textAlign: 'center'
       }
     }
   )

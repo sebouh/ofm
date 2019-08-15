@@ -8,6 +8,7 @@ interface IProps {
   readonly buttonStyle?: ViewStyle | ViewStyle[];
   readonly textStyle?: TextStyle;
   readonly onPress: () => void;
+  readonly title?: string;
 }
 
 class NextButton extends PureComponent<IProps> {
@@ -15,11 +16,11 @@ class NextButton extends PureComponent<IProps> {
     return (
       <Button block={true} style={[styles.button, this.props.buttonStyle]} onPress={this.props.onPress}>
         <Text style={[styles.button_text, this.props.textStyle]}>
-          <FormattedMessage id={'next_button'}/>
+          <FormattedMessage id={this.props.title || 'next_button'}/>
         </Text>
       </Button>
     );
-  };
+  }
 }
 
 const styles = StyleSheet.create({

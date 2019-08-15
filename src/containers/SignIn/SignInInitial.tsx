@@ -20,16 +20,21 @@ class SignInInitial extends PureComponent {
   };
 
   private onSubmit = () => {
-    if (!validateEmail(this.state.email)) {
+    if (!validateEmail(this.state.email) || !this.state.password) {
       return this.setState({ errorMessage: 'incorrect_email_pass' });
     }
   };
 
-  private navigateToSignup = () => {
-    Actions.popTo('signup_email_pass');
+  private navigateTo = (to: string, popTo?: boolean) => {
+    if (popTo) {
+      return Actions.popTo(to);
+    }
+
+    return Actions.push(to);
   };
 
-  private onSignUpPress = debounce(this.navigateToSignup, 1000, { leading: true, trailing: false });
+  private onSignUpPress = debounce(() => this.navigateTo('signup_email_pass', true), 1000, { leading: true, trailing: false });
+  private onForgotPress = debounce(() => this.navigateTo('sign_in_recover_password'), 1000, { leading: true, trailing: false });
 
   private onNextPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
 
@@ -40,8 +45,8 @@ class SignInInitial extends PureComponent {
       <View style={styles.common.container}>
         <Header/>
         <SafeAreaView style={{ flex: 1 }}>
-          <View style={styles.email_pass.inner_container}>
-            <Text style={styles.email_pass.title}>
+          <View style={styles.common.inner_container}>
+            <Text style={styles.common.top_title}>
               <FormattedMessage id={'signin_title'}/>
             </Text>
             <Item rounded={true} style={[styles.common.input_container, { marginTop: 32 }]}>
@@ -62,7 +67,7 @@ class SignInInitial extends PureComponent {
                 <FormattedMessage id={this.state.errorMessage}/>
               </Text>
             ) : null}
-            <Button transparent={true} style={[styles.sign_in.forgot_button, { marginTop: !errorMessage ? 40 : 12 }]}>
+            <Button transparent={true} style={[styles.sign_in.forgot_button, { marginTop: !errorMessage ? 40 : 12 }]} onPress={this.onForgotPress}>
               <Text style={styles.sign_in.forgot_button_text}>
                 <FormattedMessage id={'signin_forgot_title'}/>
               </Text>

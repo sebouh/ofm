@@ -20,7 +20,7 @@ class SignupEmailPassword extends PureComponent {
   };
 
   private onSubmit = () => {
-    if (!validateEmail(this.state.email)) {
+    if (!validateEmail(this.state.email) || !this.state.password) {
       return this.setState({ errorMessage: 'incorrect_email_pass' });
     }
   };
@@ -39,8 +39,8 @@ class SignupEmailPassword extends PureComponent {
       <View style={styles.common.container}>
         <Header/>
         <SafeAreaView style={{ flex: 1 }}>
-          <View style={styles.email_pass.inner_container}>
-            <Text style={styles.email_pass.title}>
+          <View style={styles.common.inner_container}>
+            <Text style={styles.common.top_title}>
               <FormattedMessage id={'signup_title'}/>
             </Text>
             <Item rounded={true} style={[styles.common.input_container, { marginTop: 32 }]}>
