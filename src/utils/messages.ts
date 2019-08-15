@@ -8,6 +8,7 @@ export interface ILanguages {
 
 const en: IMessages = {
   email: 'Email Address',
+  incorrect_email_pass: 'Incorrect Password or Email Address.',
   signup_title: 'Sign Up',
   signup_temp_password: 'Temporary Password',
   signup_login_prefix: 'Already have account? Just',

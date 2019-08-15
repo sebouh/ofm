@@ -13,7 +13,8 @@ const colors = {
   watermelon: '#fd4176',
   brownGrey: '#999999',
   veryLightPink: '#cccccc',
-  bgColor: '#f0edf2'
+  bgColor: '#f0edf2',
+  errorRed: '#ff3b30'
 };
 
 const fonts = {

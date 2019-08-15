@@ -7,12 +7,13 @@ import { globalStyles } from '../../utils';
 interface IProps {
   readonly buttonStyle?: ViewStyle | ViewStyle[];
   readonly textStyle?: TextStyle;
+  readonly onPress: () => void;
 }
 
 class NextButton extends PureComponent<IProps> {
   public render() {
     return (
-      <Button block={true} style={[styles.button, this.props.buttonStyle]}>
+      <Button block={true} style={[styles.button, this.props.buttonStyle]} onPress={this.props.onPress}>
         <Text style={[styles.button_text, this.props.textStyle]}>
           <FormattedMessage id={'next_button'}/>
         </Text>

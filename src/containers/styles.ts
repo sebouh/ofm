@@ -43,6 +43,14 @@ export default {
       },
       bottom_button_bold: {
         ...globalStyles.fonts.semiBold
+      },
+      email_pass_error: {
+        marginTop: 8,
+        color: globalStyles.colors.errorRed,
+        fontSize: 15,
+        ...globalStyles.fonts.regular,
+        lineHeight: 20,
+        letterSpacing: -0.24
       }
     }
   ),

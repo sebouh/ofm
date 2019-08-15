@@ -5,16 +5,24 @@ import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { EmailInput, Header, NextButton, PasswordInput } from '../../components';
+import { validateEmail } from '../../utils';
 import styles from '../styles';
 
 class SignupEmailPassword extends PureComponent {
   public readonly state = {
     email: '',
-    password: ''
+    password: '',
+    errorMessage: ''
   };
 
   private onChange = (val: string, key: string) => {
-    this.setState({ [key]: val });
+    this.setState({ [key]: val, errorMessage: '' });
+  };
+
+  private onSubmit = () => {
+    if (!validateEmail(this.state.email)) {
+      return this.setState({ errorMessage: 'incorrect_email_pass' });
+    }
   };
 
   private navigateToSignin = () => {
@@ -23,7 +31,10 @@ class SignupEmailPassword extends PureComponent {
 
   private onSignInPress = debounce(this.navigateToSignin, 1000, { leading: true, trailing: false });
 
+  private onNextPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
+
   public render() {
+    const { errorMessage } = this.state;
     return (
       <View style={styles.common.container}>
         <Header/>
@@ -33,7 +44,7 @@ class SignupEmailPassword extends PureComponent {
               <FormattedMessage id={'signup_title'}/>
             </Text>
             <Item rounded={true} style={[styles.common.input_container, { marginTop: 32 }]}>
-              <Image source={require('../../assets/images/icons/email.png')} style={[styles.email_pass.icon, { width: 25, height: 14 }]}/>
+              <Image source={require('../../assets/images/icons/email.png')} style={[styles.email_pass.icon, { width: 30, height: 14 }]}/>
               <EmailInput
                 style={styles.common.input}
                 email={this.state.email}
@@ -41,7 +52,7 @@ class SignupEmailPassword extends PureComponent {
               />
             </Item>
             <Item rounded={true} style={[styles.common.input_container, { marginTop: 40 }]}>
-              <Image source={require('../../assets/images/icons/temp_pass.png')} style={[styles.email_pass.icon, { width: 25, height: 19 }]}/>
+              <Image source={require('../../assets/images/icons/temp_pass.png')} style={[styles.email_pass.icon, { width: 30, height: 20 }]}/>
               <PasswordInput
                 placeholder={'signup_temp_password'}
                 style={styles.common.input}
@@ -49,7 +60,12 @@ class SignupEmailPassword extends PureComponent {
                 onChange={e => this.onChange(e, 'password')}
               />
             </Item>
-            <NextButton buttonStyle={{ marginTop: 64 }} />
+            {errorMessage ? (
+              <Text style={styles.common.email_pass_error}>
+                <FormattedMessage id={this.state.errorMessage}/>
+              </Text>
+            ) : null}
+            <NextButton buttonStyle={{ marginTop: !errorMessage ? 64 : 36 }} onPress={this.onNextPress}/>
           </View>
           <View style={styles.common.bottom_button}>
             <Button transparent={true} onPress={this.onSignInPress}>

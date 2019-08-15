@@ -5,16 +5,24 @@ import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { EmailInput, Header, NextButton, PasswordInput } from '../../components';
+import { validateEmail } from '../../utils';
 import styles from '../styles';
 
 class SignInInitial extends PureComponent {
   public readonly state = {
     email: '',
-    password: ''
+    password: '',
+    errorMessage: ''
   };
 
   private onChange = (val: string, key: string) => {
-    this.setState({ [key]: val });
+    this.setState({ [key]: val, errorMessage: '' });
+  };
+
+  private onSubmit = () => {
+    if (!validateEmail(this.state.email)) {
+      return this.setState({ errorMessage: 'incorrect_email_pass' });
+    }
   };
 
   private navigateToSignup = () => {
@@ -23,7 +31,11 @@ class SignInInitial extends PureComponent {
 
   private onSignUpPress = debounce(this.navigateToSignup, 1000, { leading: true, trailing: false });
 
+  private onNextPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
+
   public render() {
+    const { errorMessage } = this.state;
+
     return (
       <View style={styles.common.container}>
         <Header/>
@@ -45,12 +57,17 @@ class SignInInitial extends PureComponent {
                 onChange={e => this.onChange(e, 'password')}
               />
             </Item>
-            <Button transparent={true} style={styles.sign_in.forgot_button}>
+            {errorMessage ? (
+              <Text style={styles.common.email_pass_error}>
+                <FormattedMessage id={this.state.errorMessage}/>
+              </Text>
+            ) : null}
+            <Button transparent={true} style={[styles.sign_in.forgot_button, { marginTop: !errorMessage ? 40 : 12 }]}>
               <Text style={styles.sign_in.forgot_button_text}>
                 <FormattedMessage id={'signin_forgot_title'}/>
               </Text>
             </Button>
-            <NextButton buttonStyle={{ marginTop: 40 }}/>
+            <NextButton buttonStyle={{ marginTop: 40 }} onPress={this.onNextPress}/>
           </View>
           <View style={[styles.common.bottom_button, { bottom: 30 }]}>
             <Button transparent={true} onPress={this.onSignUpPress}>
