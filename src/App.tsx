@@ -3,7 +3,7 @@ import { IntlProvider } from 'react-intl';
 import { Text, View } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import { connect } from 'react-redux';
-import { ConnectedRouter } from './components';
+import { ConnectedRouter, Modal } from './components';
 import { IReduxState } from './store/store';
 import { translationMessages } from './utils';
 
@@ -23,6 +23,7 @@ class App extends PureComponent<IProps> {
       <IntlProvider locale={locale} textComponent={Text} messages={translationMessages[locale]}>
         <View style={{ flex: 1 }}>
           <ConnectedRouter/>
+          <Modal />
         </View>
       </IntlProvider>
     );

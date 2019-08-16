@@ -1,5 +1,6 @@
 import { ActionConstShort } from 'react-native-router-flux';
 import SignInInitial from './containers/SignIn/SignInInitial';
+import SigninNewPassword from './containers/SignIn/SigninNewPassword';
 import SigninRecoverPassword from './containers/SignIn/SigninRecoverPassword';
 import SignupEmailPassword from './containers/Signup/SignupEmailPassword';
 
@@ -22,7 +23,10 @@ const routes: IRoute[] = [
   {
     key: 'sign_in_recover_password',
     component: SigninRecoverPassword,
-    // initial: true
+  },
+  {
+    key: 'sign_in_new_password',
+    component: SigninNewPassword
   }
 ];
 

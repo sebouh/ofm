@@ -11,6 +11,11 @@ const en: IMessages = {
   back_button: 'Back',
   incorrect_email_pass: 'Incorrect Password or Email Address.',
   incorrect_email: 'Incorrect Email Address.',
+  next_button: 'NEXT',
+  submit_button: 'SUBMIT',
+  modal_success_title: 'Success',
+  modal_email_desc: 'You will receive an Email with password recovery details.',
+  modal_button_ok: 'OK',
   signup_title: 'Sign Up',
   signup_temp_password: 'Temporary Password',
   signup_login_prefix: 'Already have account? Just',
@@ -23,9 +28,10 @@ const en: IMessages = {
   signin_recovery_title: 'Password Recovery',
   signin_recovery_description: 'Enter your Email and we’ll send you a link to reset your password.',
   signin_recovery_error: 'Your entered Email is not registered',
-  next_button: 'NEXT',
-  submit_button: 'SUBMIT',
-
+  signin_recover_password_input_one: 'New Password',
+  signin_recover_password_input_two: 'Confirm Password',
+  signin_recover_password_empty_fields: 'New Password and Confirm Password fields should not be empty',
+  signin_recover_password_not_corresponding: 'New Password and Confirm Password should be the same'
 };
 
 export const translationMessages: ILanguages = {
