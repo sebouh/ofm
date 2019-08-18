@@ -50,7 +50,27 @@ export default {
         letterSpacing: 0.38,
         color: globalStyles.colors.black40
       },
+      answer: {
+        ...globalStyles.fonts.regular,
+        fontSize: 17,
+        color: globalStyles.colors.middleGray,
+        letterSpacing: -0.41,
+        marginTop: 18
+      },
       photo_container: {
+        marginTop: 16,
+        alignSelf: 'center',
+        position: 'relative',
+        width: 125,
+        height: 125
+      },
+      photo_delete_button: {
+        position: 'absolute',
+        top: 10,
+        right: 9,
+        height: 22
+      },
+      camera_container: {
         borderRadius: 7,
         backgroundColor: globalStyles.colors.gray,
         borderColor: globalStyles.colors.darkGray,
@@ -108,6 +128,15 @@ export default {
         marginRight: 23
       },
       answer_button_text: {
+        ...globalStyles.fonts.regular,
+        fontSize: 17,
+        letterSpacing: 0.32,
+        color: globalStyles.colors.middleGray
+      },
+      answer_button_text_active: {
+        color: globalStyles.colors.purple
+      },
+      cancel_submit_text: {
         ...globalStyles.fonts.regular,
         fontSize: 17,
         letterSpacing: 0.32,

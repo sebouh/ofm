@@ -1,9 +1,11 @@
 import { Button } from 'native-base';
-import React, { PureComponent, ReactChild, ReactComponentElement } from 'react';
+import React, { PureComponent, ReactChild } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Header, Questions, Refer, TabBar } from '../components';
+import { connect } from 'react-redux';
+import { Camera, Header, Questions, Refer, TabBar } from '../components';
+import { IReduxState } from '../store/store';
 import styles from './styles';
 
 const Gradient = ({ children, isSelected }: { children: ReactChild, isSelected: boolean }) => {
@@ -20,7 +22,7 @@ const Gradient = ({ children, isSelected }: { children: ReactChild, isSelected: 
   );
 };
 
-class MainDashboard extends PureComponent {
+class MainDashboard extends PureComponent<{ isCameraOpened: boolean }> {
   public readonly state = {
     tab: 'questions'
   };
@@ -42,6 +44,10 @@ class MainDashboard extends PureComponent {
       questions: <Questions/>,
       refer: <Refer/>
     } as { [key: string]: any };
+
+    if (this.props.isCameraOpened) {
+      return <Camera />;
+    }
 
     return (
       <View style={{ flex: 1 }}>
@@ -74,4 +80,10 @@ class MainDashboard extends PureComponent {
   }
 }
 
-export default MainDashboard;
+const mapStateToProps = ({ camera }: IReduxState) => {
+  return {
+    isCameraOpened: camera.isActive
+  };
+};
+
+export default connect(mapStateToProps)(MainDashboard);

@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
+import { connect } from 'react-redux';
+import { IReduxState } from '../../store/store';
 import { globalStyles, IQuestions } from '../../utils';
 import Question from './Question';
 import styles from './styles';
@@ -9,53 +11,6 @@ interface IProps {
 }
 
 class Questions extends PureComponent<IProps> {
-  public static defaultProps = {
-    questions: [
-      {
-        id: 1,
-        duration: '2:52',
-        pictureRequired: true,
-        question: 'Are storefront doors and windows clean and free of cracks?',
-        value: '5 pts'
-      },
-      {
-        id: 2,
-        duration: 0,
-        pictureRequired: false,
-        question: 'Are storefront doors and windows clean and free of cracks?',
-        value: '25 pts'
-      },
-      {
-        id: 3,
-        duration: 0,
-        pictureRequired: false,
-        question: 'Are storefront doors and windows clean and free of cracks?',
-        value: '15 pts'
-      },
-      {
-        id: 4,
-        duration: 0,
-        pictureRequired: true,
-        question: 'Are storefront doors and windows clean and free of cracks?',
-        value: '5 pts'
-      },
-      {
-        id: 5,
-        duration: 0,
-        pictureRequired: false,
-        question: 'Are storefront doors and windows clean and free of cracks?',
-        value: '25 pts'
-      },
-      {
-        id: 6,
-        duration: 0,
-        pictureRequired: false,
-        question: 'Are storefront doors and windows clean and free of cracks?',
-        value: '15 pts'
-      }
-    ]
-  };
-
   public readonly state = {
     refreshing: false
   };
@@ -68,7 +23,6 @@ class Questions extends PureComponent<IProps> {
 
   private onRefresh = () => {
     this.setState({ refreshing: true }, () => {
-      console.log('refreshed');
       setTimeout(() => this.setState({ refreshing: false }), 1000);
     });
   };
@@ -92,4 +46,9 @@ class Questions extends PureComponent<IProps> {
   }
 }
 
-export default Questions;
+const mapStateToProps = ({ questions }: IReduxState) => {
+  return {
+    questions: questions.questions
+  };
+};
+export default connect(mapStateToProps)(Questions);

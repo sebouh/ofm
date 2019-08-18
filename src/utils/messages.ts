@@ -35,8 +35,13 @@ const en: IMessages = {
   main_dashboard_navigator_questions: 'Questions',
   main_dashboard_navigator_refer: 'Refer a Friend',
   main_dashboard_photo: 'TAKE A PHOTO',
+  main_dashboard_question_text_yes : 'You answered YES',
+  main_dashboard_question_text_no : 'You answered NO',
   main_dashboard_question_yes: 'YES',
   main_dashboard_question_no: 'NO',
+  main_dashboard_question_points: 'pts',
+  main_dashboard_question_cancel: 'CANCEL',
+  main_dashboard_question_submit: 'SUBMIT',
   tab_bar_earn: 'EARN',
   tab_bar_redeem: 'REDEEM',
 };
