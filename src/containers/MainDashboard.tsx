@@ -1,12 +1,12 @@
 import { Button } from 'native-base';
-import React, { PureComponent, ReactChild } from 'react';
+import React, { PureComponent, ReactChild, ReactComponentElement } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Header } from '../components';
+import { Header, Questions, Refer, TabBar } from '../components';
 import styles from './styles';
 
-const Gradient = ({ children, isSelected}: { children: ReactChild, isSelected: boolean }) => {
+const Gradient = ({ children, isSelected }: { children: ReactChild, isSelected: boolean }) => {
   if (!isSelected) {
     return (
       <React.Fragment>{children}</React.Fragment>
@@ -38,8 +38,13 @@ class MainDashboard extends PureComponent {
   ];
 
   public render() {
+    const layout = {
+      questions: <Questions/>,
+      refer: <Refer/>
+    } as { [key: string]: any };
+
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <Header/>
         <View style={styles.main_dashboard.buttonContainer}>
           {this.buttons.map(button => {
@@ -55,13 +60,15 @@ class MainDashboard extends PureComponent {
               >
                 <Gradient isSelected={isActive}>
                   <Text style={[styles.main_dashboard.button_text, !isActive && styles.main_dashboard.button_text_active]}>
-                    <FormattedMessage id={button.title} />
+                    <FormattedMessage id={button.title}/>
                   </Text>
                 </Gradient>
               </Button>
             );
           })}
         </View>
+        {layout[this.state.tab]}
+        <TabBar active={1}/>
       </View>
     );
   }

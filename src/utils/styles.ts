@@ -14,7 +14,10 @@ const colors = {
   brownGrey: '#999999',
   veryLightPink: '#cccccc',
   bgColor: '#f0edf2',
-  errorRed: '#ff3b30'
+  errorRed: '#ff3b30',
+  gray: '#f6f6f8',
+  darkGray: '#979797',
+  middleGray: '#707070'
 };
 
 const fonts = {

@@ -34,6 +34,11 @@ const en: IMessages = {
   signin_recover_password_not_corresponding: 'New Password and Confirm Password should be the same',
   main_dashboard_navigator_questions: 'Questions',
   main_dashboard_navigator_refer: 'Refer a Friend',
+  main_dashboard_photo: 'TAKE A PHOTO',
+  main_dashboard_question_yes: 'YES',
+  main_dashboard_question_no: 'NO',
+  tab_bar_earn: 'EARN',
+  tab_bar_redeem: 'REDEEM',
 };
 
 export const translationMessages: ILanguages = {

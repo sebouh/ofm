@@ -6,3 +6,12 @@ export interface IModalConfigs {
   readonly isVisible: boolean;
   readonly event?: string;
 }
+
+export interface IQuestions {
+  readonly disabled: boolean;
+  readonly duration: number;
+  readonly id: number;
+  readonly pictureRequired: boolean;
+  readonly question: string;
+  readonly value: number;
+}
