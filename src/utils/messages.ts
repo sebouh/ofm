@@ -31,7 +31,9 @@ const en: IMessages = {
   signin_recover_password_input_one: 'New Password',
   signin_recover_password_input_two: 'Confirm Password',
   signin_recover_password_empty_fields: 'New Password and Confirm Password fields should not be empty',
-  signin_recover_password_not_corresponding: 'New Password and Confirm Password should be the same'
+  signin_recover_password_not_corresponding: 'New Password and Confirm Password should be the same',
+  main_dashboard_navigator_questions: 'Questions',
+  main_dashboard_navigator_refer: 'Refer a Friend',
 };
 
 export const translationMessages: ILanguages = {

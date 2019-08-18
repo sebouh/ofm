@@ -103,5 +103,53 @@ export default {
         textAlign: 'center'
       }
     }
+  ),
+  main_dashboard: StyleSheet.create(
+    {
+      buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: globalStyles.colors.white,
+        shadowColor: globalStyles.colors.black50,
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowRadius: 6,
+        shadowOpacity: 1,
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 24,
+        paddingRight: 24
+      },
+      button: {
+        width: 150,
+        height: 28,
+        borderRadius: 10,
+        borderColor: globalStyles.colors.purple,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      button_active: {
+        borderWidth: 0
+      },
+      gradient: {
+        flex: 1,
+        height: 28,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      button_text: {
+        color: globalStyles.colors.white,
+        ...globalStyles.fonts.regular,
+        fontSize: 13,
+        fontWeight: 'bold',
+        letterSpacing: -0.31
+      },
+      button_text_active: {
+        color: globalStyles.colors.purple,
+      }
+    }
   )
 };

@@ -13,22 +13,30 @@ interface IProps {
 }
 
 class Header extends PureComponent<IProps> {
-  private readonly smallHeaderScreens: string[] = ['change_password'];
+  private readonly smallHeaderScreens: string[] = ['main_dashboard'];
   private readonly showBackButton: string[] = ['sign_in_recover_password'];
+  private readonly showMenuButton: string[] = ['main_dashboard'];
 
   public render() {
     const { routeName } = this.props;
+    const isSmall = this.smallHeaderScreens.includes(routeName);
+
     return (
-      <View style={[styles.container, this.smallHeaderScreens.includes(routeName) && styles.smallContainer]}>
+      <View style={[styles.container, isSmall && styles.smallContainer]}>
         <StatusBar barStyle={'light-content'}/>
         <LinearGradient colors={['#00008b', '#8b008b']} style={styles.gradient}/>
         {this.showBackButton.includes(routeName) ? (
-          <Button transparent={true} style={styles.back_button} onPress={() => Actions.pop()}>
+          <Button transparent={true} style={[styles.back_button, isSmall && styles.back_button_small]} onPress={() => Actions.pop()}>
             <Image source={require('../assets/images/icons/back.png')} style={{ width: 12, height: 20.5 }}/>
             <Text style={styles.back_button_text}><FormattedMessage id={'back_button'}/></Text>
           </Button>
         ) : null}
-        <Image style={styles.image} source={require('../assets/images/logo.png')}/>
+        <Image style={[styles.image, isSmall && styles.smallImage]} source={require('../assets/images/logo.png')}/>
+        {this.showMenuButton.includes(routeName) ? (
+          <Button transparent={true} style={styles.menu_button}>
+            <Image source={require('../assets/images/icons/menu.png')} style={{ width: 24, height: 16.5 }} />
+          </Button>
+        ) : null}
       </View>
     );
   }
@@ -40,7 +48,7 @@ const styles = StyleSheet.create(
       height: isIphoneX() ? 161 : 139
     },
     smallContainer: {
-      height: 101
+      height: isIphoneX() ? 123 : 101
     },
     gradient: {
       flex: 1,
@@ -56,6 +64,9 @@ const styles = StyleSheet.create(
       alignItems: 'center',
       height: 30
     },
+    back_button_small: {
+      top: getStatusBarHeight() + 34,
+    },
     back_button_text: {
       ...globalStyles.fonts.regular,
       fontSize: 17,
@@ -68,6 +79,14 @@ const styles = StyleSheet.create(
       top: getStatusBarHeight() + 34,
       left: '50%',
       marginLeft: -89
+    },
+    smallImage: {
+      top: getStatusBarHeight() + 19
+    },
+    menu_button: {
+      position: 'absolute',
+      top: getStatusBarHeight() + 23,
+      right: 19
     }
   }
 );
