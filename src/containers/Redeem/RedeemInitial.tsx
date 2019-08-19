@@ -1,7 +1,9 @@
+import debounce from 'lodash/debounce';
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RefreshControl, ScrollView, Text, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -30,6 +32,10 @@ class RedeemInitial extends PureComponent<IProps> {
       this.props.getRedeemData(() => this.setState({ refreshing: false }));
     });
   };
+
+  private onRedeemPress = () => Actions.push('redeem_confirmation');
+
+  private onNextPress = debounce(this.onRedeemPress, 1000, { leading: true, trailing: false });
 
   public render() {
     const { redeem } = this.props;
@@ -68,6 +74,7 @@ class RedeemInitial extends PureComponent<IProps> {
                 </Text>
               </View>
               <Button
+                onPress={this.onNextPress}
                 transparent={true}
                 disabled={redeem.ptsAvailable / 100 < 10}
                 style={styles.redeem_initial.button}

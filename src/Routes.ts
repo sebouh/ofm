@@ -1,6 +1,7 @@
 import { ActionConstShort } from 'react-native-router-flux';
 import Loader from './containers/Loader';
 import MainDashboard from './containers/MainDashboard';
+import RedeemConfirmation from './containers/Redeem/RedeemConfirmation';
 import RedeemInitial from './containers/Redeem/RedeemInitial';
 import SignInInitial from './containers/SignIn/SignInInitial';
 import SigninNewPassword from './containers/SignIn/SigninNewPassword';
@@ -52,6 +53,11 @@ const routes: IRoute[] = [
   {
     key: 'redeem_initial',
     component: RedeemInitial
+  },
+  {
+    key: 'redeem_confirmation',
+    component: RedeemConfirmation,
+    // initial: true
   }
 ];
 

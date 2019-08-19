@@ -228,6 +228,13 @@ export default {
       },
       button_text_disabled: {
         color: globalStyles.colors.middleGray
+      },
+      confirm_info_text: {
+        ...globalStyles.fonts.regular,
+        fontSize: 15,
+        lineHeight: 20,
+        letterSpacing: -0.24,
+        color: globalStyles.colors.black40
       }
     }
   )

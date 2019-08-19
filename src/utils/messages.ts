@@ -56,7 +56,10 @@ const en: IMessages = {
   redeem_points: 'Points available',
   redeem_currency: 'USD',
   redeem_place: 'Redeem to your PayPal account',
-  redeem_notice: 'You can Redeem if earned money exceeds $10.'
+  redeem_notice: 'You can Redeem if earned money exceeds $10.',
+  redeem_confirmation_title: 'Confirmation Page',
+  redeem_confirmation_info: 'You are redeeming {points} points for a total of {amount}. This amount will be sent to your PayPal account.',
+  redeem_confirm_button: 'CONFIRM'
 };
 
 export const translationMessages: ILanguages = {
