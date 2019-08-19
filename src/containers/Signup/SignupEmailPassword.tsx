@@ -9,13 +9,12 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { EmailInput, Header, NextButton, PasswordInput } from '../../components';
 import TokenService from '../../services/TokenService';
-import { setIsLoggedIn, setRegisterToken } from '../../store/actions';
+import { setIsLoggedIn } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, validateEmail } from '../../utils';
 import styles from '../styles';
 
 interface IProps {
-  readonly setRegisterToken: (token: string) => void;
   readonly setIsLoggedIn: () => void;
 }
 
@@ -42,7 +41,6 @@ class SignupEmailPassword extends PureComponent<IProps> {
         return this.setState({ errorMessage: 'incorrect_email_pass' });
       }
 
-      this.props.setRegisterToken(data.token);
       await TokenService.setToken(data.token);
       await this.props.setIsLoggedIn();
 
@@ -113,7 +111,6 @@ class SignupEmailPassword extends PureComponent<IProps> {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
-    setRegisterToken: (token: string) => dispatch(setRegisterToken(token)),
     setIsLoggedIn: () => dispatch(setIsLoggedIn())
   };
 };

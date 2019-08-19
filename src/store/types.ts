@@ -16,7 +16,3 @@ export enum dataTypes {
   updateQuestion = '@@data/UPDATE_QUESTION',
   setPositions = '@@data/SET_POSITIONS'
 }
-
-export enum registerTypes {
-  setRegisterToken = '@@register/SET_REGISTER_TOKEN'
-}

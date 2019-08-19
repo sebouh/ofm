@@ -4,11 +4,21 @@ import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { EmailInput, Header, NextButton, PasswordInput } from '../../components';
-import { validateEmail } from '../../utils';
+import TokenService from '../../services/TokenService';
+import { setIsLoggedIn } from '../../store/actions';
+import { IReduxState } from '../../store/store';
+import { axiosInstance, validateEmail } from '../../utils';
 import styles from '../styles';
 
-class SignInInitial extends PureComponent {
+interface IProps {
+  readonly setIsLoggedIn: () => void;
+}
+
+class SignInInitial extends PureComponent<IProps> {
   public readonly state = {
     email: '',
     password: '',
@@ -19,8 +29,24 @@ class SignInInitial extends PureComponent {
     this.setState({ [key]: val, errorMessage: '' });
   };
 
-  private onSubmit = () => {
+  private onSubmit = async () => {
     if (!validateEmail(this.state.email) || !this.state.password) {
+      return this.setState({ errorMessage: 'incorrect_email_pass' });
+    }
+
+    try {
+      const { data } = await axiosInstance.post('/login', { email: this.state.email, password: this.state.password });
+
+      if (!data.token) {
+        return this.setState({ errorMessage: 'incorrect_email_pass' });
+      }
+
+      await TokenService.setToken(data.token);
+      await this.props.setIsLoggedIn();
+
+      Actions.reset('main_dashboard');
+    } catch (err) {
+      console.log(err);
       return this.setState({ errorMessage: 'incorrect_email_pass' });
     }
   };
@@ -90,4 +116,10 @@ class SignInInitial extends PureComponent {
   }
 }
 
-export default SignInInitial;
+const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
+  return {
+    setIsLoggedIn: () => dispatch(setIsLoggedIn())
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SignInInitial);

@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import reducers from './reducers';
 import { ICameraState } from './reducers/camera';
 import { IDataState } from './reducers/data';
-import { IRegisterState } from './reducers/register';
 import { IRouterState } from './reducers/router';
 import { ISettingsState } from './reducers/settings';
 
@@ -12,7 +11,6 @@ export interface IReduxState {
   readonly router: IRouterState;
   readonly camera: ICameraState;
   readonly data: IDataState;
-  readonly register: IRegisterState;
 }
 
 // @ts-ignore
