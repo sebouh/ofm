@@ -9,6 +9,7 @@ interface IProps {
   readonly onChange: (val: string) => void;
   readonly style: ViewStyle;
   readonly placeholderColor?: string;
+  readonly placeholder?: string;
 }
 
 class EmailInput extends PureComponent<IProps> {
@@ -18,7 +19,7 @@ class EmailInput extends PureComponent<IProps> {
 
   public render() {
     return (
-      <FormattedMessage id={'email'}>
+      <FormattedMessage id={this.props.placeholder || 'email'}>
         {placeholder => (
           <Input
             placeholder={placeholder as string}

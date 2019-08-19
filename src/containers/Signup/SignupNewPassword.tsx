@@ -4,21 +4,45 @@ import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Header, NextButton, PasswordInput } from '../../components';
+import { connect } from 'react-redux';
+import { Header, LoaderIndicator, NextButton, PasswordInput } from '../../components';
+import { IReduxState } from '../../store/store';
+import { axiosInstance, IUser } from '../../utils';
 import styles from '../styles';
 
-class SignupNewPassword extends PureComponent {
+interface IProps {
+  readonly user: IUser;
+  readonly isLoggedIn: boolean | undefined;
+}
+
+class SignupNewPassword extends PureComponent<IProps> {
   public readonly state = {
     password: '',
     confirmPassword: '',
     errorMessage: ''
   };
 
+  public componentDidMount(): void {
+    if (this.props.user && this.props.user.setupComplete) {
+      return Actions.reset('main_dashboard');
+    }
+
+    if (this.props.isLoggedIn) {
+      return Actions.reset('main_dashboard');
+    }
+  }
+
+  public componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<{}>, snapshot?: any): void {
+    if (prevProps.user.setupComplete !== this.props.user.setupComplete && this.props.user.setupComplete) {
+      Actions.reset('main_dashboard');
+    }
+  }
+
   private onChange = (val: string, key: string) => {
     this.setState({ [key]: val, errorMessage: '' });
   };
 
-  private onSubmit = () => {
+  private onSubmit = async () => {
     const { password, confirmPassword } = this.state;
     if (!password.trim().length || !confirmPassword.trim().length) {
       return this.setState({ errorMessage: 'signin_recover_password_empty_fields' });
@@ -26,6 +50,18 @@ class SignupNewPassword extends PureComponent {
 
     if (password !== confirmPassword) {
       return this.setState({ errorMessage: 'signin_recover_password_not_corresponding' });
+    }
+
+    try {
+      const { data } = await axiosInstance.post('/user/me', { password });
+
+      if (data.errors) {
+        return this.setState({ errorMessage: 'unhandled_error' });
+      }
+
+      return Actions.push('signup_paypal');
+    } catch (err) {
+      this.setState({ errorMessage: 'unhandled_error' });
     }
   };
 
@@ -39,6 +75,11 @@ class SignupNewPassword extends PureComponent {
 
   public render() {
     const { errorMessage } = this.state;
+    const { user } = this.props;
+
+    if (!user || !user.email) {
+      return <LoaderIndicator/>;
+    }
 
     return (
       <View style={styles.common.container}>
@@ -89,4 +130,11 @@ class SignupNewPassword extends PureComponent {
   }
 }
 
-export default SignupNewPassword;
+const mapStateToProps = ({ settings }: IReduxState) => {
+  return {
+    user: settings.user,
+    isLoggedIn: settings.isLoggedIn
+  };
+};
+
+export default connect(mapStateToProps)(SignupNewPassword);

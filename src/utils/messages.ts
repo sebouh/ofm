@@ -8,6 +8,7 @@ export interface ILanguages {
 
 const en: IMessages = {
   email: 'Email Address',
+  paypal_email: 'Paypal Email Address',
   back_button: 'Back',
   incorrect_email_pass: 'Incorrect Password or Email Address.',
   incorrect_email: 'Incorrect Email Address.',
@@ -50,6 +51,7 @@ const en: IMessages = {
   main_dashboard_refer_payment_method_email: 'VIA E-MAIL',
   tab_bar_earn: 'EARN',
   tab_bar_redeem: 'REDEEM',
+  unhandled_error: 'Something went wrong. Please try again!'
 };
 
 export const translationMessages: ILanguages = {

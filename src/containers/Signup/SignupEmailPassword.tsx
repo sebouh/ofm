@@ -4,11 +4,22 @@ import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { EmailInput, Header, NextButton, PasswordInput } from '../../components';
-import { validateEmail } from '../../utils';
+import TokenService from '../../services/TokenService';
+import { setIsLoggedIn, setRegisterToken } from '../../store/actions';
+import { IReduxState } from '../../store/store';
+import { axiosInstance, validateEmail } from '../../utils';
 import styles from '../styles';
 
-class SignupEmailPassword extends PureComponent {
+interface IProps {
+  readonly setRegisterToken: (token: string) => void;
+  readonly setIsLoggedIn: () => void;
+}
+
+class SignupEmailPassword extends PureComponent<IProps> {
   public readonly state = {
     email: '',
     password: '',
@@ -19,12 +30,27 @@ class SignupEmailPassword extends PureComponent {
     this.setState({ [key]: val, errorMessage: '' });
   };
 
-  private onSubmit = () => {
+  private onSubmit = async () => {
     if (!validateEmail(this.state.email) || !this.state.password) {
       return this.setState({ errorMessage: 'incorrect_email_pass' });
     }
 
-    Actions.push('signup_new_password');
+    try {
+      const { data } = await axiosInstance.post('/login', { email: this.state.email, password: this.state.password });
+
+      if (!data.token) {
+        return this.setState({ errorMessage: 'incorrect_email_pass' });
+      }
+
+      this.props.setRegisterToken(data.token);
+      await TokenService.setToken(data.token);
+      await this.props.setIsLoggedIn();
+
+      Actions.push('signup_new_password');
+    } catch (err) {
+      console.log(err);
+      return this.setState({ errorMessage: 'incorrect_email_pass' });
+    }
   };
 
   private navigateToSignin = () => {
@@ -85,4 +111,11 @@ class SignupEmailPassword extends PureComponent {
   }
 }
 
-export default SignupEmailPassword;
+const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
+  return {
+    setRegisterToken: (token: string) => dispatch(setRegisterToken(token)),
+    setIsLoggedIn: () => dispatch(setIsLoggedIn())
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SignupEmailPassword);

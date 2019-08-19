@@ -26,3 +26,14 @@ export interface IReferalPositions {
   readonly name: string;
   readonly url?: string;
 }
+
+export interface IUser {
+  readonly email: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly setupComplete: null | boolean;
+  readonly storeId: number;
+  readonly dateOfBirth: string;
+  readonly phoneNumber: string;
+  readonly paypalEmail: null | string;
+}

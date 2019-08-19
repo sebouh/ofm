@@ -1,8 +1,21 @@
+import axios from 'axios';
 import { Dimensions, Platform } from 'react-native';
+import config from '../config';
 
 export * from './styles';
 export * from './typings';
 export * from './messages';
+
+export const axiosInstance = axios.create(
+  {
+    baseURL: config.api,
+    timeout: 10000
+  }
+);
+
+export const setAxiosAuthToken = (token: string) => {
+  axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+};
 
 export const isIphoneX = () => {
   const X_WIDTH = 375;

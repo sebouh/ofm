@@ -1,11 +1,13 @@
 import { AnyAction } from 'redux';
-import { IModalConfigs } from '../../utils';
+import { IModalConfigs, IUser } from '../../utils';
 import { createReducer } from '../store';
 import { settingTypes } from '../types';
 
 export interface ISettingsState {
   readonly locale: string;
   readonly modal: IModalConfigs;
+  readonly isLoggedIn: boolean | undefined;
+  readonly user: IUser;
 }
 
 const defaultState: ISettingsState = {
@@ -18,12 +20,22 @@ const defaultState: ISettingsState = {
     confirm: false,
     event: ''
   },
+  isLoggedIn: undefined,
+  user: {} as IUser
 };
 
 export default createReducer(defaultState, {
   [settingTypes.setLocale]: (state: ISettingsState, { locale }: AnyAction) => ({
     ...state,
     locale
+  }),
+  [settingTypes.setIsLoggedIn]: (state: ISettingsState, { isLoggedIn }: AnyAction) => ({
+    ...state,
+    isLoggedIn
+  }),
+  [settingTypes.setCurrentUser]: (state: ISettingsState, { user }: AnyAction) => ({
+    ...state,
+    user
   }),
   [settingTypes.setModalConfigs]: (state: ISettingsState, { isVisible, title, message, icon, confirm, event }: AnyAction) => ({
     ...state,
