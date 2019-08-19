@@ -14,7 +14,7 @@ interface IProps {
   readonly positions: IReferalPositions[];
   readonly user: IUser;
   readonly getPositionUrl: (id: number) => void;
-  readonly getOpenPositions: () => void;
+  readonly getOpenPositions: (callback?: () => void) => void;
 }
 
 class Refer extends Component<IProps> {
@@ -48,8 +48,7 @@ class Refer extends Component<IProps> {
 
   private onRefresh = () => {
     this.setState({ refreshing: true }, async () => {
-      this.props.getOpenPositions();
-      setTimeout(() => this.setState({ refreshing: false }), 1500);
+      this.props.getOpenPositions(() => this.setState({ refreshing: false }));
     });
   };
 
@@ -164,7 +163,7 @@ const mapStateToProps = ({ data, settings }: IReduxState) => {
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
     getPositionUrl: (id: number) => dispatch(getPositionUrl(id)),
-    getOpenPositions: () => dispatch(getOpenPositions()),
+    getOpenPositions: (callback?: () => void) => dispatch(getOpenPositions(callback)),
   };
 };
 

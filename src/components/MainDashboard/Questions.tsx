@@ -11,7 +11,7 @@ import styles from './styles';
 
 interface IProps {
   readonly questions: IQuestions[];
-  readonly getQuestions: () => void;
+  readonly getQuestions: (callback?: () => void) => void;
 }
 
 class Questions extends PureComponent<IProps> {
@@ -27,8 +27,7 @@ class Questions extends PureComponent<IProps> {
 
   private onRefresh = () => {
     this.setState({ refreshing: true }, () => {
-      this.props.getQuestions();
-      setTimeout(() => this.setState({ refreshing: false }), 1000);
+      this.props.getQuestions(() => this.setState({ refreshing: false }));
     });
   };
 
@@ -59,7 +58,7 @@ const mapStateToProps = ({ data }: IReduxState) => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
-    getQuestions: () => dispatch(getQuestions()),
+    getQuestions: (callback?: () => void) => dispatch(getQuestions(callback)),
   };
 };
 

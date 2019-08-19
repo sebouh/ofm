@@ -1,25 +1,35 @@
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Text, View } from 'react-native';
+import { RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { Header, RedeemSubHeader, TabBar } from '../../components';
 import { getRedeemData } from '../../store/actions';
 import { IReduxState } from '../../store/store';
-import { IRedeem } from '../../utils';
+import { globalStyles, IRedeem } from '../../utils';
 import styles from '../styles';
 
 interface IProps {
-  readonly getRedeemData: () => void;
+  readonly getRedeemData: (callback?: () => void) => void;
   readonly redeem: IRedeem;
 }
 
 class RedeemInitial extends PureComponent<IProps> {
+  public readonly state = {
+    refreshing: false
+  };
+
   public componentDidMount(): void {
     this.props.getRedeemData();
   }
+
+  private onRefresh = () => {
+    this.setState({ refreshing: true }, () => {
+      this.props.getRedeemData(() => this.setState({ refreshing: false }));
+    });
+  };
 
   public render() {
     const { redeem } = this.props;
@@ -27,7 +37,8 @@ class RedeemInitial extends PureComponent<IProps> {
       <View style={styles.redeem_initial.container}>
         <Header/>
         <RedeemSubHeader title={'redeem_title'}/>
-        <View style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1 }}>
+          <RefreshControl refreshing={this.state.refreshing} tintColor={globalStyles.colors.purple} onRefresh={this.onRefresh}/>
           {redeem && redeem.id ? (
             <View style={styles.redeem_initial.card}>
               <View style={styles.redeem_initial.row}>
@@ -56,14 +67,18 @@ class RedeemInitial extends PureComponent<IProps> {
                   <FormattedMessage id={'redeem_notice'}/>
                 </Text>
               </View>
-              <Button transparent={true} disabled={redeem.ptsAvailable / 100 < 10} style={styles.redeem_initial.button}>
-                <Text style={styles.redeem_initial.button_text}>
+              <Button
+                transparent={true}
+                disabled={redeem.ptsAvailable / 100 < 10}
+                style={styles.redeem_initial.button}
+              >
+                <Text style={[styles.redeem_initial.button_text, redeem.ptsAvailable / 100 < 10 && styles.redeem_initial.button_text_disabled]}>
                   <FormattedMessage id={'tab_bar_redeem'}/>
                 </Text>
               </Button>
             </View>
           ) : null}
-        </View>
+        </ScrollView>
         <TabBar active={2}/>
       </View>
     );
@@ -78,7 +93,7 @@ const mapStateToProps = ({ data }: IReduxState) => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
-    getRedeemData: () => dispatch(getRedeemData())
+    getRedeemData: (callback?: () => void) => dispatch(getRedeemData(callback))
   };
 };
 

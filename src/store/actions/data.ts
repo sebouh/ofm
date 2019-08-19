@@ -12,7 +12,7 @@ export const updateQuestion = (id: number, payload: object) => {
   };
 };
 
-export const getQuestions: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = () => {
+export const getQuestions: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (callback?: () => void) => {
   return async (dispatch): Promise<Action> => {
     try {
       const { data } = await axiosInstance.post('/questions', { zonedDateTime: new Date().toISOString() });
@@ -21,11 +21,15 @@ export const getQuestions: ActionCreator<ThunkAction<Promise<Action>, IReduxStat
     } catch (e) {
       console.log(e);
       return dispatch({ type: dataTypes.setQuestions, questions: [] });
+    } finally {
+      if (typeof callback === 'function') {
+        setTimeout(() => callback(), 1000);
+      }
     }
   };
 };
 
-export const getOpenPositions: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = () => {
+export const getOpenPositions: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (callback?: () => void) => {
   return async (dispatch): Promise<Action> => {
     try {
       const { data } = await axiosInstance.get('/referal/open-positions');
@@ -33,6 +37,10 @@ export const getOpenPositions: ActionCreator<ThunkAction<Promise<Action>, IRedux
       return dispatch({ type: dataTypes.setPositions, positions: data.openPositions || [] });
     } catch (e) {
       return dispatch({ type: dataTypes.setPositions, positions: [] });
+    } finally {
+      if (typeof callback === 'function') {
+        setTimeout(() => callback(), 1000);
+      }
     }
   };
 };
@@ -49,7 +57,7 @@ export const getPositionUrl: ActionCreator<ThunkAction<Promise<Action>, IReduxSt
   };
 };
 
-export const getRedeemData: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = () => {
+export const getRedeemData: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (callback?: () => void) => {
   return async (dispatch): Promise<Action> => {
     try {
       const { data } = await axiosInstance.get('/reward');
@@ -57,6 +65,10 @@ export const getRedeemData: ActionCreator<ThunkAction<Promise<Action>, IReduxSta
       return dispatch({ type: dataTypes.setRedeem, redeem: data });
     } catch (e) {
       return dispatch({ type: dataTypes.setRedeem, redeem: {} });
+    } finally {
+      if (typeof callback === 'function') {
+        setTimeout(() => callback(), 1000);
+      }
     }
   };
 };

@@ -225,6 +225,9 @@ export default {
         letterSpacing: 0.32,
         color: globalStyles.colors.purple,
         fontWeight: '500'
+      },
+      button_text_disabled: {
+        color: globalStyles.colors.middleGray
       }
     }
   )
