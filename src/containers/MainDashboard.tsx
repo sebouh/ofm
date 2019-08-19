@@ -4,7 +4,10 @@ import { FormattedMessage } from 'react-intl';
 import { Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { Camera, Header, Questions, Refer, TabBar } from '../components';
+import { getOpenPositions, getQuestions } from '../store/actions';
 import { IReduxState } from '../store/store';
 import styles from './styles';
 
@@ -22,7 +25,13 @@ const Gradient = ({ children, isSelected }: { children: ReactChild, isSelected: 
   );
 };
 
-class MainDashboard extends PureComponent<{ isCameraOpened: boolean }> {
+interface IProps {
+  isCameraOpened: boolean;
+  getQuestions: () => void;
+  getOpenPositions: () => void;
+}
+
+class MainDashboard extends PureComponent<IProps> {
   public readonly state = {
     tab: 'questions'
   };
@@ -39,6 +48,11 @@ class MainDashboard extends PureComponent<{ isCameraOpened: boolean }> {
     }
   ];
 
+  public componentDidMount(): void {
+    this.props.getQuestions();
+    this.props.getOpenPositions();
+  }
+
   public render() {
     const layout = {
       questions: <Questions/>,
@@ -46,7 +60,7 @@ class MainDashboard extends PureComponent<{ isCameraOpened: boolean }> {
     } as { [key: string]: any };
 
     if (this.props.isCameraOpened) {
-      return <Camera />;
+      return <Camera/>;
     }
 
     return (
@@ -86,4 +100,11 @@ const mapStateToProps = ({ camera }: IReduxState) => {
   };
 };
 
-export default connect(mapStateToProps)(MainDashboard);
+const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
+  return {
+    getQuestions: () => dispatch(getQuestions()),
+    getOpenPositions: () => dispatch(getOpenPositions()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainDashboard);

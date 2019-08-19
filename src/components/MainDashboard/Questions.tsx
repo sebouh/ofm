@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { getQuestions } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { globalStyles, IQuestions } from '../../utils';
 import Question from './Question';
@@ -8,6 +11,7 @@ import styles from './styles';
 
 interface IProps {
   readonly questions: IQuestions[];
+  readonly getQuestions: () => void;
 }
 
 class Questions extends PureComponent<IProps> {
@@ -23,6 +27,7 @@ class Questions extends PureComponent<IProps> {
 
   private onRefresh = () => {
     this.setState({ refreshing: true }, () => {
+      this.props.getQuestions();
       setTimeout(() => this.setState({ refreshing: false }), 1000);
     });
   };
@@ -51,4 +56,11 @@ const mapStateToProps = ({ data }: IReduxState) => {
     questions: data.questions
   };
 };
-export default connect(mapStateToProps)(Questions);
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
+  return {
+    getQuestions: () => dispatch(getQuestions()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

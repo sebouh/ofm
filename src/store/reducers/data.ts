@@ -53,30 +53,7 @@ const defaultState: IDataState = {
       value: 15
     }
   ],
-  positions: [
-    {
-      id: 1,
-      name: 'Cleaner',
-      description: 'Hello world',
-      companyId: 9,
-      companyName: 'EPAM',
-      url: 'http://www.onefabric.com/refer/test'
-    },
-    {
-      id: 2,
-      name: 'Manager',
-      description: 'Hello world',
-      companyId: 9,
-      companyName: 'EPAM'
-    },
-    {
-      id: 3,
-      name: 'Attendant',
-      description: 'Hello world',
-      companyId: 9,
-      companyName: 'EPAM'
-    }
-  ]
+  positions: []
 };
 
 export default createReducer(defaultState, {
@@ -107,5 +84,23 @@ export default createReducer(defaultState, {
   [dataTypes.setPositions]: (state: IDataState, { positions }: AnyAction) => ({
     ...state,
     positions
-  })
+  }),
+  [dataTypes.updateQuestion]: (state: IDataState, { id, payload }: AnyAction) => {
+    const positions = state.positions.map(el => el);
+    const positionIndex = positions.findIndex(el => el.id === id);
+
+    if (positionIndex < 0) {
+      return state;
+    }
+
+    positions[positionIndex] = {
+      ...positions[positionIndex],
+      ...payload
+    };
+
+    return {
+      ...state,
+      positions
+    };
+  }
 });

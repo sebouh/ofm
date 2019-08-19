@@ -1,36 +1,105 @@
 import { Button } from 'native-base';
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, Linking, Platform, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { getOpenPositions, getPositionUrl } from '../../store/actions';
 import { IReduxState } from '../../store/store';
-import { IReferalPositions } from '../../utils';
+import { globalStyles, IReferalPositions, IUser } from '../../utils';
 import styles from './styles';
 
 interface IProps {
   readonly positions: IReferalPositions[];
+  readonly user: IUser;
+  readonly getPositionUrl: (id: number) => void;
+  readonly getOpenPositions: () => void;
 }
 
 class Refer extends Component<IProps> {
   public readonly state = {
-    openedPositions: new Set()
+    openedPositions: new Set(),
+    refreshing: false
   };
 
-  private togglePosition = (id: number) => {
+  private togglePosition = async (id: number) => {
     const { openedPositions } = { ...this.state };
 
     if (openedPositions.has(id)) {
       openedPositions.delete(id);
     } else {
+      await this.getQuestionUrl(id);
       openedPositions.add(id);
     }
 
     this.setState({ openedPositions });
   };
 
+  private async getQuestionUrl(id: number) {
+    const position = this.props.positions.find(el => el.id === id);
+
+    if (position && position.url) {
+      return;
+    }
+
+    await this.props.getPositionUrl(id);
+  }
+
+  private onRefresh = () => {
+    this.setState({ refreshing: true }, async () => {
+      this.props.getOpenPositions();
+      setTimeout(() => this.setState({ refreshing: false }), 1500);
+    });
+  };
+
+  private onEmailPress = async (position: IReferalPositions) => {
+    let url = 'mailto:';
+
+    url += `?body=${encodeURIComponent(this.generateText(position))}`;
+
+    try {
+      await Linking.openURL(url);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  private onSmsPress = async (position: IReferalPositions) => {
+    const sep = Platform.OS === 'ios' ? '&' : '?';
+    const url = `sms:${' '}${`${sep}body=${encodeURIComponent(this.generateText(position))}`}`;
+
+    try {
+      await Linking.openURL(url);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  private generateText(position: IReferalPositions) {
+    const { user } = this.props;
+
+    return `
+      Hello there!
+      You have a job referral for the ${position.companyName} company.
+      Your friend ${user.email} referred you for a position of a ${position.name} 
+      For more details, please follow the link attached
+      ${position.url}
+    `;
+  }
+
   public render() {
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+            tintColor={globalStyles.colors.purple}
+          />
+        }
+      >
         <View style={styles.refer.top_container}>
           <Text style={styles.refer.top_text}>
             <FormattedMessage id={'main_dashboard_refer_title_1'}/>
@@ -62,13 +131,13 @@ class Refer extends Component<IProps> {
                       <FormattedMessage id={'main_dashboard_refer_payment_method_title'}/>
                     </Text>
                     <View style={styles.refer.inviteButtonContainer}>
-                      <Button transparent={true} style={styles.refer.inviteButton}>
+                      <Button transparent={true} style={styles.refer.inviteButton} onPress={() => this.onSmsPress(position)}>
                         <Text style={styles.refer.inviteButtonText}>
                           <FormattedMessage id={'main_dashboard_refer_payment_method_sms'}/>
                         </Text>
                       </Button>
                       <View style={styles.refer.buttonDivider}/>
-                      <Button transparent={true} style={styles.refer.inviteButton}>
+                      <Button transparent={true} style={styles.refer.inviteButton} onPress={() => this.onEmailPress(position)}>
                         <Text style={styles.refer.inviteButtonText}>
                           <FormattedMessage id={'main_dashboard_refer_payment_method_email'}/>
                         </Text>
@@ -85,10 +154,18 @@ class Refer extends Component<IProps> {
   }
 }
 
-const mapStateToProps = ({ data }: IReduxState) => {
+const mapStateToProps = ({ data, settings }: IReduxState) => {
   return {
-    positions: data.positions
+    positions: data.positions,
+    user: settings.user
   };
 };
 
-export default connect(mapStateToProps)(Refer);
+const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
+  return {
+    getPositionUrl: (id: number) => dispatch(getPositionUrl(id)),
+    getOpenPositions: () => dispatch(getOpenPositions()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Refer);
