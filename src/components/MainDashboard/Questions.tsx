@@ -46,9 +46,9 @@ class Questions extends PureComponent<IProps> {
   }
 }
 
-const mapStateToProps = ({ questions }: IReduxState) => {
+const mapStateToProps = ({ data }: IReduxState) => {
   return {
-    questions: questions.questions
+    questions: data.questions
   };
 };
 export default connect(mapStateToProps)(Questions);

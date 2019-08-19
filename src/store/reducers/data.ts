@@ -1,13 +1,14 @@
 import { AnyAction } from 'redux';
-import { IQuestions } from '../../utils';
+import { IQuestions, IReferalPositions } from '../../utils';
 import { createReducer } from '../store';
-import { questionTypes } from '../types';
+import { dataTypes } from '../types';
 
-export interface IQuestionState {
-  questions: IQuestions[];
+export interface IDataState {
+  readonly questions: IQuestions[];
+  readonly positions: IReferalPositions[];
 }
 
-const defaultState: IQuestionState = {
+const defaultState: IDataState = {
   questions: [
     {
       id: 1,
@@ -51,15 +52,39 @@ const defaultState: IQuestionState = {
       question: 'Are storefront doors and windows clean and free of cracks?',
       value: 15
     }
+  ],
+  positions: [
+    {
+      id: 1,
+      name: 'Cleaner',
+      description: 'Hello world',
+      companyId: 9,
+      companyName: 'EPAM',
+      url: 'http://www.onefabric.com/refer/test'
+    },
+    {
+      id: 2,
+      name: 'Manager',
+      description: 'Hello world',
+      companyId: 9,
+      companyName: 'EPAM'
+    },
+    {
+      id: 3,
+      name: 'Attendant',
+      description: 'Hello world',
+      companyId: 9,
+      companyName: 'EPAM'
+    }
   ]
 };
 
 export default createReducer(defaultState, {
-  [questionTypes.setQuestions]: (state: IQuestionState, { questions }: AnyAction) => ({
+  [dataTypes.setQuestions]: (state: IDataState, { questions }: AnyAction) => ({
     ...state,
     questions
   }),
-  [questionTypes.updateQuestion]: (state: IQuestionState, { id, payload }: AnyAction) => {
+  [dataTypes.updateQuestion]: (state: IDataState, { id, payload }: AnyAction) => {
     const questions = state.questions.map(el => el);
     const questionIndex = questions.findIndex(el => el.id === id);
 
@@ -78,5 +103,9 @@ export default createReducer(defaultState, {
       ...state,
       questions
     };
-  }
+  },
+  [dataTypes.setPositions]: (state: IDataState, { positions }: AnyAction) => ({
+    ...state,
+    positions
+  })
 });

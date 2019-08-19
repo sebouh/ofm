@@ -1,8 +1,8 @@
-import { questionTypes } from '../types';
+import { dataTypes } from '../types';
 
 export const updateQuestion = (id: number, payload: object) => {
   return {
-    type: questionTypes.updateQuestion,
+    type: dataTypes.updateQuestion,
     id,
     payload
   };

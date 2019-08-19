@@ -17,3 +17,12 @@ export interface IQuestions {
   readonly image?: string;
   readonly answer?: string;
 }
+
+export interface IReferalPositions {
+  readonly companyId: number;
+  readonly companyName: string;
+  readonly description: string;
+  readonly id: number;
+  readonly name: string;
+  readonly url?: string;
+}

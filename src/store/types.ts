@@ -9,7 +9,8 @@ export enum cameraTypes {
   setActiveQuestionId = '@@camera/SET_ACTIVE_QUESTION_ID'
 }
 
-export enum questionTypes {
-  setQuestions = '@@camera/SET_QUESTIONS',
-  updateQuestion = '@@camera/UPDATE_QUESTION'
+export enum dataTypes {
+  setQuestions = '@@data/SET_QUESTIONS',
+  updateQuestion = '@@data/UPDATE_QUESTION',
+  setPositions = '@@data/SET_POSITIONS'
 }

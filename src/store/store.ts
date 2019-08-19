@@ -2,7 +2,7 @@ import { Action, applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
 import { ICameraState } from './reducers/camera';
-import { IQuestionState } from './reducers/questions';
+import { IDataState } from './reducers/data';
 import { IRouterState } from './reducers/router';
 import { ISettingsState } from './reducers/settings';
 
@@ -10,7 +10,7 @@ export interface IReduxState {
   readonly settings: ISettingsState;
   readonly router: IRouterState;
   readonly camera: ICameraState;
-  readonly questions: IQuestionState;
+  readonly data: IDataState;
 }
 
 // @ts-ignore

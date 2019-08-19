@@ -143,5 +143,96 @@ export default {
         color: globalStyles.colors.middleGray
       }
     }
+  ),
+  refer: StyleSheet.create(
+    {
+      top_container: {
+        paddingTop: 24,
+        paddingLeft: 24,
+        paddingRight: 24
+      },
+      top_text: {
+        ...globalStyles.fonts.regular,
+        fontSize: 15,
+        lineHeight: 20,
+        letterSpacing: -0.24,
+        color: globalStyles.colors.black40,
+        marginBottom: 8
+      },
+      bottom_container: {
+        paddingLeft: 16,
+        paddingRight: 16,
+        paddingTop: 16
+      },
+      item: {
+        borderRadius: 10,
+        width: '100%',
+        backgroundColor: globalStyles.colors.white,
+        shadowColor: globalStyles.colors.black50,
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowRadius: 4,
+        shadowOpacity: 1,
+        marginBottom: 16,
+        padding: 24
+      },
+      item_text: {
+        ...globalStyles.fonts.regular,
+        fontSize: 17,
+        lineHeight: 22,
+        letterSpacing: -0.41,
+        color: globalStyles.colors.middleGray,
+        textTransform: 'uppercase'
+      },
+      additionalInfo: {
+        marginTop: 16
+      },
+      positionUrl: {
+        ...globalStyles.fonts.regular,
+        fontSize: 15,
+        lineHeight: 20,
+        letterSpacing: -0.24,
+        color: globalStyles.colors.middleGray
+      },
+      divider: {
+        marginTop: 8,
+        backgroundColor: 'rgba(151, 151, 151, 0.25)',
+        width: '100%',
+        height: 1
+      },
+      inviteMethodTitle: {
+        ...globalStyles.fonts.regular,
+        fontSize: 13,
+        lineHeight: 18,
+        letterSpacing: -0.08,
+        color: globalStyles.colors.black40,
+        marginTop: 15.5
+      },
+      inviteButtonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginTop: 6
+      },
+      inviteButton: {
+        height: 'auto'
+      },
+      inviteButtonText: {
+        color: globalStyles.colors.purple,
+        ...globalStyles.fonts.regular,
+        fontSize: 17,
+        lineHeight: 25,
+        letterSpacing: 0.32
+      },
+      buttonDivider: {
+        marginLeft: 23,
+        marginRight: 23,
+        width: 1,
+        height: 25,
+        backgroundColor: globalStyles.colors.darkGray
+      }
+    }
   )
 };
