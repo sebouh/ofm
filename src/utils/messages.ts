@@ -51,7 +51,12 @@ const en: IMessages = {
   main_dashboard_refer_payment_method_email: 'VIA E-MAIL',
   tab_bar_earn: 'EARN',
   tab_bar_redeem: 'REDEEM',
-  unhandled_error: 'Something went wrong. Please try again!'
+  unhandled_error: 'Something went wrong. Please try again!',
+  redeem_title: 'Redeem',
+  redeem_points: 'Points available',
+  redeem_currency: 'USD',
+  redeem_place: 'Redeem to your PayPal account',
+  redeem_notice: 'You can Redeem if earned money exceeds $10.'
 };
 
 export const translationMessages: ILanguages = {

@@ -1,3 +1,4 @@
+import { Actions } from 'react-native-router-flux';
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { tokenService } from '../../services';
@@ -29,6 +30,9 @@ export const getCurrentUser: ActionCreator<ThunkAction<Promise<Action>, IReduxSt
 
       return dispatch({ type: settingTypes.setCurrentUser, user: data });
     } catch (err) {
+      Actions.reset('signup_email_pass');
+      await tokenService.removeToken();
+      dispatch(setIsLoggedIn());
       return dispatch({ type: settingTypes.setCurrentUser, user: {} });
     }
   };

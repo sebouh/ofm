@@ -1,6 +1,7 @@
 import { ActionConstShort } from 'react-native-router-flux';
 import Loader from './containers/Loader';
 import MainDashboard from './containers/MainDashboard';
+import RedeemInitial from './containers/Redeem/RedeemInitial';
 import SignInInitial from './containers/SignIn/SignInInitial';
 import SigninNewPassword from './containers/SignIn/SigninNewPassword';
 import SigninRecoverPassword from './containers/SignIn/SigninRecoverPassword';
@@ -46,8 +47,11 @@ const routes: IRoute[] = [
   },
   {
     key: 'main_dashboard',
-    component: MainDashboard,
-    // initial: true
+    component: MainDashboard
+  },
+  {
+    key: 'redeem_initial',
+    component: RedeemInitial
   }
 ];
 

@@ -12,14 +12,15 @@ export const updateQuestion = (id: number, payload: object) => {
   };
 };
 
-export const getQuestions: ActionCreator<ThunkAction<Promise<Action | void>, IReduxState, void, Action<any>>> = () => {
-  return async (dispatch): Promise<Action | void> => {
+export const getQuestions: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = () => {
+  return async (dispatch): Promise<Action> => {
     try {
-      const { data } = await axiosInstance.post('/questions', { date: new Date().toISOString() });
+      const { data } = await axiosInstance.post('/questions', { zonedDateTime: new Date().toISOString() });
 
-      console.log(data);
+      return dispatch({ type: dataTypes.setQuestions, questions: data });
     } catch (e) {
       console.log(e);
+      return dispatch({ type: dataTypes.setQuestions, questions: [] });
     }
   };
 };
@@ -44,6 +45,18 @@ export const getPositionUrl: ActionCreator<ThunkAction<Promise<Action>, IReduxSt
       return dispatch({ type: dataTypes.updateQuestion, id, payload: { url: data } });
     } catch (e) {
       return dispatch({ type: dataTypes.updateQuestion, id, payload: {} });
+    }
+  };
+};
+
+export const getRedeemData: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = () => {
+  return async (dispatch): Promise<Action> => {
+    try {
+      const { data } = await axiosInstance.get('/reward');
+
+      return dispatch({ type: dataTypes.setRedeem, redeem: data });
+    } catch (e) {
+      return dispatch({ type: dataTypes.setRedeem, redeem: {} });
     }
   };
 };

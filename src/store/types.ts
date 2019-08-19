@@ -14,5 +14,6 @@ export enum cameraTypes {
 export enum dataTypes {
   setQuestions = '@@data/SET_QUESTIONS',
   updateQuestion = '@@data/UPDATE_QUESTION',
-  setPositions = '@@data/SET_POSITIONS'
+  setPositions = '@@data/SET_POSITIONS',
+  setRedeem = '@@data/SET_REDEEM'
 }

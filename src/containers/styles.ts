@@ -151,5 +151,81 @@ export default {
         color: globalStyles.colors.purple,
       }
     }
+  ),
+  redeem_initial: StyleSheet.create(
+    {
+      container: {
+        flex: 1,
+        backgroundColor: '#f6f6f8'
+      },
+      card: {
+        borderRadius: 10,
+        backgroundColor: globalStyles.colors.white,
+        shadowColor: globalStyles.colors.black50,
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowRadius: 2,
+        shadowOpacity: 1,
+        margin: 16,
+        paddingTop: 16,
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingBottom: 24
+      },
+      row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 9
+      },
+      text_big: {
+        ...globalStyles.fonts.regular,
+        fontSize: 17,
+        lineHeight: 22,
+        letterSpacing: -0.41,
+        color: globalStyles.colors.middleGray
+      },
+      text_big_bold: {
+        lineHeight: 25,
+        letterSpacing: 0.32,
+        color: globalStyles.colors.black40,
+        fontWeight: '600'
+      },
+      separator: {
+        backgroundColor: 'rgba(151, 151, 151, 0.25)',
+        height: 1,
+        width: '100%'
+      },
+      redeem_notice_one: {
+        ...globalStyles.fonts.regular,
+        fontSize: 15,
+        lineHeight: 25,
+        letterSpacing: 0.28,
+        color: globalStyles.colors.middleGray
+      },
+      redeem_notice_two: {
+        ...globalStyles.fonts.regular,
+        fontSize: 13,
+        lineHeight: 18,
+        letterSpacing: -0.08,
+        color: globalStyles.colors.black40,
+        marginTop: 16
+      },
+      button: {
+        justifyContent: 'flex-end',
+        marginTop: 24,
+        height: 'auto'
+      },
+      button_text: {
+        ...globalStyles.fonts.regular,
+        fontSize: 17,
+        lineHeight: 25,
+        letterSpacing: 0.32,
+        color: globalStyles.colors.purple,
+        fontWeight: '500'
+      }
+    }
   )
 };

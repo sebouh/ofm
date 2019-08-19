@@ -13,9 +13,9 @@ interface IProps {
 }
 
 class Header extends PureComponent<IProps> {
-  private readonly smallHeaderScreens: string[] = ['main_dashboard'];
-  private readonly showBackButton: string[] = ['sign_in_recover_password'];
-  private readonly showMenuButton: string[] = ['main_dashboard'];
+  private readonly smallHeaderScreens: string[] = ['main_dashboard', 'redeem_initial'];
+  private readonly showBackButton: string[] = ['sign_in_recover_password', 'redeem_initial'];
+  private readonly showMenuButton: string[] = ['main_dashboard', 'redeem_initial'];
 
   public render() {
     const { routeName } = this.props;

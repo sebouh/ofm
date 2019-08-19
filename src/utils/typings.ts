@@ -37,3 +37,13 @@ export interface IUser {
   readonly phoneNumber: string;
   readonly paypalEmail: null | string;
 }
+
+export interface IRedeem {
+  readonly id: number;
+  readonly ptsAvailable: number;
+  readonly ptsRedeemed: number;
+  readonly owed: number;
+  readonly totalPayouts: number;
+  readonly employeeName: string;
+  readonly employeeId: number;
+}

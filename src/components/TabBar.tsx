@@ -2,6 +2,7 @@ import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { globalStyles } from '../utils';
 
 class TabBar extends PureComponent<{ active?: number }> {
@@ -10,14 +11,20 @@ class TabBar extends PureComponent<{ active?: number }> {
       id: 1,
       title: 'tab_bar_earn',
       icon: require('../assets/images/icons/earn_icon.png'),
-      icon_active: require('../assets/images/icons/earn_icon_active.png')
+      icon_active: require('../assets/images/icons/earn_icon_active.png'),
+      screen: 'main_dashboard'
     }, {
       id: 2,
       title: 'tab_bar_redeem',
       icon: require('../assets/images/icons/redeem_icon.png'),
-      icon_active: require('../assets/images/icons/redeem_icon_active.png')
+      icon_active: require('../assets/images/icons/redeem_icon_active.png'),
+      screen: 'redeem_initial'
     }
   ];
+
+  private onTabPress = (screen: string) => {
+    return Actions.replace(screen);
+  };
 
   public render() {
     return (
@@ -26,7 +33,7 @@ class TabBar extends PureComponent<{ active?: number }> {
           {this.tabs.map(tab => {
             const isActive = this.props.active === tab.id;
             return (
-              <Button key={tab.id} transparent={true} disabled={isActive}>
+              <Button key={tab.id} transparent={true} disabled={isActive} onPress={() => this.onTabPress(tab.screen)}>
                 <View style={styles.tab}>
                   <Image style={styles.image} source={isActive ? tab.icon_active : tab.icon}/>
                   <Text style={[styles.tab_text, isActive && styles.tab_text_active]}>
