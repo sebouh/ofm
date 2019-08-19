@@ -4,6 +4,7 @@ import SignInInitial from './containers/SignIn/SignInInitial';
 import SigninNewPassword from './containers/SignIn/SigninNewPassword';
 import SigninRecoverPassword from './containers/SignIn/SigninRecoverPassword';
 import SignupEmailPassword from './containers/Signup/SignupEmailPassword';
+import SignupNewPassword from './containers/Signup/SignupNewPassword';
 
 interface IRoute {
   readonly key: string;
@@ -16,6 +17,10 @@ const routes: IRoute[] = [
   {
     key: 'signup_email_pass',
     component: SignupEmailPassword
+  },
+  {
+    key: 'signup_new_password',
+    component: SignupNewPassword,
   },
   {
     key: 'sign_in_initial',

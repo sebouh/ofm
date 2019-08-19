@@ -4,14 +4,13 @@ import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { EmailInput, Header, NextButton, PasswordInput } from '../../components';
-import { validateEmail } from '../../utils';
+import { Header, NextButton, PasswordInput } from '../../components';
 import styles from '../styles';
 
-class SignupEmailPassword extends PureComponent {
+class SignupNewPassword extends PureComponent {
   public readonly state = {
-    email: '',
     password: '',
+    confirmPassword: '',
     errorMessage: ''
   };
 
@@ -20,11 +19,14 @@ class SignupEmailPassword extends PureComponent {
   };
 
   private onSubmit = () => {
-    if (!validateEmail(this.state.email) || !this.state.password) {
-      return this.setState({ errorMessage: 'incorrect_email_pass' });
+    const { password, confirmPassword } = this.state;
+    if (!password.trim().length || !confirmPassword.trim().length) {
+      return this.setState({ errorMessage: 'signin_recover_password_empty_fields' });
     }
 
-    Actions.push('signup_new_password');
+    if (password !== confirmPassword) {
+      return this.setState({ errorMessage: 'signin_recover_password_not_corresponding' });
+    }
   };
 
   private navigateToSignin = () => {
@@ -33,10 +35,11 @@ class SignupEmailPassword extends PureComponent {
 
   private onSignInPress = debounce(this.navigateToSignin, 1000, { leading: true, trailing: false });
 
-  private onNextPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
+  private onSubmitPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
 
   public render() {
     const { errorMessage } = this.state;
+
     return (
       <View style={styles.common.container}>
         <Header/>
@@ -46,20 +49,21 @@ class SignupEmailPassword extends PureComponent {
               <FormattedMessage id={'signup_title'}/>
             </Text>
             <Item rounded={true} style={[styles.common.input_container, { marginTop: 32 }]}>
-              <Image source={require('../../assets/images/icons/email.png')} style={[styles.email_pass.icon, { width: 30, height: 14 }]}/>
-              <EmailInput
-                style={styles.common.input}
-                email={this.state.email}
-                onChange={e => this.onChange(e, 'email')}
-              />
-            </Item>
-            <Item rounded={true} style={[styles.common.input_container, { marginTop: 40 }]}>
-              <Image source={require('../../assets/images/icons/temp_pass.png')} style={[styles.email_pass.icon, { width: 30, height: 20 }]}/>
+              <Image source={require('../../assets/images/icons/password.png')} style={[styles.email_pass.icon, { width: 25, height: 19 }]}/>
               <PasswordInput
-                placeholder={'signup_temp_password'}
+                placeholder={'signin_recover_password_input_one'}
                 style={styles.common.input}
                 value={this.state.password}
                 onChange={e => this.onChange(e, 'password')}
+              />
+            </Item>
+            <Item rounded={true} style={[styles.common.input_container, { marginTop: 32 }]}>
+              <Image source={require('../../assets/images/icons/password.png')} style={[styles.email_pass.icon, { width: 25, height: 19 }]}/>
+              <PasswordInput
+                placeholder={'signin_recover_password_input_two'}
+                style={styles.common.input}
+                value={this.state.confirmPassword}
+                onChange={e => this.onChange(e, 'confirmPassword')}
               />
             </Item>
             {errorMessage ? (
@@ -67,7 +71,7 @@ class SignupEmailPassword extends PureComponent {
                 <FormattedMessage id={this.state.errorMessage}/>
               </Text>
             ) : null}
-            <NextButton buttonStyle={{ marginTop: !errorMessage ? 64 : 36 }} onPress={this.onNextPress}/>
+            <NextButton onPress={this.onSubmitPress} title={'submit_button'} buttonStyle={{ marginTop: !errorMessage ? 46 : 26 }}/>
           </View>
           <View style={styles.common.bottom_button}>
             <Button transparent={true} onPress={this.onSignInPress}>
@@ -85,4 +89,4 @@ class SignupEmailPassword extends PureComponent {
   }
 }
 
-export default SignupEmailPassword;
+export default SignupNewPassword;
