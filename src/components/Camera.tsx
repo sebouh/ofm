@@ -20,7 +20,7 @@ class Camera extends PureComponent<IProps> {
 
   private takePicture = async () => {
     if (this.camera) {
-      const options = { quality: 1, base64: true };
+      const options = { quality: 1, base64: false };
       const data = await this.camera.takePictureAsync(options);
 
       this.props.updateQuestion(this.props.activeQuestionId as number, { image: data.uri });
@@ -45,7 +45,8 @@ class Camera extends PureComponent<IProps> {
           ref={ref => this.camera = ref}
           style={styles.preview}
           type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.on}
+          flashMode={RNCamera.Constants.FlashMode.auto}
+          autoFocus={RNCamera.Constants.AutoFocus.on}
           androidCameraPermissionOptions={{
             title: 'Permission to use camera',
             message: 'We need your permission to use your camera',

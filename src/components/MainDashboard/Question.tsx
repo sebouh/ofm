@@ -1,11 +1,11 @@
 import { Button, } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, Text, View } from 'react-native';
+import { Alert, Image, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Dispatch, } from 'redux';
 import { setActiveQuestionId, setCameraStatus, updateQuestion } from '../../store/actions';
-import { IQuestions } from '../../utils';
+import { axiosInstance, IQuestions } from '../../utils';
 import styles from './styles';
 
 interface IProps {
@@ -23,6 +23,26 @@ class Question extends PureComponent<IProps> {
 
   private onDeleteImage = () => {
     this.props.updateQuestion(this.props.question.id, { image: null });
+  };
+
+  private submitAnswer = async () => {
+    const { question } = this.props;
+    try {
+      const formData = new FormData();
+
+      formData.append('file', { uri: question.image, type: 'image/jpg' });
+      formData.append('questionId', question.id);
+      formData.append('response', question.answer === 'yes');
+      formData.append('zonedDateTime', new Date().toISOString());
+
+      const data = await axiosInstance.put('/response', formData);
+
+      console.log(data);
+
+      console.log(formData);
+    } catch (e) {
+      Alert.alert(e && e.response ? e.response.message : 'Something went wrong');
+    }
   };
 
   private renderMiddleContent() {
@@ -64,7 +84,7 @@ class Question extends PureComponent<IProps> {
               <FormattedMessage id={'main_dashboard_question_cancel'}/>
             </Text>
           </Button>
-          <Button transparent={true} onPress={() => this.answer('')}>
+          <Button transparent={true} onPress={this.submitAnswer}>
             <Text style={styles.question.cancel_submit_text}>
               <FormattedMessage id={'main_dashboard_question_submit'}/>
             </Text>

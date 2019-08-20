@@ -54,14 +54,14 @@ class MainDashboard extends PureComponent<IProps> {
   }
 
   public render() {
+    if (this.props.isCameraOpened) {
+      return <Camera/>;
+    }
+
     const layout = {
       questions: <Questions/>,
       refer: <Refer/>
     } as { [key: string]: any };
-
-    if (this.props.isCameraOpened) {
-      return <Camera/>;
-    }
 
     return (
       <View style={{ flex: 1 }}>

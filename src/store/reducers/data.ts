@@ -44,7 +44,7 @@ export default createReducer(defaultState, {
     ...state,
     positions
   }),
-  [dataTypes.updateQuestion]: (state: IDataState, { id, payload }: AnyAction) => {
+  [dataTypes.updatePosition]: (state: IDataState, { id, payload }: AnyAction) => {
     const positions = state.positions.map(el => el);
     const positionIndex = positions.findIndex(el => el.id === id);
 

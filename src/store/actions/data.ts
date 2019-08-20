@@ -50,9 +50,9 @@ export const getPositionUrl: ActionCreator<ThunkAction<Promise<Action>, IReduxSt
     try {
       const { data } = await axiosInstance.get(`/referal/referral-link?position=${id}`);
 
-      return dispatch({ type: dataTypes.updateQuestion, id, payload: { url: data } });
+      return dispatch({ type: dataTypes.updatePosition, id, payload: { url: data } });
     } catch (e) {
-      return dispatch({ type: dataTypes.updateQuestion, id, payload: {} });
+      return dispatch({ type: dataTypes.updatePosition, id, payload: {} });
     }
   };
 };

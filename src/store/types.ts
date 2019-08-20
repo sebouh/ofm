@@ -15,5 +15,6 @@ export enum dataTypes {
   setQuestions = '@@data/SET_QUESTIONS',
   updateQuestion = '@@data/UPDATE_QUESTION',
   setPositions = '@@data/SET_POSITIONS',
+  updatePosition = '@@data/UPDATE_POSITION',
   setRedeem = '@@data/SET_REDEEM'
 }
