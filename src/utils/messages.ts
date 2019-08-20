@@ -43,6 +43,7 @@ const en: IMessages = {
   main_dashboard_question_points: 'pts',
   main_dashboard_question_cancel: 'CANCEL',
   main_dashboard_question_submit: 'SUBMIT',
+  main_dashboard_question_answered: 'ANSWERED',
   main_dashboard_refer_title_1: 'Help us find new employees for our stores.',
   main_dashboard_refer_title_2: 'You will be awarded 500pts if we hire the person referred by link and they stay with us for at least 90 days.',
   main_dashboard_refer_title_3: 'Please select the position of employee you want to invite.',

@@ -35,18 +35,21 @@ class Question extends PureComponent<IProps> {
       formData.append('response', question.answer === 'yes');
       formData.append('zonedDateTime', new Date().toISOString());
 
-      const data = await axiosInstance.put('/response', formData);
+      await axiosInstance.post('/response', formData);
 
-      console.log(data);
-
-      console.log(formData);
+      this.props.updateQuestion(this.props.question.id, { answered: true, answer: '' });
     } catch (e) {
+      console.log(e);
       Alert.alert(e && e.response ? e.response.message : 'Something went wrong');
     }
   };
 
   private renderMiddleContent() {
     const { question } = this.props;
+
+    if (question.answered) {
+      return null;
+    }
 
     if (question.image) {
       return (
@@ -75,6 +78,16 @@ class Question extends PureComponent<IProps> {
 
   private renderFooter() {
     const { question } = this.props;
+
+    if (question.answered) {
+      return (
+        <View style={[styles.question.footer, { justifyContent: 'flex-end' }]}>
+          <Text style={styles.question.cancel_submit_text}>
+            <FormattedMessage id={'main_dashboard_question_answered'}/>
+          </Text>
+        </View>
+      );
+    }
 
     if (question.pictureRequired && question.image && question.answer || !question.pictureRequired && question.answer) {
       return (

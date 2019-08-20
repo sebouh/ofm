@@ -16,6 +16,7 @@ export interface IQuestions {
   readonly value: number;
   readonly image?: string;
   readonly answer?: string;
+  readonly answered: boolean;
 }
 
 export interface IReferalPositions {

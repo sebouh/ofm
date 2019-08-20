@@ -5,10 +5,11 @@ import { FormattedMessage } from 'react-intl';
 import { Alert, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { Header, RedeemSubHeader } from '../../components';
 import { eventEmitter } from '../../services';
-import { setModalConfigs } from '../../store/actions';
+import { getRedeemData, setModalConfigs } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, IModalConfigs, IRedeem } from '../../utils';
 import { emitterEvents } from '../../utils/constants';
@@ -17,6 +18,7 @@ import styles from '../styles';
 interface IProps {
   readonly redeem: IRedeem;
   readonly setModalConfigs: (config: IModalConfigs) => void;
+  readonly getRedeemData: () => void;
 }
 
 class RedeemConfirmation extends PureComponent<IProps> {
@@ -29,6 +31,7 @@ class RedeemConfirmation extends PureComponent<IProps> {
   }
 
   private onModalClose = () => {
+    this.props.getRedeemData();
     setTimeout(() => Actions.pop(), 500);
   };
 
@@ -89,9 +92,10 @@ const mapStateToProps = ({ data }: IReduxState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
-    setModalConfigs: (config: IModalConfigs) => dispatch(setModalConfigs(config))
+    setModalConfigs: (config: IModalConfigs) => dispatch(setModalConfigs(config)),
+    getRedeemData: () => dispatch(getRedeemData())
   };
 };
 
