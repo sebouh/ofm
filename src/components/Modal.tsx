@@ -95,10 +95,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 10,
     shadowOpacity: 1,
-    paddingTop: 24,
-    paddingBottom: 24,
-    paddingLeft: 47,
-    paddingRight: 47,
+    padding: 24,
     alignItems: 'center'
   },
   title: {
