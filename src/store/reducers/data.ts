@@ -22,7 +22,7 @@ export default createReducer(defaultState, {
   }),
   [dataTypes.updateQuestion]: (state: IDataState, { id, payload }: AnyAction) => {
     const questions = state.questions.map(el => el);
-    const questionIndex = questions.findIndex(el => el.id === id);
+    const questionIndex = questions.findIndex(el => el.question.id === id);
 
     if (questionIndex < 0) {
       return {

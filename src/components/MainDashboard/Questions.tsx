@@ -21,7 +21,7 @@ class Questions extends PureComponent<IProps> {
 
   private renderItem = ({ item }: { item: IQuestions }) => {
     return (
-      <Question question={item}/>
+      <Question item={item}/>
     );
   };
 
@@ -36,7 +36,7 @@ class Questions extends PureComponent<IProps> {
       <FlatList
         data={this.props.questions}
         renderItem={this.renderItem}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item.question.id.toString()}
         style={styles.questions_list.container}
         refreshControl={
           <RefreshControl

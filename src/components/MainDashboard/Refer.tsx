@@ -1,5 +1,5 @@
 import { Button } from 'native-base';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, Linking, Platform, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
@@ -17,14 +17,14 @@ interface IProps {
   readonly getOpenPositions: (callback?: () => void) => void;
 }
 
-class Refer extends Component<IProps> {
+class Refer extends PureComponent<IProps> {
   public readonly state = {
     openedPositions: new Set(),
     refreshing: false
   };
 
   private togglePosition = async (id: number) => {
-    const { openedPositions } = { ...this.state };
+    const openedPositions = new Set(this.state.openedPositions);
 
     if (openedPositions.has(id)) {
       openedPositions.delete(id);

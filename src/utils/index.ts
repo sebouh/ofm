@@ -9,7 +9,7 @@ export * from './messages';
 export const axiosInstance = axios.create(
   {
     baseURL: config.api,
-    timeout: 10000
+    timeout: 60000
   }
 );
 

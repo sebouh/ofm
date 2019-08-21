@@ -8,15 +8,18 @@ export interface IModalConfigs {
 }
 
 export interface IQuestions {
-  readonly disabled?: boolean;
-  readonly duration: number;
-  readonly id: number;
-  readonly pictureRequired: boolean;
-  readonly question: string;
-  readonly value: number;
+  readonly question: {
+    readonly disabled?: boolean;
+    readonly duration: number;
+    readonly id: number;
+    readonly pictureRequired: boolean;
+    readonly question: string;
+    readonly value: number;
+    readonly answered: boolean;
+  },
   readonly image?: string;
   readonly answer?: string;
-  readonly answered: boolean;
+  readonly file?: string;
 }
 
 export interface IReferalPositions {
