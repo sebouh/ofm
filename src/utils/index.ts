@@ -54,11 +54,18 @@ export const validateEmail = (email: string) => {
 export const getDateDiff = (until: string) => {
   const today = new Date();
 
-  const endDate = new Date(`${today.getMonth() + 1}-${today.getUTCDate()}-${today.getFullYear()} ${until}`);
+  const parsedUntil = until.split(':');
+
+  const endDate = new Date();
+  endDate.setHours(Number(parsedUntil[0]));
+  endDate.setMinutes(Number(parsedUntil[1]));
+  endDate.setSeconds(Number(parsedUntil[2]));
 
   const diffMs = (endDate.getTime() - today.getTime());
   const diffHrs = Math.floor((diffMs % 86400000) / 3600000);
   const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
 
-  return `${diffHrs}:${diffMins}`;
+  const minutes = diffMins < 10 ? `0${diffMins}` : diffMins;
+
+  return `${diffHrs}:${minutes}`;
 };
