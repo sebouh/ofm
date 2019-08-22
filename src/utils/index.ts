@@ -50,3 +50,15 @@ export const validateEmail = (email: string) => {
   const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   return re.test(email);
 };
+
+export const getDateDiff = (until: string) => {
+  const today = new Date();
+
+  const endDate = new Date(`${today.getMonth() + 1}-${today.getUTCDate()}-${today.getFullYear()} ${until}`);
+
+  const diffMs = (endDate.getTime() - today.getTime());
+  const diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+  const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+
+  return `${diffHrs}:${diffMins}`;
+};

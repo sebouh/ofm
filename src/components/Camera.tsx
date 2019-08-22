@@ -10,6 +10,7 @@ import { getStatusBarHeight } from '../utils';
 
 interface IProps {
   readonly activeQuestionId: number | null;
+  readonly isCameraOpened: boolean;
   readonly setCameraStatus: (stat: boolean) => void;
   readonly setActiveQuestionId: (id: null | number) => void;
   readonly updateQuestion: (id: number, payload: object) => void;
@@ -36,7 +37,7 @@ class Camera extends PureComponent<IProps> {
 
   public render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.hiddenContainer, this.props.isCameraOpened && styles.container]}>
         <StatusBar barStyle={'light-content'} />
         <Button transparent={true} style={styles.closeButton} onPress={this.closeCamera}>
           <Image style={{ width: 22, height: 22 }} source={require('../assets/images/icons/close_white.png')}/>
@@ -63,10 +64,20 @@ class Camera extends PureComponent<IProps> {
 }
 
 const styles = StyleSheet.create({
+  hiddenContainer: {
+    display: 'none',
+    zIndex: 3
+  },
   container: {
+    display: 'flex',
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'black',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
   },
   closeButton: {
     position: 'absolute',
@@ -87,7 +98,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ camera }: IReduxState) => {
   return {
-    activeQuestionId: camera.activeQuestionId
+    activeQuestionId: camera.activeQuestionId,
+    isCameraOpened: camera.isActive
   };
 };
 

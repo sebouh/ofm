@@ -5,7 +5,7 @@ import { Alert, Image, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Dispatch, } from 'redux';
 import { setActiveQuestionId, setCameraStatus, updateQuestion } from '../../store/actions';
-import { axiosInstance, IQuestions } from '../../utils';
+import { axiosInstance, getDateDiff, IQuestions } from '../../utils';
 import styles from './styles';
 
 interface IProps {
@@ -16,6 +16,22 @@ interface IProps {
 }
 
 class Question extends PureComponent<IProps> {
+  private readonly interval: number;
+
+  public readonly state = {
+    currentDate: new Date().getTime()
+  };
+
+  constructor(props: IProps) {
+    super(props);
+
+    this.interval = setInterval(() => this.setState({ currentDate: new Date().getTime() }), 10000);
+  }
+
+  public componentWillUnmount(): void {
+    clearInterval(this.interval);
+  }
+
   private openCamera = () => {
     this.props.setActiveQuestionId(this.props.item.question.id);
     this.props.setCameraStatus(true);
@@ -40,7 +56,7 @@ class Question extends PureComponent<IProps> {
 
       await axiosInstance.post('/response', formData);
 
-      this.props.updateQuestion(item.question.id, { answered: true, answer: '' });
+      this.props.updateQuestion(item.question.id, { answered: true, answer: '', file: undefined });
     } catch (e) {
       console.log(e);
       Alert.alert(e && e.response ? e.response.message : 'Something went wrong');
@@ -109,11 +125,13 @@ class Question extends PureComponent<IProps> {
       );
     }
 
+    const date = getDateDiff(item.until);
+
     return (
       <View style={styles.question.footer}>
         <View style={styles.question.timer_container}>
           <Image source={require('../../assets/images/icons/timer.png')} style={{ width: 24, height: 24 }}/>
-          <Text style={styles.question.timer_text}>{item.question.duration}</Text>
+          <Text style={styles.question.timer_text}>{date}</Text>
         </View>
         <View style={styles.question.yes_no_container}>
           <Button transparent={true} style={styles.question.answer_button} onPress={() => this.answer('yes')}>

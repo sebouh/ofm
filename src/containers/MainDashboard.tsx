@@ -54,41 +54,40 @@ class MainDashboard extends PureComponent<IProps> {
   }
 
   public render() {
-    if (this.props.isCameraOpened) {
-      return <Camera/>;
-    }
-
     const layout = {
       questions: <Questions/>,
       refer: <Refer/>
     } as { [key: string]: any };
 
     return (
-      <View style={{ flex: 1 }}>
-        <Header/>
-        <View style={styles.main_dashboard.buttonContainer}>
-          {this.buttons.map(button => {
-            const isActive = this.state.tab === button.tab;
+      <View style={{ flex: 1, position: 'relative' }}>
+        <Camera/>
+        <View style={{ flex: 1, zIndex: 1 }}>
+          <Header/>
+          <View style={styles.main_dashboard.buttonContainer}>
+            {this.buttons.map(button => {
+              const isActive = this.state.tab === button.tab;
 
-            return (
-              <Button
-                key={button.id}
-                bordered={!isActive}
-                transparent={isActive}
-                onPress={() => this.setState({ tab: button.tab })}
-                style={[styles.main_dashboard.button, isActive && styles.main_dashboard.button_active]}
-              >
-                <Gradient isSelected={isActive}>
-                  <Text style={[styles.main_dashboard.button_text, !isActive && styles.main_dashboard.button_text_active]}>
-                    <FormattedMessage id={button.title}/>
-                  </Text>
-                </Gradient>
-              </Button>
-            );
-          })}
+              return (
+                <Button
+                  key={button.id}
+                  bordered={!isActive}
+                  transparent={isActive}
+                  onPress={() => this.setState({ tab: button.tab })}
+                  style={[styles.main_dashboard.button, isActive && styles.main_dashboard.button_active]}
+                >
+                  <Gradient isSelected={isActive}>
+                    <Text style={[styles.main_dashboard.button_text, !isActive && styles.main_dashboard.button_text_active]}>
+                      <FormattedMessage id={button.title}/>
+                    </Text>
+                  </Gradient>
+                </Button>
+              );
+            })}
+          </View>
+          {layout[this.state.tab]}
+          <TabBar active={1}/>
         </View>
-        {layout[this.state.tab]}
-        <TabBar active={1}/>
       </View>
     );
   }

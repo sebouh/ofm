@@ -8,6 +8,10 @@ export interface IModalConfigs {
 }
 
 export interface IQuestions {
+  readonly day: string;
+  readonly id: number;
+  readonly scheduled: string;
+  readonly until: string;
   readonly question: {
     readonly disabled?: boolean;
     readonly duration: number;
