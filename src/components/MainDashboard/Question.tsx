@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Alert, Image, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Dispatch, } from 'redux';
-import { setActiveQuestionId, setCameraStatus, updateQuestion } from '../../store/actions';
+import { deleteQuestion, setActiveQuestionId, setCameraStatus, updateQuestion } from '../../store/actions';
 import { axiosInstance, getDateDiff, IQuestions } from '../../utils';
 import styles from './styles';
 
@@ -13,6 +13,7 @@ interface IProps {
   readonly setCameraStatus: (stat: boolean) => void;
   readonly setActiveQuestionId: (id: null | number) => void;
   readonly updateQuestion: (id: number, payload: object) => void;
+  readonly deleteQuestion: (id: number) => void;
 }
 
 class Question extends PureComponent<IProps> {
@@ -127,6 +128,10 @@ class Question extends PureComponent<IProps> {
 
     const date = getDateDiff(item.until);
 
+    if (!date) {
+      this.props.deleteQuestion(item.id);
+    }
+
     return (
       <View style={styles.question.footer}>
         <View style={styles.question.timer_container}>
@@ -180,7 +185,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     setCameraStatus: (stat: boolean) => dispatch(setCameraStatus(stat)),
     setActiveQuestionId: (id: null | number) => dispatch(setActiveQuestionId(id)),
-    updateQuestion: (id: number, payload: object) => dispatch(updateQuestion(id, payload))
+    updateQuestion: (id: number, payload: object) => dispatch(updateQuestion(id, payload)),
+    deleteQuestion: (id: number) => dispatch(deleteQuestion(id))
   };
 };
 

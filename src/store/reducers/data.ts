@@ -40,6 +40,14 @@ export default createReducer(defaultState, {
       questions
     };
   },
+  [dataTypes.deleteQuestion]: (state: IDataState, { id }: AnyAction) => {
+    const questions = state.questions.filter(el => el.id !== id);
+
+    return {
+      ...state,
+      questions
+    };
+  },
   [dataTypes.setPositions]: (state: IDataState, { positions }: AnyAction) => ({
     ...state,
     positions

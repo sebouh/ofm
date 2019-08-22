@@ -12,6 +12,13 @@ export const updateQuestion = (id: number, payload: object) => {
   };
 };
 
+export const deleteQuestion = (id: number) => {
+  return {
+    type: dataTypes.deleteQuestion,
+    id
+  };
+};
+
 export const getQuestions: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (callback?: () => void) => {
   return async (dispatch): Promise<Action> => {
     try {

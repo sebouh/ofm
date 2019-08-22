@@ -67,5 +67,9 @@ export const getDateDiff = (until: string) => {
 
   const minutes = diffMins < 10 ? `0${diffMins}` : diffMins;
 
+  if (diffHrs <= 0 && diffMins <= 0) {
+    return;
+  }
+
   return `${diffHrs}:${minutes}`;
 };
