@@ -68,6 +68,9 @@ export const getRedeemData: ActionCreator<ThunkAction<Promise<Action>, IReduxSta
   return async (dispatch): Promise<Action> => {
     try {
       const { data } = await axiosInstance.get('/reward');
+      const { data: rate } = await axiosInstance.get('/reward/rate');
+
+      data.rate = rate;
 
       return dispatch({ type: dataTypes.setRedeem, redeem: data });
     } catch (e) {

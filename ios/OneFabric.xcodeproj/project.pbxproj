@@ -796,7 +796,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.shanttv.golive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.onefabric.app;
 				PRODUCT_NAME = OneFabric;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -820,7 +820,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.shanttv.golive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.onefabric.app;
 				PRODUCT_NAME = OneFabric;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";

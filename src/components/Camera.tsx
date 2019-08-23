@@ -21,7 +21,7 @@ class Camera extends PureComponent<IProps> {
 
   private takePicture = async () => {
     if (this.camera) {
-      const options = { quality: 1, base64: true };
+      const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
 
       this.props.updateQuestion(this.props.activeQuestionId as number, { image: data.uri, file: data.base64 });

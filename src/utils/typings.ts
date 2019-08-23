@@ -55,4 +55,5 @@ export interface IRedeem {
   readonly totalPayouts: number;
   readonly employeeName: string;
   readonly employeeId: number;
+  readonly rate: number;
 }
