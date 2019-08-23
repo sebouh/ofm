@@ -20,7 +20,8 @@ export interface IQuestions {
     readonly question: string;
     readonly value: number;
     readonly answered: boolean;
-  },
+  };
+  readonly answered: boolean;
   readonly image?: string;
   readonly answer?: string;
   readonly file?: string;

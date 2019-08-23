@@ -42,19 +42,22 @@ class Camera extends PureComponent<IProps> {
         <Button transparent={true} style={styles.closeButton} onPress={this.closeCamera}>
           <Image style={{ width: 22, height: 22 }} source={require('../assets/images/icons/close_white.png')}/>
         </Button>
-        <RNCamera
-          ref={ref => this.camera = ref}
-          style={styles.preview}
-          type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.auto}
-          autoFocus={RNCamera.Constants.AutoFocus.on}
-          androidCameraPermissionOptions={{
-            title: 'Permission to use camera',
-            message: 'We need your permission to use your camera',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel'
-          }}
-        />
+        {this.props.isCameraOpened && (
+          <RNCamera
+            ref={ref => this.camera = ref}
+            style={styles.preview}
+            type={RNCamera.Constants.Type.back}
+            flashMode={RNCamera.Constants.FlashMode.auto}
+            autoFocus={RNCamera.Constants.AutoFocus.on}
+            androidCameraPermissionOptions={{
+              title: 'Permission to use camera',
+              message: 'We need your permission to use your camera',
+              buttonPositive: 'Ok',
+              buttonNegative: 'Cancel'
+            }}
+            captureAudio={false}
+          />
+        )}
         <Button transparent={true} onPress={this.takePicture} style={styles.capture}>
           <Image source={require('../assets/images/icons/camer_button.png')} style={{ width: 66, height: 66 }}/>
         </Button>
@@ -82,17 +85,20 @@ const styles = StyleSheet.create({
   closeButton: {
     position: 'absolute',
     top: getStatusBarHeight() + 18,
-    left: 20
+    left: 20,
+    zIndex: 1
   },
   preview: {
     justifyContent: 'flex-end',
     alignItems: 'center',
+    flex: 4
   },
   capture: {
     position: 'absolute',
     bottom: 40,
     left: '50%',
-    marginLeft: -33
+    marginLeft: -33,
+    zIndex: 5
   },
 });
 

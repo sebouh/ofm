@@ -67,7 +67,7 @@ class Question extends PureComponent<IProps> {
   private renderMiddleContent() {
     const { item } = this.props;
 
-    if (item.question.answered) {
+    if (item.question.answered || item.answered) {
       return null;
     }
 
@@ -99,7 +99,7 @@ class Question extends PureComponent<IProps> {
   private renderFooter() {
     const { item } = this.props;
 
-    if (item.question.answered) {
+    if (item.answered || item.question.answered) {
       return (
         <View style={[styles.question.footer, { justifyContent: 'flex-end' }]}>
           <Text style={styles.question.cancel_submit_text}>

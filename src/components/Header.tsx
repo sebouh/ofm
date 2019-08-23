@@ -34,7 +34,7 @@ class Header extends PureComponent<IProps> {
         <Image style={[styles.image, isSmall && styles.smallImage]} source={require('../assets/images/logo.png')}/>
         {this.showMenuButton.includes(routeName) ? (
           <Button transparent={true} style={styles.menu_button}>
-            <Image source={require('../assets/images/icons/menu.png')} style={{ width: 24, height: 16.5 }} />
+            <Image source={require('../assets/images/icons/menu.png')} style={{ width: 24, height: 16.5 }}/>
           </Button>
         ) : null}
       </View>

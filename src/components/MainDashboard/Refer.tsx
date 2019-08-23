@@ -66,7 +66,7 @@ class Refer extends PureComponent<IProps> {
 
   private onSmsPress = async (position: IReferalPositions) => {
     const sep = Platform.OS === 'ios' ? '&' : '?';
-    const url = `sms:${' '}${`${sep}body=${encodeURIComponent(this.generateText(position))}`}`;
+    const url = `sms:${' '}${`${sep}body=${this.generateText(position)}`}`;
 
     try {
       await Linking.openURL(url);

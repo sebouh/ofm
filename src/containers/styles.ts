@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { globalStyles } from '../utils';
+
+const {width} = Dimensions.get('window');
 
 export default {
   common: StyleSheet.create(
@@ -123,7 +125,7 @@ export default {
         paddingRight: 24
       },
       button: {
-        width: 150,
+        width: (width - 75) / 2,
         height: 28,
         borderRadius: 10,
         borderColor: globalStyles.colors.purple,
