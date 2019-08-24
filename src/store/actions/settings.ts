@@ -19,7 +19,7 @@ export const closeModal = () => {
   };
 };
 
-export const getCurrentUser: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (isLogout: false) => {
+export const getCurrentUser: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (isLogout: false, callbackFirst, callbackSecond) => {
   return async (dispatch): Promise<Action> => {
     if (isLogout) {
       return dispatch({ type: settingTypes.setCurrentUser, user: {} });
@@ -27,6 +27,16 @@ export const getCurrentUser: ActionCreator<ThunkAction<Promise<Action>, IReduxSt
 
     try {
       const { data } = await axiosInstance.get('/user/me');
+
+      if (data.setupComplete) {
+        if (typeof callbackSecond === 'function') {
+          callbackSecond();
+        }
+      } else {
+        if (typeof callbackFirst === 'function') {
+          callbackFirst();
+        }
+      }
 
       return dispatch({ type: settingTypes.setCurrentUser, user: data });
     } catch (err) {
@@ -38,7 +48,7 @@ export const getCurrentUser: ActionCreator<ThunkAction<Promise<Action>, IReduxSt
   };
 };
 
-export const setIsLoggedIn: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = () => {
+export const setIsLoggedIn: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (callbackFirst, callbackSecond) => {
   return async (dispatch): Promise<Action> => {
     if (!tokenService.token) {
       dispatch(getCurrentUser(true));
@@ -50,6 +60,6 @@ export const setIsLoggedIn: ActionCreator<ThunkAction<Promise<Action>, IReduxSta
 
     dispatch({ type: settingTypes.setIsLoggedIn, isLoggedIn: true });
 
-    return dispatch(getCurrentUser());
+    return dispatch(getCurrentUser(false, callbackFirst, callbackSecond));
   };
 };

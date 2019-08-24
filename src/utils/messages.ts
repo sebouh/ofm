@@ -12,6 +12,8 @@ const en: IMessages = {
   back_button: 'Back',
   incorrect_email_pass: 'Incorrect Password or Email Address.',
   incorrect_email: 'Incorrect Email Address.',
+  already_signed_up_error: 'You have already signed up. Please use the login form to continue.',
+  not_signed_up_error: 'You haven \'t signed up to application. Please use the sign up form to continue.',
   next_button: 'NEXT',
   submit_button: 'SUBMIT',
   modal_success_title: 'Success',

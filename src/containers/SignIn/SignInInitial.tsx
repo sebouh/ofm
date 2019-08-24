@@ -8,14 +8,14 @@ import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { EmailInput, Header, NextButton, PasswordInput } from '../../components';
-import TokenService from '../../services/TokenService';
+import { tokenService } from '../../services';
 import { setIsLoggedIn } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, validateEmail } from '../../utils';
 import styles from '../styles';
 
 interface IProps {
-  readonly setIsLoggedIn: () => void;
+  readonly setIsLoggedIn: (callbackFirst?: () => void, callbackSecond?: () => void) => void;
 }
 
 class SignInInitial extends PureComponent<IProps> {
@@ -41,10 +41,14 @@ class SignInInitial extends PureComponent<IProps> {
         return this.setState({ errorMessage: 'incorrect_email_pass' });
       }
 
-      await TokenService.setToken(data.token);
-      await this.props.setIsLoggedIn();
-
-      Actions.reset('main_dashboard');
+      await tokenService.setToken(data.token);
+      await this.props.setIsLoggedIn(
+        async () => {
+          this.setState({ errorMessage: 'already_signed_up_error' });
+          await tokenService.removeToken();
+          await this.props.setIsLoggedIn();
+        },
+        () => Actions.reset('main_dashboard'));
     } catch (err) {
       console.log(err);
       return this.setState({ errorMessage: 'incorrect_email_pass' });
@@ -118,7 +122,7 @@ class SignInInitial extends PureComponent<IProps> {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
-    setIsLoggedIn: () => dispatch(setIsLoggedIn())
+    setIsLoggedIn: (callbackFirst?: () => void, callbackSecond?: () => void) => dispatch(setIsLoggedIn(callbackFirst, callbackSecond))
   };
 };
 

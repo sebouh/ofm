@@ -43,7 +43,7 @@ class RedeemInitial extends PureComponent<IProps> {
 
     return (
       <View style={styles.redeem_initial.container}>
-        <Header/>
+        <Header replace={'main_dashboard'}/>
         <RedeemSubHeader title={'redeem_title'}/>
         {redeem && redeem.id ? (
           <ScrollView style={{ flex: 1 }}>
@@ -87,7 +87,7 @@ class RedeemInitial extends PureComponent<IProps> {
               </Button>
             </View>
           </ScrollView>
-        ) : <LoaderIndicator /> }
+        ) : <LoaderIndicator/>}
         <TabBar active={2}/>
       </View>
     );
