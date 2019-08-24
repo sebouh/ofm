@@ -4,17 +4,11 @@ import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { connect } from 'react-redux';
-import { Header, LoaderIndicator, NextButton, PasswordInput } from '../../components';
-import { IReduxState } from '../../store/store';
+import { Header, NextButton, PasswordInput } from '../../components';
 import { axiosInstance } from '../../utils';
 import styles from '../styles';
 
-interface IProps {
-  readonly isLoggedIn: boolean | undefined;
-}
-
-class SignupNewPassword extends PureComponent<IProps> {
+class SignupNewPassword extends PureComponent {
   public readonly state = {
     password: '',
     confirmPassword: '',
@@ -108,10 +102,4 @@ class SignupNewPassword extends PureComponent<IProps> {
   }
 }
 
-const mapStateToProps = ({ settings }: IReduxState) => {
-  return {
-    isLoggedIn: settings.isLoggedIn
-  };
-};
-
-export default connect(mapStateToProps)(SignupNewPassword);
+export default SignupNewPassword;
