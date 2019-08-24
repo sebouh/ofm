@@ -7,11 +7,10 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Header, LoaderIndicator, NextButton, PasswordInput } from '../../components';
 import { IReduxState } from '../../store/store';
-import { axiosInstance, IUser } from '../../utils';
+import { axiosInstance } from '../../utils';
 import styles from '../styles';
 
 interface IProps {
-  readonly user: IUser;
   readonly isLoggedIn: boolean | undefined;
 }
 
@@ -21,22 +20,6 @@ class SignupNewPassword extends PureComponent<IProps> {
     confirmPassword: '',
     errorMessage: ''
   };
-
-  public componentDidMount(): void {
-    if (this.props.user && this.props.user.setupComplete) {
-      return Actions.reset('main_dashboard');
-    }
-
-    if (this.props.isLoggedIn) {
-      return Actions.reset('main_dashboard');
-    }
-  }
-
-  public componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<{}>, snapshot?: any): void {
-    if (prevProps.user.setupComplete !== this.props.user.setupComplete && this.props.user.setupComplete) {
-      Actions.reset('main_dashboard');
-    }
-  }
 
   private onChange = (val: string, key: string) => {
     this.setState({ [key]: val, errorMessage: '' });
@@ -75,11 +58,6 @@ class SignupNewPassword extends PureComponent<IProps> {
 
   public render() {
     const { errorMessage } = this.state;
-    const { user } = this.props;
-
-    if (!user || !user.email) {
-      return <LoaderIndicator/>;
-    }
 
     return (
       <View style={styles.common.container}>
@@ -132,7 +110,6 @@ class SignupNewPassword extends PureComponent<IProps> {
 
 const mapStateToProps = ({ settings }: IReduxState) => {
   return {
-    user: settings.user,
     isLoggedIn: settings.isLoggedIn
   };
 };
