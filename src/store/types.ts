@@ -1,5 +1,6 @@
 export enum settingTypes {
   setLocale = '@@settings/SET_LOCALE',
+  menuOpened = '@@settings/MENU_OPENED',
   setIsLoggedIn = '@@settings/SET_IS_LOGGED_IN',
   setModalConfigs = '@@settings/SET_MODAL_CONFIGS',
   closeModal = '@@settings/CLOSE_MODAL',

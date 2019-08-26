@@ -7,15 +7,15 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { tokenService } from '../services';
-import { setIsLoggedIn } from '../store/actions';
+import { setMenuOpened } from '../store/actions';
 import { IReduxState } from '../store/store';
 import { getStatusBarHeight, globalStyles, isIphoneX } from '../utils';
 
 interface IProps {
   readonly routeName: string;
-  readonly setIsLoggedIn: () => void;
   readonly replace?: string;
+  readonly setMenuOpened: (menuOpened: boolean) => void;
+  readonly menuOpened: boolean;
 }
 
 class Header extends PureComponent<IProps> {
@@ -23,10 +23,8 @@ class Header extends PureComponent<IProps> {
   private readonly showBackButton: string[] = ['sign_in_recover_password', 'redeem_confirmation', 'redeem_initial'];
   private readonly showMenuButton: string[] = ['main_dashboard', 'redeem_initial', 'redeem_confirmation'];
 
-  private onMenuButtonPress = async () => {
-    Actions.reset('signup_email_pass');
-    await tokenService.removeToken();
-    this.props.setIsLoggedIn();
+  private onMenuButtonPress = () => {
+    this.props.setMenuOpened(!this.props.menuOpened);
   };
 
   private onBackPress = () => {
@@ -111,15 +109,16 @@ const styles = StyleSheet.create(
   }
 );
 
-const mapStateToProps = ({ router }: IReduxState) => {
+const mapStateToProps = ({ router, settings }: IReduxState) => {
   return {
-    routeName: router && router.routeName ? router.routeName : ''
+    routeName: router && router.routeName ? router.routeName : '',
+    menuOpened: settings.menuOpened
   };
 };
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
-    setIsLoggedIn: () => dispatch(setIsLoggedIn())
+    setMenuOpened: (menuOpened: boolean) => dispatch(setMenuOpened(menuOpened))
   };
 };
 

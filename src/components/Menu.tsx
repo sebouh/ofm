@@ -1,0 +1,155 @@
+import { Button } from 'native-base';
+import React, { PureComponent } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { tokenService } from '../services';
+import { setIsLoggedIn, setMenuOpened } from '../store/actions';
+import { IReduxState } from '../store/store';
+import { globalStyles } from '../utils';
+
+interface IProps {
+  readonly setMenuOpened: (menuOpened: boolean) => void;
+  readonly setIsLoggedIn: () => void;
+}
+
+class Menu extends PureComponent<IProps> {
+  private readonly menu = [
+    {
+      id: 1,
+      title: 'menu_profile',
+      image: require('../assets/images/icons/Menu_profile.png'),
+    }, {
+      id: 2,
+      title: 'menu_feedback',
+      image: require('../assets/images/icons/Menu_feedback.png'),
+      style: { marginTop: 27.5 }
+    },
+    {
+      id: 3,
+      title: 'menu_logout',
+      image: require('../assets/images/icons/Menu_logout.png'),
+      style: styles.logoutItem,
+      action: () => this.onLogoutPress()
+    }
+  ];
+
+  private onHeaderButtonPress = () => {
+    this.props.setMenuOpened(false);
+  };
+
+  private onLogoutPress = () => {
+    this.props.setMenuOpened(false);
+    setTimeout(
+      async () => {
+        Actions.reset('signup_email_pass');
+        await tokenService.removeToken();
+        this.props.setIsLoggedIn();
+      },
+      500);
+  };
+
+  public render() {
+    return (
+      <View style={styles.container}>
+        <View style={{ flex: 1, position: 'relative' }}>
+          <View style={styles.header}>
+            <Button transparent={true} onPress={this.onHeaderButtonPress}>
+              <Image source={require('../assets/images/icons/menu_opened.png')}/>
+            </Button>
+            <Text style={styles.title}>
+              <FormattedMessage id={'menu_title'}/>
+            </Text>
+          </View>
+          <View style={styles.items}>
+            {this.menu.map(item => (
+              <Button key={item.id} style={[styles.button, item.style]} transparent={true} onPress={item.action}>
+                <View style={styles.item}>
+                  <Image source={item.image}/>
+                  <Text style={styles.item_title}><FormattedMessage id={item.title}/></Text>
+                </View>
+                <View style={styles.separator}/>
+              </Button>
+            ))}
+          </View>
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create(
+  {
+    container: {
+      backgroundColor: globalStyles.colors.gray,
+      flex: 1,
+      paddingLeft: 32,
+      paddingRight: 32,
+      paddingTop: 25,
+      paddingBottom: 32,
+      marginTop: 28,
+      marginBottom: 26,
+      borderRadius: 10,
+      shadowColor: globalStyles.colors.middleGray,
+      shadowOffset: {
+        width: 0,
+        height: 0
+      },
+      shadowRadius: 3,
+      shadowOpacity: 1
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    title: {
+      fontSize: 20,
+      ...globalStyles.fonts.regular,
+      fontWeight: '500',
+      lineHeight: 25,
+      letterSpacing: 0.38,
+      color: globalStyles.colors.purple,
+      marginLeft: 8
+    },
+    items: {
+      flex: 1,
+      marginTop: 59
+    },
+    item: {
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    item_title: {
+      marginLeft: 8,
+      fontSize: 17,
+      ...globalStyles.fonts.regular,
+      lineHeight: 22,
+      letterSpacing: -0.41,
+      color: globalStyles.colors.purple
+    },
+    button: {
+      height: 'auto',
+      flexDirection: 'column',
+      alignItems: 'flex-start'
+    },
+    separator: {
+      width: '100%',
+      height: 1,
+      backgroundColor: 'rgba(119, 20, 161, 0.15)',
+      marginTop: 10.5,
+    },
+    logoutItem: { position: 'absolute', bottom: 0, left: 0, right: 0 }
+  }
+);
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
+  return {
+    setMenuOpened: (menuOpened: boolean) => dispatch(setMenuOpened(menuOpened)),
+    setIsLoggedIn: () => dispatch(setIsLoggedIn())
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Menu);

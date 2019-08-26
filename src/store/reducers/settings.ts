@@ -8,6 +8,7 @@ export interface ISettingsState {
   readonly modal: IModalConfigs;
   readonly isLoggedIn: boolean | undefined;
   readonly user: IUser;
+  readonly menuOpened: boolean;
 }
 
 const defaultState: ISettingsState = {
@@ -21,13 +22,18 @@ const defaultState: ISettingsState = {
     event: ''
   },
   isLoggedIn: undefined,
-  user: {} as IUser
+  user: {} as IUser,
+  menuOpened: false
 };
 
 export default createReducer(defaultState, {
   [settingTypes.setLocale]: (state: ISettingsState, { locale }: AnyAction) => ({
     ...state,
     locale
+  }),
+  [settingTypes.menuOpened]: (state: ISettingsState, { menuOpened }: AnyAction) => ({
+    ...state,
+    menuOpened
   }),
   [settingTypes.setIsLoggedIn]: (state: ISettingsState, { isLoggedIn }: AnyAction) => ({
     ...state,

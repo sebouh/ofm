@@ -6,6 +6,13 @@ import { axiosInstance, IModalConfigs, setAxiosAuthToken } from '../../utils';
 import { IReduxState } from '../store';
 import { settingTypes } from '../types';
 
+export const setMenuOpened = (menuOpened: boolean = false) => {
+  return {
+    type: settingTypes.menuOpened,
+    menuOpened
+  };
+};
+
 export const setModalConfigs = (configs: IModalConfigs) => {
   return {
     type: settingTypes.setModalConfigs,
