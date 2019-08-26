@@ -239,5 +239,56 @@ export default {
         color: globalStyles.colors.black40
       }
     }
+  ),
+  profile_initial: StyleSheet.create(
+    {
+      container: {
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingBottom: 24
+      },
+      label: {
+        paddingTop: 24,
+        color: 'rgba(0, 0, 0, 0.5)',
+        ...globalStyles.fonts.regular,
+        fontSize: 13,
+        lineHeight: 18,
+        letterSpacing: -0.08
+      },
+      change_pass: {
+        justifyContent: 'flex-start',
+        marginTop: 36,
+        height: 'auto',
+        alignSelf: 'flex-start'
+      },
+      change_pass_text: {
+        ...globalStyles.fonts.regular,
+        fontSize: 15,
+        lineHeight: 20,
+        letterSpacing: -0.24,
+        color: globalStyles.colors.black,
+        marginLeft: 8
+      },
+      save_button: {
+        flexDirection: 'row',
+        alignSelf: 'flex-end',
+        paddingTop: 7,
+        paddingBottom: 7,
+        paddingLeft: 37,
+        paddingRight: 37,
+        borderRadius: 15,
+        borderColor: globalStyles.colors.purple,
+        marginTop: 100,
+        height: 'auto'
+      },
+      save_button_text: {
+        color: globalStyles.colors.purple,
+        fontSize: 17,
+        fontWeight: '500',
+        textTransform: 'uppercase',
+        lineHeight: 22,
+        letterSpacing: -0.41
+      }
+    }
   )
 };

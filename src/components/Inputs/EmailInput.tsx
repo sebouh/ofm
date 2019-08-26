@@ -10,6 +10,7 @@ interface IProps {
   readonly style: ViewStyle;
   readonly placeholderColor?: string;
   readonly placeholder?: string;
+  readonly hidePlaceHolder?: boolean;
 }
 
 class EmailInput extends PureComponent<IProps> {
@@ -22,7 +23,7 @@ class EmailInput extends PureComponent<IProps> {
       <FormattedMessage id={this.props.placeholder || 'email'}>
         {placeholder => (
           <Input
-            placeholder={placeholder as string}
+            placeholder={this.props.hidePlaceHolder ? '' : placeholder as string}
             style={this.props.style}
             autoCapitalize={'none'}
             keyboardType={'email-address'}

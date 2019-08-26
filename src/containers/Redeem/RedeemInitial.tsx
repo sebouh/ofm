@@ -7,7 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { Header, LoaderIndicator, RedeemSubHeader, TabBar } from '../../components';
+import { Header, LoaderIndicator, SubHeader, TabBar } from '../../components';
 import { getRedeemData } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { globalStyles, IRedeem } from '../../utils';
@@ -44,7 +44,7 @@ class RedeemInitial extends PureComponent<IProps> {
     return (
       <View style={styles.redeem_initial.container}>
         <Header replace={'main_dashboard'}/>
-        <RedeemSubHeader title={'redeem_title'}/>
+        <SubHeader title={'redeem_title'}/>
         {redeem && redeem.id ? (
           <ScrollView style={{ flex: 1 }}>
             <RefreshControl refreshing={this.state.refreshing} tintColor={globalStyles.colors.purple} onRefresh={this.onRefresh}/>

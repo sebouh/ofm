@@ -4,7 +4,7 @@ export { default as Modal } from './Modal';
 export { default as TabBar } from './TabBar';
 export { default as Camera } from './Camera';
 export { default as LoaderIndicator } from './LoaderIndicator';
-export { default as RedeemSubHeader } from './RedeemSubHeader';
+export { default as SubHeader } from './SubHeader';
 export { default as Menu } from './Menu';
 export * from './Buttons';
 export * from './Inputs';

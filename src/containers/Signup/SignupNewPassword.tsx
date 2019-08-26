@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import { Alert, Image, SafeAreaView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Header, NextButton, PasswordInput } from '../../components';
 import { axiosInstance } from '../../utils';
@@ -33,6 +33,10 @@ class SignupNewPassword extends PureComponent {
       const { data } = await axiosInstance.post('/user/me', { password });
 
       if (data.errors) {
+        if (data.errors.length) {
+          return Alert.alert(data.errors[0]);
+        }
+
         return this.setState({ errorMessage: 'unhandled_error' });
       }
 

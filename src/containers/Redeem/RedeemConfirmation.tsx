@@ -7,7 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { Header, RedeemSubHeader } from '../../components';
+import { Header, SubHeader } from '../../components';
 import { eventEmitter } from '../../services';
 import { getRedeemData, setModalConfigs } from '../../store/actions';
 import { IReduxState } from '../../store/store';
@@ -64,7 +64,7 @@ class RedeemConfirmation extends PureComponent<IProps> {
     return (
       <View style={styles.redeem_initial.container}>
         <Header/>
-        <RedeemSubHeader title={'redeem_confirmation_title'}/>
+        <SubHeader title={'redeem_confirmation_title'}/>
         <View style={{ flex: 1 }}>
           <View style={styles.redeem_initial.card}>
             <Text style={styles.redeem_initial.confirm_info_text}>

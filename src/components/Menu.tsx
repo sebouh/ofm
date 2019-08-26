@@ -14,6 +14,7 @@ import { globalStyles } from '../utils';
 interface IProps {
   readonly setMenuOpened: (menuOpened: boolean) => void;
   readonly setIsLoggedIn: () => void;
+  readonly routeName: string;
 }
 
 class Menu extends PureComponent<IProps> {
@@ -22,11 +23,14 @@ class Menu extends PureComponent<IProps> {
       id: 1,
       title: 'menu_profile',
       image: require('../assets/images/icons/Menu_profile.png'),
+      action: () => this.onMenuItemPress('profile_initial'),
+      route: 'profile_initial'
     }, {
       id: 2,
       title: 'menu_feedback',
       image: require('../assets/images/icons/Menu_feedback.png'),
-      style: { marginTop: 27.5 }
+      style: { marginTop: 27.5 },
+      action: () => this.onMenuItemPress('feedback')
     },
     {
       id: 3,
@@ -41,6 +45,11 @@ class Menu extends PureComponent<IProps> {
     this.props.setMenuOpened(false);
   };
 
+  private onMenuItemPress = (route: string) => {
+    this.props.setMenuOpened(false);
+    setTimeout(() => Actions.push(route), 500);
+  };
+
   private onLogoutPress = () => {
     this.props.setMenuOpened(false);
     setTimeout(
@@ -53,6 +62,8 @@ class Menu extends PureComponent<IProps> {
   };
 
   public render() {
+    const { routeName } = this.props;
+
     return (
       <View style={styles.container}>
         <View style={{ flex: 1, position: 'relative' }}>
@@ -66,7 +77,7 @@ class Menu extends PureComponent<IProps> {
           </View>
           <View style={styles.items}>
             {this.menu.map(item => (
-              <Button key={item.id} style={[styles.button, item.style]} transparent={true} onPress={item.action}>
+              <Button key={item.id} style={[styles.button, item.style]} transparent={true} onPress={item.action} disabled={routeName === item.route}>
                 <View style={styles.item}>
                   <Image source={item.image}/>
                   <Text style={styles.item_title}><FormattedMessage id={item.title}/></Text>
@@ -145,6 +156,12 @@ const styles = StyleSheet.create(
   }
 );
 
+const mapStateToProps = ({ router }: IReduxState) => {
+  return {
+    routeName: router && router.routeName ? router.routeName : '',
+  };
+};
+
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
     setMenuOpened: (menuOpened: boolean) => dispatch(setMenuOpened(menuOpened)),
@@ -152,4 +169,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) 
   };
 };
 
-export default connect(null, mapDispatchToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

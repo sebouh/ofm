@@ -67,7 +67,11 @@ const en: IMessages = {
   redeem_confirmation_title: 'Confirmation Page',
   redeem_confirmation_info: 'You are redeeming {points} points for a total of {amount}. This amount will be sent to your PayPal account.',
   redeem_confirm_button: 'CONFIRM',
-  redeem_finished_desc: 'The redeemed amount will be sent to your PayPal account after review.'
+  redeem_finished_desc: 'The redeemed amount will be sent to your PayPal account after review.',
+  profile_title: 'Profile',
+  profile_initial_change_pass: 'Change Password',
+  profile_initial_save: 'Save',
+  profile_initial_save_message: 'Your data has been saved.'
 };
 
 export const translationMessages: ILanguages = {

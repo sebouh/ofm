@@ -7,7 +7,7 @@ interface IProps {
   readonly title: string;
 }
 
-class RedeemSubHeader extends PureComponent<IProps> {
+class SubHeader extends PureComponent<IProps> {
   public render() {
     return (
       <View style={styles.container}>
@@ -44,4 +44,4 @@ const styles = StyleSheet.create(
   }
 );
 
-export default RedeemSubHeader;
+export default SubHeader;
