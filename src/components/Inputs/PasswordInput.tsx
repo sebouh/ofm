@@ -5,11 +5,12 @@ import { ViewStyle } from 'react-native';
 import { globalStyles } from '../../utils';
 
 interface IProps {
-  readonly placeholder: string;
+  readonly placeholder?: string;
   readonly style: ViewStyle;
   readonly value: string;
   readonly onChange: (e: string) => void;
   readonly placeholderColor?: string;
+  readonly hidePlaceHolder?: boolean;
 }
 
 class PasswordInput extends PureComponent<IProps> {
@@ -19,10 +20,10 @@ class PasswordInput extends PureComponent<IProps> {
 
   public render() {
     return (
-      <FormattedMessage id={this.props.placeholder}>
+      <FormattedMessage id={this.props.placeholder || 'signin_password'}>
         {placeholder => (
           <Input
-            placeholder={placeholder as string}
+            placeholder={this.props.hidePlaceHolder ? '' : placeholder as string}
             style={this.props.style}
             autoCapitalize={'none'}
             autoCorrect={false}

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { EmailInput, Header, SubHeader } from '../../components';
-import { setModalConfigs } from '../../store/actions';
+import { getCurrentUser, setModalConfigs } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, IModalConfigs, validateEmail } from '../../utils';
 import styles from '../styles';
@@ -17,6 +17,7 @@ interface IProps {
   readonly email: string;
   readonly paypalEmail: string | null;
   readonly setModalConfigs: (config: IModalConfigs) => void;
+  readonly getCurrentUser: () => void;
 }
 
 class ProfileInitial extends PureComponent<IProps> {
@@ -72,6 +73,8 @@ class ProfileInitial extends PureComponent<IProps> {
 
         return this.setState({ errorMessage: 'unhandled_error' });
       }
+
+      this.props.getCurrentUser();
 
       this.props.setModalConfigs({
         isVisible: true,
@@ -146,6 +149,7 @@ const mapStateToProps = ({ settings }: IReduxState) => {
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
     setModalConfigs: (config: IModalConfigs) => dispatch(setModalConfigs(config)),
+    getCurrentUser: () => dispatch(getCurrentUser())
   };
 };
 

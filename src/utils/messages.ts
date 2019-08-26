@@ -71,7 +71,13 @@ const en: IMessages = {
   profile_title: 'Profile',
   profile_initial_change_pass: 'Change Password',
   profile_initial_save: 'Save',
-  profile_initial_save_message: 'Your data has been saved.'
+  profile_initial_save_message: 'Your data has been saved.',
+  profile_pass_old_title: 'Enter Old Password',
+  profile_new_pass_title: 'Enter New Password',
+  profile_new_pass_confirm_title: 'Re-Enter New Password',
+  profile_new_pass_empty_fields: 'Old, New and Confirm Password fields should not be empty',
+  profile_incorrect_old_pass: 'Old password is incorrect',
+  profile_new_pass_success_message: 'You password has been changed.'
 };
 
 export const translationMessages: ILanguages = {

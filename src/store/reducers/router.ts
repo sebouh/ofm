@@ -4,15 +4,18 @@ import { createReducer } from '../store';
 
 export interface IRouterState {
   readonly routeName: string;
+  readonly prevRoute: string;
 }
 
 const initialState: IRouterState = {
-  routeName: ''
+  routeName: '',
+  prevRoute: ''
 };
 
-const callback = (state: IRouterState, {routeName}: AnyAction) => ({
+const callback = (state: IRouterState, { routeName }: AnyAction) => ({
   ...state,
-  routeName
+  routeName,
+  prevRoute: state.routeName
 });
 
 export default createReducer(initialState, {

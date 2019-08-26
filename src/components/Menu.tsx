@@ -15,6 +15,7 @@ interface IProps {
   readonly setMenuOpened: (menuOpened: boolean) => void;
   readonly setIsLoggedIn: () => void;
   readonly routeName: string;
+  readonly prevRoute: string;
 }
 
 class Menu extends PureComponent<IProps> {
@@ -47,6 +48,11 @@ class Menu extends PureComponent<IProps> {
 
   private onMenuItemPress = (route: string) => {
     this.props.setMenuOpened(false);
+    if (route === this.props.prevRoute) {
+      setTimeout(Actions.pop, 500);
+
+      return;
+    }
     setTimeout(() => Actions.push(route), 500);
   };
 
@@ -159,6 +165,7 @@ const styles = StyleSheet.create(
 const mapStateToProps = ({ router }: IReduxState) => {
   return {
     routeName: router && router.routeName ? router.routeName : '',
+    prevRoute: router && router.prevRoute ? router.prevRoute : ''
   };
 };
 
