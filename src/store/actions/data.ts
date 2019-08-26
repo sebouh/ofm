@@ -1,6 +1,6 @@
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { axiosInstance } from '../../utils';
+import { axiosInstance, getIsoDate } from '../../utils';
 import { IReduxState } from '../store';
 import { dataTypes } from '../types';
 
@@ -22,7 +22,7 @@ export const deleteQuestion = (id: number) => {
 export const getQuestions: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (callback?: () => void) => {
   return async (dispatch): Promise<Action> => {
     try {
-      const { data } = await axiosInstance.post('/questions', { zonedDateTime: new Date().toISOString() });
+      const { data } = await axiosInstance.post('/questions', { zonedDateTime: getIsoDate(new Date()) });
 
       return dispatch({ type: dataTypes.setQuestions, questions: data });
     } catch (e) {

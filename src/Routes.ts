@@ -1,4 +1,5 @@
 import { ActionConstShort } from 'react-native-router-flux';
+import Feedback from './containers/Feedback';
 import Loader from './containers/Loader';
 import MainDashboard from './containers/MainDashboard';
 import ProfileChangePassword from './containers/Profile/ProfileChangePassword';
@@ -67,6 +68,10 @@ const routes: IRoute[] = [
   {
     key: 'profile_change_pass',
     component: ProfileChangePassword
+  },
+  {
+    key: 'feedback',
+    component: Feedback
   }
 ];
 
