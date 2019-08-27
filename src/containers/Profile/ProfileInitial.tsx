@@ -105,6 +105,7 @@ class ProfileInitial extends PureComponent<IProps> {
           <Item>
             <Image source={require('../../assets/images/icons/email.png')} style={{ marginTop: 5, width: 25, height: 14 }}/>
             <EmailInput onChange={e => this.onChange(e, 'email')} style={styles.common.input} email={this.state.email} hidePlaceHolder={true}/>
+            <Image source={require('../../assets/images/icons/Edit.png')} />
           </Item>
           <Text style={styles.profile_initial.label}>
             <FormattedMessage id={'paypal_email'}/>
@@ -117,6 +118,7 @@ class ProfileInitial extends PureComponent<IProps> {
               email={this.state.paypalEmail as string}
               hidePlaceHolder={true}
             />
+            <Image source={require('../../assets/images/icons/Edit.png')} />
           </Item>
           {this.state.errorMessage ? (
             <Text style={styles.common.email_pass_error}>

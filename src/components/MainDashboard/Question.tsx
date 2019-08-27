@@ -5,7 +5,7 @@ import { Alert, Image, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Dispatch, } from 'redux';
 import { deleteQuestion, setActiveQuestionId, setCameraStatus, updateQuestion } from '../../store/actions';
-import { axiosInstance, getDateDiff, IQuestions } from '../../utils';
+import { axiosInstance, getDateDiff, getIsoDate, IQuestions } from '../../utils';
 import styles from './styles';
 
 interface IProps {
@@ -53,7 +53,7 @@ class Question extends PureComponent<IProps> {
 
       formData.append('questionId', item.question.id);
       formData.append('response', item.answer === 'yes');
-      formData.append('zonedDateTime', new Date().toISOString());
+      formData.append('zonedDateTime', getIsoDate(new Date()));
 
       await axiosInstance.post('/response', formData);
 
