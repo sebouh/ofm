@@ -106,6 +106,69 @@ export default {
       }
     }
   ),
+  confirm_code: StyleSheet.create(
+    {
+      confirmation_code_input_style: {
+        ...globalStyles.fonts.regular,
+        fontSize: 15,
+        fontWeight: '600',
+        letterSpacing: -0.24,
+        color: globalStyles.colors.purple,
+        backgroundColor: '#fff',
+        width: 38,
+        height: 50,
+        borderRadius: 15
+      },
+      confirmation_wrong_code: {
+        ...globalStyles.fonts.regular,
+        fontSize: 13,
+        lineHeight: 21,
+        letterSpacing: 0,
+        color: '#e2405c',
+        textAlign: 'center',
+      },
+      confirmation_info_footer: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      confirmation_loader: {
+        height: 44,
+        width: '100%',
+        backgroundColor: globalStyles.colors.purple
+      },
+      confirmation_info_didnt_receive: {
+        ...globalStyles.fonts.regular,
+        textAlign: 'center',
+        lineHeight: 20,
+        letterSpacing: -0.21,
+        color: globalStyles.colors.black40,
+        fontSize: 13
+      },
+      confirmation_countdown_container: {
+        flexDirection: 'row',
+        alignItems: 'center'
+      },
+      confirmation_countdown_text: {
+        color: globalStyles.colors.purple,
+        ...globalStyles.fonts.semiBold,
+        fontSize: 13,
+        lineHeight: 21,
+        letterSpacing: 0.42
+      },
+      confirmation_send_again: {
+        ...globalStyles.fonts.semiBold,
+        fontSize: 13,
+        textAlign: 'center',
+        marginTop: 6,
+        lineHeight: 20,
+        letterSpacing: -0.21,
+        color: globalStyles.colors.purple
+      }
+    }
+  ),
   main_dashboard: StyleSheet.create(
     {
       buttonContainer: {

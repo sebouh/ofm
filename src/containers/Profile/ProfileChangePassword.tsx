@@ -3,17 +3,17 @@ import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Alert, Image, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { Header, PasswordInput, SubHeader } from '../../components';
-import { IReduxState } from '../../store/store';
-import styles from '../styles';
-import { axiosInstance, IModalConfigs } from '../../utils';
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
-import { setModalConfigs } from '../../store/actions';
-import { emitterEvents } from '../../utils/constants';
-import { eventEmitter } from '../../services';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { Header, PasswordInput, SubHeader } from '../../components';
+import { eventEmitter } from '../../services';
+import { setModalConfigs } from '../../store/actions';
+import { IReduxState } from '../../store/store';
+import { axiosInstance, IModalConfigs } from '../../utils';
+import { emitterEvents } from '../../utils/constants';
+import styles from '../styles';
 
 interface IProps {
   readonly email: string;

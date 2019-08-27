@@ -6,6 +6,7 @@ import ProfileChangePassword from './containers/Profile/ProfileChangePassword';
 import ProfileInitial from './containers/Profile/ProfileInitial';
 import RedeemConfirmation from './containers/Redeem/RedeemConfirmation';
 import RedeemInitial from './containers/Redeem/RedeemInitial';
+import SigninConfirmCode from './containers/SignIn/SigninConfirmCode';
 import SignInInitial from './containers/SignIn/SignInInitial';
 import SigninNewPassword from './containers/SignIn/SigninNewPassword';
 import SigninRecoverPassword from './containers/SignIn/SigninRecoverPassword';
@@ -43,7 +44,11 @@ const routes: IRoute[] = [
   },
   {
     key: 'sign_in_recover_password',
-    component: SigninRecoverPassword,
+    component: SigninRecoverPassword
+  },
+  {
+    key: 'sign_in_confirm_code',
+    component: SigninConfirmCode,
   },
   {
     key: 'sign_in_new_password',

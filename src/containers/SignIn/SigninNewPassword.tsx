@@ -2,9 +2,10 @@ import debounce from 'lodash/debounce';
 import { Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import { Alert, Image, SafeAreaView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Header, NextButton, PasswordInput } from '../../components';
+import { axiosInstance } from '../../utils';
 import styles from '../styles';
 
 class SigninNewPassword extends PureComponent {
@@ -18,7 +19,7 @@ class SigninNewPassword extends PureComponent {
     this.setState({ [key]: val, errorMessage: '' });
   };
 
-  private onSubmit = () => {
+  private onSubmit = async () => {
     const { password, confirmPassword } = this.state;
     if (!password.trim().length || !confirmPassword.trim().length) {
       return this.setState({ errorMessage: 'signin_recover_password_empty_fields' });
@@ -28,7 +29,21 @@ class SigninNewPassword extends PureComponent {
       return this.setState({ errorMessage: 'signin_recover_password_not_corresponding' });
     }
 
-    return Actions.popTo('sign_in_initial');
+    try {
+      const { data } = await axiosInstance.post('/user/me', { password });
+
+      if (data.errors) {
+        if (data.errors.length) {
+          return Alert.alert(data.errors[0]);
+        }
+
+        return this.setState({ errorMessage: 'unhandled_error' });
+      }
+
+      return Actions.reset('main_dashboard');
+    } catch (e) {
+      return this.setState({ errorMessage: 'unhandled_error' });
+    }
   };
 
   private onSubmitPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });

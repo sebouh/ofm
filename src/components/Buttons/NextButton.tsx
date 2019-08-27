@@ -9,12 +9,13 @@ interface IProps {
   readonly textStyle?: TextStyle;
   readonly onPress: () => void;
   readonly title?: string;
+  readonly disabled?: boolean;
 }
 
 class NextButton extends PureComponent<IProps> {
   public render() {
     return (
-      <Button block={true} style={[styles.button, this.props.buttonStyle]} onPress={this.props.onPress}>
+      <Button disabled={this.props.disabled} block={true} style={[styles.button, this.props.buttonStyle]} onPress={this.props.onPress}>
         <Text style={[styles.button_text, this.props.textStyle]}>
           <FormattedMessage id={this.props.title || 'next_button'}/>
         </Text>

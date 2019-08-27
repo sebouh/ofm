@@ -9,7 +9,7 @@ import { Dispatch } from 'redux';
 import { EmailInput, Header, NextButton } from '../../components';
 import { eventEmitter } from '../../services';
 import { setModalConfigs } from '../../store/actions';
-import { IModalConfigs, validateEmail } from '../../utils';
+import { axiosInstance, IModalConfigs, validateEmail } from '../../utils';
 import { emitterEvents } from '../../utils/constants';
 import styles from '../styles';
 
@@ -20,7 +20,8 @@ interface IProps {
 class SigninRecoverPassword extends PureComponent<IProps> {
   public readonly state = {
     email: '',
-    errorMessage: ''
+    errorMessage: '',
+    isLoading: false
   };
 
   public componentDidMount(): void {
@@ -32,25 +33,32 @@ class SigninRecoverPassword extends PureComponent<IProps> {
   }
 
   private onModalClose = () => {
-    setTimeout(() => Actions.push('sign_in_new_password'), 500);
+    setTimeout(() => Actions.push('sign_in_confirm_code', { email: this.state.email }), 500);
   };
 
-  private onSubmit = () => {
+  private onSubmit = async () => {
     if (!validateEmail(this.state.email)) {
       return this.setState({ errorMessage: 'incorrect_email' });
     }
 
-    // if (!validateEmail(this.state.email)) {
-    //   return this.setState({ errorMessage: 'signin_recovery_error' });
-    // }
+    this.setState({ isLoading: true }, async () => {
+      try {
+        await axiosInstance.post('/forgot', { email: this.state.email });
 
-    this.props.setModalConfigs({
-      isVisible: true,
-      title: 'modal_success_title',
-      confirm: false,
-      icon: 'success',
-      message: 'modal_email_desc',
-      event: emitterEvents.on_email_recover_modal_close
+        this.props.setModalConfigs({
+          isVisible: true,
+          title: 'modal_success_title',
+          confirm: false,
+          icon: 'success',
+          message: 'modal_email_desc',
+          event: emitterEvents.on_email_recover_modal_close
+        });
+      } catch (e) {
+        console.log(e);
+        return this.setState({ errorMessage: 'signin_recovery_error' });
+      } finally {
+        this.setState({ isLoading: false });
+      }
     });
   };
 
@@ -78,7 +86,12 @@ class SigninRecoverPassword extends PureComponent<IProps> {
                 <FormattedMessage id={this.state.errorMessage}/>
               </Text>
             ) : null}
-            <NextButton onPress={this.onNextPress} title={'submit_button'} buttonStyle={{ marginTop: !errorMessage ? 64 : 36 }}/>
+            <NextButton
+              disabled={this.state.isLoading}
+              onPress={this.onNextPress}
+              title={'submit_button'}
+              buttonStyle={{ marginTop: !errorMessage ? 64 : 36 }}
+            />
           </View>
         </SafeAreaView>
       </View>

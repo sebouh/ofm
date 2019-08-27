@@ -19,9 +19,31 @@ interface IProps {
 }
 
 class Header extends PureComponent<IProps> {
-  private readonly smallHeaderScreens = ['main_dashboard', 'redeem_initial', 'redeem_confirmation', 'profile_initial', 'profile_change_pass', 'feedback'];
-  private readonly showBackButton = ['sign_in_recover_password', 'redeem_confirmation', 'redeem_initial', 'profile_initial', 'profile_change_pass', 'feedback'];
-  private readonly showMenuButton = ['main_dashboard', 'redeem_initial', 'redeem_confirmation', 'profile_initial', 'profile_change_pass', 'feedback'];
+  private readonly smallHeaderScreens = [
+    'main_dashboard',
+    'redeem_initial',
+    'redeem_confirmation',
+    'profile_initial',
+    'profile_change_pass',
+    'feedback'
+  ];
+  private readonly showBackButton = [
+    'sign_in_recover_password',
+    'sign_in_confirm_code',
+    'redeem_confirmation',
+    'redeem_initial',
+    'profile_initial',
+    'profile_change_pass',
+    'feedback'
+  ];
+  private readonly showMenuButton = [
+    'main_dashboard',
+    'redeem_initial',
+    'redeem_confirmation',
+    'profile_initial',
+    'profile_change_pass',
+    'feedback'
+  ];
 
   private onMenuButtonPress = () => {
     this.props.setMenuOpened(!this.props.menuOpened);
