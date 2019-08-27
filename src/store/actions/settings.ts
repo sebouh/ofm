@@ -5,6 +5,7 @@ import { tokenService } from '../../services';
 import { axiosInstance, IModalConfigs, setAxiosAuthToken } from '../../utils';
 import { IReduxState } from '../store';
 import { settingTypes } from '../types';
+import { cleanupData } from './data';
 
 export const setMenuOpened = (menuOpened: boolean = false) => {
   return {
@@ -58,6 +59,7 @@ export const getCurrentUser: ActionCreator<ThunkAction<Promise<Action>, IReduxSt
 export const setIsLoggedIn: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (callbackFirst, callbackSecond) => {
   return async (dispatch): Promise<Action> => {
     if (!tokenService.token) {
+      dispatch(cleanupData());
       dispatch(getCurrentUser(true));
       setAxiosAuthToken('');
       return dispatch({ type: settingTypes.setIsLoggedIn, isLoggedIn: false });

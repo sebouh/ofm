@@ -1,7 +1,7 @@
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, ImageStyle, StyleSheet, Text, View } from 'react-native';
 import Modal from 'react-native-modal';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -19,6 +19,7 @@ const { height: deviceHeight, width: deviceWidth } = Dimensions.get('window');
 class ModalComponent extends PureComponent<IProps> {
   private renderIcon() {
     const { icon } = this.props;
+    const style: ImageStyle = {};
     let iconImage;
 
     switch (icon) {
@@ -42,13 +43,17 @@ class ModalComponent extends PureComponent<IProps> {
       return null;
     }
 
-    return <Image source={iconImage} style={styles.icon}/>;
+    return <Image source={iconImage} style={[styles.icon, style]}/>;
   }
 
   private onClosePress = () => {
     if (this.props.event) {
       eventEmitter.emit(this.props.event);
     }
+    this.props.closeModal();
+  };
+
+  private onCancelPress = () => {
     this.props.closeModal();
   };
 
@@ -62,7 +67,7 @@ class ModalComponent extends PureComponent<IProps> {
         deviceHeight={deviceHeight}
         hideModalContentWhileAnimating={true}
       >
-        <View style={styles.container}>
+        <View style={[styles.container, this.props.confirm && { minHeight: 283 }]}>
           <Text style={styles.title}>
             <FormattedMessage id={this.props.title}/>
           </Text>
@@ -71,11 +76,27 @@ class ModalComponent extends PureComponent<IProps> {
             <FormattedMessage id={this.props.message}/>
           </Text>
           <View style={styles.separator}/>
-          <Button transparent={true} style={styles.okay_button} onPress={this.onClosePress}>
-            <Text style={styles.okay_button_text}>
-              <FormattedMessage id={'modal_button_ok'}/>
-            </Text>
-          </Button>
+          {!this.props.confirm ? (
+            <Button transparent={true} style={styles.okay_button} onPress={this.onClosePress}>
+              <Text style={styles.okay_button_text}>
+                <FormattedMessage id={'modal_button_ok'}/>
+              </Text>
+            </Button>
+          ) : (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+              <Button transparent={true} style={styles.okay_button} onPress={this.onClosePress}>
+                <Text style={[styles.okay_button_text, { fontSize: 20, color: globalStyles.colors.middleGray }]}>
+                  <FormattedMessage id={'modal_button_ok'}/>
+                </Text>
+              </Button>
+              <Button transparent={true} style={styles.okay_button} onPress={this.onCancelPress}>
+                <Text style={[styles.okay_button_text, { fontSize: 22 }]}>
+                  <FormattedMessage id={'modal_button_cancel'}/>
+                </Text>
+              </Button>
+            </View>
+          )}
+
         </View>
       </Modal>
     );
@@ -107,8 +128,6 @@ const styles = StyleSheet.create({
     color: globalStyles.colors.purple
   },
   icon: {
-    height: 67,
-    width: 67,
     marginTop: 30
   },
   description: {

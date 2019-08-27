@@ -82,3 +82,9 @@ export const getRedeemData: ActionCreator<ThunkAction<Promise<Action>, IReduxSta
     }
   };
 };
+
+export const cleanupData = () => {
+  return {
+    type: dataTypes.cleanupData
+  };
+};

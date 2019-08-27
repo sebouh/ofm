@@ -16,6 +16,12 @@ const defaultState: IDataState = {
 };
 
 export default createReducer(defaultState, {
+  [dataTypes.cleanupData]: (state: IDataState) => ({
+    ...state,
+    questions: [],
+    positions: [],
+    redeem: {}
+  }),
   [dataTypes.setQuestions]: (state: IDataState, { questions }: AnyAction) => ({
     ...state,
     questions

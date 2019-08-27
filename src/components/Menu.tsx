@@ -6,16 +6,18 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { tokenService } from '../services';
-import { setIsLoggedIn, setMenuOpened } from '../store/actions';
+import { eventEmitter, tokenService } from '../services';
+import { setIsLoggedIn, setMenuOpened, setModalConfigs } from '../store/actions';
 import { IReduxState } from '../store/store';
-import { globalStyles } from '../utils';
+import { globalStyles, IModalConfigs } from '../utils';
+import { emitterEvents } from '../utils/constants';
 
 interface IProps {
   readonly setMenuOpened: (menuOpened: boolean) => void;
   readonly setIsLoggedIn: () => void;
   readonly routeName: string;
   readonly prevRoute: string;
+  readonly setModalConfigs: (config: IModalConfigs) => void;
 }
 
 class Menu extends PureComponent<IProps> {
@@ -42,6 +44,25 @@ class Menu extends PureComponent<IProps> {
     }
   ];
 
+  public componentDidMount(): void {
+    eventEmitter.on(emitterEvents.on_logout_confirm_modal_close, this.onLogoutModalClose);
+  }
+
+  public componentWillUnmount(): void {
+    eventEmitter.removeEventListener(emitterEvents.on_logout_confirm_modal_close, this.onLogoutModalClose);
+  }
+
+  private onLogoutModalClose = () => {
+    setTimeout(
+      async () => {
+        Actions.reset('signup_email_pass');
+        await tokenService.removeToken();
+        this.props.setIsLoggedIn();
+      },
+      300
+    );
+  };
+
   private onHeaderButtonPress = () => {
     this.props.setMenuOpened(false);
   };
@@ -59,10 +80,15 @@ class Menu extends PureComponent<IProps> {
   private onLogoutPress = () => {
     this.props.setMenuOpened(false);
     setTimeout(
-      async () => {
-        Actions.reset('signup_email_pass');
-        await tokenService.removeToken();
-        this.props.setIsLoggedIn();
+      () => {
+        this.props.setModalConfigs({
+          isVisible: true,
+          title: 'menu_logout',
+          message: 'menu_logout_confirm',
+          icon: 'logout',
+          confirm: true,
+          event: emitterEvents.on_logout_confirm_modal_close
+        });
       },
       500);
   };
@@ -172,7 +198,8 @@ const mapStateToProps = ({ router }: IReduxState) => {
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
     setMenuOpened: (menuOpened: boolean) => dispatch(setMenuOpened(menuOpened)),
-    setIsLoggedIn: () => dispatch(setIsLoggedIn())
+    setIsLoggedIn: () => dispatch(setIsLoggedIn()),
+    setModalConfigs: (config: IModalConfigs) => dispatch(setModalConfigs(config)),
   };
 };
 
