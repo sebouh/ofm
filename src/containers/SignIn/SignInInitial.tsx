@@ -22,7 +22,8 @@ class SignInInitial extends PureComponent<IProps> {
   public readonly state = {
     email: '',
     password: '',
-    errorMessage: ''
+    errorMessage: '',
+    isLoading: false
   };
 
   private onChange = (val: string, key: string) => {
@@ -34,25 +35,29 @@ class SignInInitial extends PureComponent<IProps> {
       return this.setState({ errorMessage: 'incorrect_email_pass' });
     }
 
-    try {
-      const { data } = await axiosInstance.post('/login', { email: this.state.email, password: this.state.password });
+    this.setState({ isLoading: true }, async () => {
+      try {
+        const { data } = await axiosInstance.post('/login', { email: this.state.email, password: this.state.password });
 
-      if (!data.token) {
+        if (!data.token) {
+          return this.setState({ errorMessage: 'incorrect_email_pass' });
+        }
+
+        await tokenService.setToken(data.token);
+        await this.props.setIsLoggedIn(
+          async () => {
+            this.setState({ errorMessage: 'already_signed_up_error' });
+            await tokenService.removeToken();
+            await this.props.setIsLoggedIn();
+          },
+          () => Actions.reset('main_dashboard'));
+      } catch (err) {
+        console.log(err);
         return this.setState({ errorMessage: 'incorrect_email_pass' });
+      } finally {
+        this.setState({ isLoading: false });
       }
-
-      await tokenService.setToken(data.token);
-      await this.props.setIsLoggedIn(
-        async () => {
-          this.setState({ errorMessage: 'already_signed_up_error' });
-          await tokenService.removeToken();
-          await this.props.setIsLoggedIn();
-        },
-        () => Actions.reset('main_dashboard'));
-    } catch (err) {
-      console.log(err);
-      return this.setState({ errorMessage: 'incorrect_email_pass' });
-    }
+    });
   };
 
   private navigateTo = (to: string, popTo?: boolean) => {
@@ -102,10 +107,10 @@ class SignInInitial extends PureComponent<IProps> {
                 <FormattedMessage id={'signin_forgot_title'}/>
               </Text>
             </Button>
-            <NextButton buttonStyle={{ marginTop: 40 }} onPress={this.onNextPress}/>
+            <NextButton buttonStyle={{ marginTop: 40 }} onPress={this.onNextPress} disabled={this.state.isLoading}/>
           </View>
           <View style={[styles.common.bottom_button, { bottom: 30 }]}>
-            <Button transparent={true} onPress={this.onSignUpPress}>
+            <Button transparent={true} onPress={this.onSignUpPress} disabled={this.state.isLoading}>
               <Text style={styles.common.bottom_button_text}>
                 <FormattedMessage id={'signin_create_account_prefix'}/> {' '}
               </Text>

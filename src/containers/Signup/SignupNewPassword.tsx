@@ -12,14 +12,15 @@ class SignupNewPassword extends PureComponent {
   public readonly state = {
     password: '',
     confirmPassword: '',
-    errorMessage: ''
+    errorMessage: '',
+    isLoading: false
   };
 
   private onChange = (val: string, key: string) => {
     this.setState({ [key]: val, errorMessage: '' });
   };
 
-  private onSubmit = async () => {
+  private onSubmit = () => {
     const { password, confirmPassword } = this.state;
     if (!password.trim().length || !confirmPassword.trim().length) {
       return this.setState({ errorMessage: 'signin_recover_password_empty_fields' });
@@ -29,21 +30,25 @@ class SignupNewPassword extends PureComponent {
       return this.setState({ errorMessage: 'signin_recover_password_not_corresponding' });
     }
 
-    try {
-      const { data } = await axiosInstance.post('/user/me', { password });
+    this.setState({ isLoading: true }, async () => {
+      try {
+        const { data } = await axiosInstance.post('/user/me', { password });
 
-      if (data.errors) {
-        if (data.errors.length) {
-          return Alert.alert(data.errors[0]);
+        if (data.errors) {
+          if (data.errors.length) {
+            return Alert.alert(data.errors[0]);
+          }
+
+          return this.setState({ errorMessage: 'unhandled_error' });
         }
 
-        return this.setState({ errorMessage: 'unhandled_error' });
+        return Actions.push('signup_paypal');
+      } catch (err) {
+        this.setState({ errorMessage: 'unhandled_error' });
+      } finally {
+        this.setState({ isLoading: true });
       }
-
-      return Actions.push('signup_paypal');
-    } catch (err) {
-      this.setState({ errorMessage: 'unhandled_error' });
-    }
+    });
   };
 
   private navigateToSignin = () => {
@@ -88,10 +93,15 @@ class SignupNewPassword extends PureComponent {
                 <FormattedMessage id={this.state.errorMessage}/>
               </Text>
             ) : null}
-            <NextButton onPress={this.onSubmitPress} title={'submit_button'} buttonStyle={{ marginTop: !errorMessage ? 46 : 26 }}/>
+            <NextButton
+              disabled={this.state.isLoading}
+              onPress={this.onSubmitPress}
+              title={'submit_button'}
+              buttonStyle={{ marginTop: !errorMessage ? 46 : 26 }}
+            />
           </View>
           <View style={styles.common.bottom_button}>
-            <Button transparent={true} onPress={this.onSignInPress}>
+            <Button transparent={true} onPress={this.onSignInPress} disabled={this.state.isLoading}>
               <Text style={styles.common.bottom_button_text}>
                 <FormattedMessage id={'signup_login_prefix'}/> {' '}
                 <Text style={styles.common.bottom_button_bold}>

@@ -25,7 +25,8 @@ class ProfileChangePassword extends PureComponent<IProps> {
     oldPass: '',
     newPass: '',
     newPassConfirm: '',
-    errorMessage: ''
+    errorMessage: '',
+    isLoading: false
   };
 
   public componentDidMount(): void {
@@ -44,7 +45,7 @@ class ProfileChangePassword extends PureComponent<IProps> {
     this.setState({ [key]: val, errorMessage: '' });
   };
 
-  private onSubmit = async () => {
+  private onSubmit = () => {
     const { oldPass, newPass, newPassConfirm } = this.state;
     if (!oldPass.trim().length || !newPass.trim().length || !newPassConfirm.trim().length) {
       return this.setState({ errorMessage: 'profile_new_pass_empty_fields' });
@@ -54,35 +55,39 @@ class ProfileChangePassword extends PureComponent<IProps> {
       return this.setState({ errorMessage: 'signin_recover_password_not_corresponding' });
     }
 
-    try {
-      const { data } = await axiosInstance.post('/login', { email: this.props.email, password: oldPass });
+    this.setState({ isLoading: true }, async () => {
+      try {
+        const { data } = await axiosInstance.post('/login', { email: this.props.email, password: oldPass });
 
-      if (!data.token) {
-        return this.setState({ errorMessage: 'profile_incorrect_old_pass' });
-      }
-
-      const { data: newData } = await axiosInstance.post('/user/me', { password: newPass });
-
-      if (newData.errors) {
-        if (newData.errors.length) {
-          return Alert.alert(newData.errors[0]);
+        if (!data.token) {
+          return this.setState({ errorMessage: 'profile_incorrect_old_pass' });
         }
 
-        return this.setState({ errorMessage: 'unhandled_error' });
+        const { data: newData } = await axiosInstance.post('/user/me', { password: newPass });
+
+        if (newData.errors) {
+          if (newData.errors.length) {
+            return Alert.alert(newData.errors[0]);
+          }
+
+          return this.setState({ errorMessage: 'unhandled_error' });
+        }
+
+        return this.props.setModalConfigs({
+          isVisible: true,
+          title: 'modal_success_title',
+          confirm: false,
+          icon: 'success',
+          message: 'profile_new_pass_success_message',
+          event: emitterEvents.on_password_change_modal_close
+        });
+
+      } catch (err) {
+        return this.setState({ errorMessage: 'profile_incorrect_old_pass' });
+      } finally {
+        this.setState({ isLoading: false });
       }
-
-      return this.props.setModalConfigs({
-        isVisible: true,
-        title: 'modal_success_title',
-        confirm: false,
-        icon: 'success',
-        message: 'profile_new_pass_success_message',
-        event: emitterEvents.on_password_change_modal_close
-      });
-
-    } catch (err) {
-      return this.setState({ errorMessage: 'profile_incorrect_old_pass' });
-    }
+    });
   };
 
   private onSubmitPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
@@ -134,7 +139,7 @@ class ProfileChangePassword extends PureComponent<IProps> {
               <FormattedMessage id={this.state.errorMessage}/>
             </Text>
           ) : null}
-          <Button rounded={true} bordered={true} style={styles.profile_initial.save_button} onPress={this.onSubmitPress}>
+          <Button disabled={this.state.isLoading} rounded={true} bordered={true} style={styles.profile_initial.save_button} onPress={this.onSubmitPress}>
             <Text style={styles.profile_initial.save_button_text}>
               <FormattedMessage id={'profile_initial_save'}/>
             </Text>

@@ -3,15 +3,16 @@ import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
-import { EmailInput, Header, NextButton } from '../../components';
-import styles from '../styles';
 import { Actions } from 'react-native-router-flux';
+import { EmailInput, Header, NextButton } from '../../components';
 import { axiosInstance, validateEmail } from '../../utils';
+import styles from '../styles';
 
 class SignupPaypalEmail extends PureComponent {
   public readonly state = {
     email: '',
-    errorMessage: ''
+    errorMessage: '',
+    isLoading: false
   };
 
   private onChange = (val: string, key: string) => {
@@ -22,24 +23,28 @@ class SignupPaypalEmail extends PureComponent {
     return Actions.push('sign_in_initial');
   };
 
-  private onSubmit = async () => {
+  private onSubmit = () => {
     const { email } = this.state;
 
     if (!validateEmail(email)) {
       return this.setState({ errorMessage: 'incorrect_email' });
     }
 
-    try {
-      const { data } = await axiosInstance.post('/user/me', { paypalEmail: email });
+    this.setState({ isLoading: true }, async () => {
+      try {
+        const { data } = await axiosInstance.post('/user/me', { paypalEmail: email });
 
-      if (data.errors) {
-        return this.setState({ errorMessage: 'unhandled_error' });
+        if (data.errors) {
+          return this.setState({ errorMessage: 'unhandled_error' });
+        }
+
+        return Actions.reset('main_dashboard');
+      } catch (err) {
+        this.setState({ errorMessage: 'unhandled_error' });
+      } finally {
+        this.setState({ isLoading: false });
       }
-
-      return Actions.reset('main_dashboard');
-    } catch (err) {
-      this.setState({ errorMessage: 'unhandled_error' });
-    }
+    });
   };
 
   private onSignInPress = debounce(this.navigateToSignin, 1000, { leading: true, trailing: false });
@@ -70,10 +75,15 @@ class SignupPaypalEmail extends PureComponent {
                 <FormattedMessage id={this.state.errorMessage}/>
               </Text>
             ) : null}
-            <NextButton buttonStyle={{ marginTop: !errorMessage ? 126 : 36 }} title={'submit_button'} onPress={this.onSubmitPress}/>
+            <NextButton
+              disabled={this.state.isLoading}
+              buttonStyle={{ marginTop: !errorMessage ? 126 : 36 }}
+              title={'submit_button'}
+              onPress={this.onSubmitPress}
+            />
           </View>
           <View style={styles.common.bottom_button}>
-            <Button transparent={true} onPress={this.onSignInPress}>
+            <Button transparent={true} onPress={this.onSignInPress} disabled={this.state.isLoading}>
               <Text style={styles.common.bottom_button_text}>
                 <FormattedMessage id={'signup_login_prefix'}/> {' '}
                 <Text style={styles.common.bottom_button_bold}>

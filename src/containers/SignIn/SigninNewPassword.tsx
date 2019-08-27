@@ -12,14 +12,15 @@ class SigninNewPassword extends PureComponent {
   public readonly state = {
     password: '',
     confirmPassword: '',
-    errorMessage: ''
+    errorMessage: '',
+    isLoading: false
   };
 
   private onChange = (val: string, key: string) => {
     this.setState({ [key]: val, errorMessage: '' });
   };
 
-  private onSubmit = async () => {
+  private onSubmit = () => {
     const { password, confirmPassword } = this.state;
     if (!password.trim().length || !confirmPassword.trim().length) {
       return this.setState({ errorMessage: 'signin_recover_password_empty_fields' });
@@ -28,22 +29,25 @@ class SigninNewPassword extends PureComponent {
     if (password !== confirmPassword) {
       return this.setState({ errorMessage: 'signin_recover_password_not_corresponding' });
     }
+    this.setState({ isLoading: true }, async () => {
+      try {
+        const { data } = await axiosInstance.post('/user/me', { password });
 
-    try {
-      const { data } = await axiosInstance.post('/user/me', { password });
+        if (data.errors) {
+          if (data.errors.length) {
+            return Alert.alert(data.errors[0]);
+          }
 
-      if (data.errors) {
-        if (data.errors.length) {
-          return Alert.alert(data.errors[0]);
+          return this.setState({ errorMessage: 'unhandled_error' });
         }
 
+        return Actions.reset('main_dashboard');
+      } catch (e) {
         return this.setState({ errorMessage: 'unhandled_error' });
+      } finally {
+        this.setState({ isLoading: false });
       }
-
-      return Actions.reset('main_dashboard');
-    } catch (e) {
-      return this.setState({ errorMessage: 'unhandled_error' });
-    }
+    });
   };
 
   private onSubmitPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
@@ -82,7 +86,12 @@ class SigninNewPassword extends PureComponent {
                 <FormattedMessage id={this.state.errorMessage}/>
               </Text>
             ) : null}
-            <NextButton onPress={this.onSubmitPress} title={'submit_button'} buttonStyle={{ marginTop: !errorMessage ? 46 : 26 }}/>
+            <NextButton
+              disabled={this.state.isLoading}
+              onPress={this.onSubmitPress}
+              title={'submit_button'}
+              buttonStyle={{ marginTop: !errorMessage ? 46 : 26 }}
+            />
           </View>
         </SafeAreaView>
       </View>
