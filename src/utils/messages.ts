@@ -77,7 +77,12 @@ const en: IMessages = {
   profile_new_pass_confirm_title: 'Re-Enter New Password',
   profile_new_pass_empty_fields: 'Old, New and Confirm Password fields should not be empty',
   profile_incorrect_old_pass: 'Old password is incorrect',
-  profile_new_pass_success_message: 'You password has been changed.'
+  profile_new_pass_success_message: 'You password has been changed.',
+  feedback_title: 'Feedback',
+  feedback_message: 'Please be free to add your suggestions and observations.',
+  feedback_placeholder: 'Type here to start write a feedback',
+  feedback_submit: 'SUBMIT',
+  feedback_submit_success: 'Your feedback has been submitted.'
 };
 
 export const translationMessages: ILanguages = {

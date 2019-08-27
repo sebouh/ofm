@@ -290,5 +290,45 @@ export default {
         letterSpacing: -0.41
       }
     }
+  ),
+  feedback: StyleSheet.create(
+    {
+      container: {
+        flex: 1,
+        paddingTop: 24,
+        paddingLeft: 24,
+        paddingRight: 24
+      },
+      description: {
+        ...globalStyles.fonts.regular,
+        fontSize: 15,
+        lineHeight: 22,
+        letterSpacing: -0.36,
+        color: globalStyles.colors.middleGray
+      },
+      input: {
+        borderColor: globalStyles.colors.darkGray,
+        borderBottomWidth: 1,
+        paddingBottom: 7.5,
+        marginTop: 24,
+        fontSize: 15,
+        lineHeight: 25,
+        ...globalStyles.fonts.regular,
+        color: globalStyles.colors.middleGray
+      },
+      button: {
+        marginTop: 44,
+        paddingTop: 6,
+        paddingRight: 32,
+        paddingBottom: 6,
+        paddingLeft: 32
+      },
+      button_disabled: {
+        borderColor: 'rgba(112, 112, 112, 0.5)'
+      },
+      button_disabled_text: {
+        color: 'rgba(112, 112, 112, 0.5)'
+      }
+    }
   )
 };
