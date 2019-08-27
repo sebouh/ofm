@@ -3,6 +3,7 @@ import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
@@ -12,6 +13,7 @@ import { tokenService } from '../../services';
 import { setIsLoggedIn } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, validateEmail } from '../../utils';
+import { IS_SMALL_HEIGHT } from '../../utils/constants';
 import styles from '../styles';
 
 interface IProps {
@@ -80,7 +82,7 @@ class SignInInitial extends PureComponent<IProps> {
       <View style={styles.common.container}>
         <Header/>
         <SafeAreaView style={{ flex: 1 }}>
-          <View style={styles.common.inner_container}>
+          <KeyboardAwareScrollView style={styles.common.inner_container}>
             <Text style={styles.common.top_title}>
               <FormattedMessage id={'signin_title'}/>
             </Text>
@@ -102,14 +104,18 @@ class SignInInitial extends PureComponent<IProps> {
                 <FormattedMessage id={this.state.errorMessage}/>
               </Text>
             ) : null}
-            <Button transparent={true} style={[styles.sign_in.forgot_button, { marginTop: !errorMessage ? 40 : 12 }]} onPress={this.onForgotPress}>
+            <Button
+              transparent={true}
+              style={[styles.sign_in.forgot_button, { marginTop: errorMessage ? 12 : IS_SMALL_HEIGHT ? 20 : 40 }]}
+              onPress={this.onForgotPress}
+            >
               <Text style={styles.sign_in.forgot_button_text}>
                 <FormattedMessage id={'signin_forgot_title'}/>
               </Text>
             </Button>
             <NextButton buttonStyle={{ marginTop: 40 }} onPress={this.onNextPress} disabled={this.state.isLoading}/>
-          </View>
-          <View style={[styles.common.bottom_button, { bottom: 30 }]}>
+          </KeyboardAwareScrollView>
+          <View style={[styles.common.bottom_button, { bottom: IS_SMALL_HEIGHT ? 10 : 30 }]}>
             <Button transparent={true} onPress={this.onSignUpPress} disabled={this.state.isLoading}>
               <Text style={styles.common.bottom_button_text}>
                 <FormattedMessage id={'signin_create_account_prefix'}/> {' '}

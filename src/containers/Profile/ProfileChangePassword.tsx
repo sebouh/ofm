@@ -3,6 +3,7 @@ import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Alert, Image, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
@@ -97,7 +98,7 @@ class ProfileChangePassword extends PureComponent<IProps> {
       <View style={styles.redeem_initial.container}>
         <Header/>
         <SubHeader title={'profile_initial_change_pass'}/>
-        <View style={styles.profile_initial.container}>
+        <KeyboardAwareScrollView style={styles.profile_initial.container}>
           <Text style={styles.profile_initial.label}>
             <FormattedMessage id={'profile_pass_old_title'}/>
           </Text>
@@ -144,7 +145,7 @@ class ProfileChangePassword extends PureComponent<IProps> {
               <FormattedMessage id={'profile_initial_save'}/>
             </Text>
           </Button>
-        </View>
+        </KeyboardAwareScrollView>
       </View>
     );
   }

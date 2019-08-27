@@ -10,6 +10,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { setMenuOpened } from '../store/actions';
 import { IReduxState } from '../store/store';
 import { getStatusBarHeight, globalStyles, isIphoneX } from '../utils';
+import { IS_SMALL_HEIGHT } from '../utils/constants';
 
 interface IProps {
   readonly routeName: string;
@@ -85,7 +86,7 @@ class Header extends PureComponent<IProps> {
 const styles = StyleSheet.create(
   {
     container: {
-      height: isIphoneX() ? 161 : 139
+      height: isIphoneX() ? 161 : IS_SMALL_HEIGHT ? 119 : 139
     },
     smallContainer: {
       height: isIphoneX() ? 123 : 101
@@ -98,14 +99,14 @@ const styles = StyleSheet.create(
     },
     back_button: {
       position: 'absolute',
-      top: getStatusBarHeight() + 34,
-      left: 16,
+      top: getStatusBarHeight() + (IS_SMALL_HEIGHT ? 14 : 34),
+      left: IS_SMALL_HEIGHT ? 6 : 16,
       flexDirection: 'row',
       alignItems: 'center',
       height: 30
     },
     back_button_small: {
-      top: getStatusBarHeight() + 34,
+      top: getStatusBarHeight() + (IS_SMALL_HEIGHT ? 14 : 34),
     },
     back_button_text: {
       ...globalStyles.fonts.regular,
@@ -116,17 +117,17 @@ const styles = StyleSheet.create(
     },
     image: {
       position: 'absolute',
-      top: getStatusBarHeight() + 34,
+      top: getStatusBarHeight() + (IS_SMALL_HEIGHT ? 14 : 34),
       left: '50%',
-      marginLeft: -89
+      marginLeft: -89,
     },
     smallImage: {
-      top: getStatusBarHeight() + 19
+      top: getStatusBarHeight() + (IS_SMALL_HEIGHT ? 10 : 19),
     },
     menu_button: {
       position: 'absolute',
-      top: getStatusBarHeight() + 23,
-      right: 19
+      top: getStatusBarHeight() + (IS_SMALL_HEIGHT ? 13 : 23),
+      right: IS_SMALL_HEIGHT ? 9 : 19
     }
   }
 );

@@ -1,7 +1,8 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { globalStyles } from '../utils';
+import { IS_SMALL_HEIGHT } from '../utils/constants';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default {
   common: StyleSheet.create(
@@ -13,7 +14,7 @@ export default {
       inner_container: {
         paddingLeft: 24,
         paddingRight: 24,
-        paddingTop: 40
+        paddingTop: IS_SMALL_HEIGHT ? 20 : 40
       },
       input_container: {
         borderRadius: 10,
@@ -43,7 +44,7 @@ export default {
       },
       bottom_button: {
         position: 'absolute',
-        bottom: 40,
+        bottom: IS_SMALL_HEIGHT ? 10 : 40,
         left: 0,
         right: 0,
         display: 'flex',
@@ -311,7 +312,7 @@ export default {
         paddingBottom: 24
       },
       label: {
-        paddingTop: 24,
+        paddingTop: IS_SMALL_HEIGHT ? 10 : 24,
         color: 'rgba(0, 0, 0, 0.5)',
         ...globalStyles.fonts.regular,
         fontSize: 13,
@@ -341,7 +342,7 @@ export default {
         paddingRight: 37,
         borderRadius: 15,
         borderColor: globalStyles.colors.purple,
-        marginTop: 100,
+        marginTop: IS_SMALL_HEIGHT ? 30 : 100,
         height: 'auto'
       },
       save_button_text: {

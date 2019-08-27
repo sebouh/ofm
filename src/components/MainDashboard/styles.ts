@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { globalStyles } from '../../utils';
+import { IS_SMALL_HEIGHT } from '../../utils/constants';
 
 export default {
   questions_list: StyleSheet.create(
@@ -35,7 +36,7 @@ export default {
         justifyContent: 'space-between'
       },
       title: {
-        maxWidth: 223,
+        maxWidth: IS_SMALL_HEIGHT ? 150 : 223,
         ...globalStyles.fonts.regular,
         color: globalStyles.colors.black40,
         fontSize: 17,

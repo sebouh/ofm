@@ -3,6 +3,7 @@ import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image, SafeAreaView, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
@@ -72,7 +73,7 @@ class SignupEmailPassword extends PureComponent<IProps> {
       <View style={styles.common.container}>
         <Header/>
         <SafeAreaView style={{ flex: 1 }}>
-          <View style={styles.common.inner_container}>
+          <KeyboardAwareScrollView style={styles.common.inner_container}>
             <Text style={styles.common.top_title}>
               <FormattedMessage id={'signup_title'}/>
             </Text>
@@ -99,7 +100,7 @@ class SignupEmailPassword extends PureComponent<IProps> {
               </Text>
             ) : null}
             <NextButton disabled={this.state.isLoading} buttonStyle={{ marginTop: !errorMessage ? 64 : 36 }} onPress={this.onNextPress}/>
-          </View>
+          </KeyboardAwareScrollView>
           <View style={styles.common.bottom_button}>
             <Button transparent={true} onPress={this.onSignInPress} disabled={this.state.isLoading}>
               <Text style={styles.common.bottom_button_text}>

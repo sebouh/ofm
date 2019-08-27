@@ -17,6 +17,7 @@ import { tokenService } from '../../services';
 import { setIsLoggedIn } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, globalStyles } from '../../utils';
+import { IS_SMALL_HEIGHT } from '../../utils/constants';
 import styles from '../styles';
 
 interface IProps {
@@ -137,7 +138,7 @@ class SigninConfirmCode extends PureComponent<IProps> {
             <Text style={styles.password_recovery.description}>
               <FormattedMessage id={'signin_recovery_description_input'}/>
             </Text>
-            <View style={{ marginTop: 52 }}>
+            <View style={{ marginTop: IS_SMALL_HEIGHT ? 15 : 52 }}>
               {hasError && (
                 <Text style={styles.confirm_code.confirmation_wrong_code}>
                   <FormattedMessage id={'signin_recovery_wrong_code'}/>
