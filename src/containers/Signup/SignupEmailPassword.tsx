@@ -14,6 +14,7 @@ import { setIsLoggedIn } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, validateEmail } from '../../utils';
 import styles from '../styles';
+import { IS_SMALL_HEIGHT } from '../../utils/constants';
 
 interface IProps {
   readonly setIsLoggedIn: (callbackFirst?: () => void, callbackSecond?: () => void) => void;
@@ -100,7 +101,11 @@ class SignupEmailPassword extends PureComponent<IProps> {
                 <FormattedMessage id={this.state.errorMessage}/>
               </Text>
             ) : null}
-            <NextButton disabled={this.state.isLoading} buttonStyle={{ marginTop: !errorMessage ? 64 : 36 }} onPress={this.onNextPress}/>
+            <NextButton
+              disabled={this.state.isLoading}
+              buttonStyle={{ marginTop: !errorMessage ? 64 : IS_SMALL_HEIGHT ? 10 : 36 }}
+              onPress={this.onNextPress}
+            />
           </View>
           <View style={styles.common.bottom_button}>
             <Button transparent={true} onPress={this.onSignInPress} disabled={this.state.isLoading}>
