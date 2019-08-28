@@ -9,7 +9,7 @@ import { Dispatch } from 'redux';
 import { EmailInput, Header, NextButton } from '../../components';
 import { eventEmitter } from '../../services';
 import { setModalConfigs } from '../../store/actions';
-import { axiosInstance, IModalConfigs, validateEmail } from '../../utils';
+import { IModalConfigs, setRecoveryPass, validateEmail } from '../../utils';
 import { emitterEvents } from '../../utils/constants';
 import styles from '../styles';
 
@@ -43,7 +43,7 @@ class SigninRecoverPassword extends PureComponent<IProps> {
 
     this.setState({ isLoading: true }, async () => {
       try {
-        await axiosInstance.post('/forgot', { email: this.state.email });
+        await setRecoveryPass(this.state.email);
 
         this.props.setModalConfigs({
           isVisible: true,

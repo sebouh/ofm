@@ -16,7 +16,7 @@ import { Header } from '../../components';
 import { tokenService } from '../../services';
 import { setIsLoggedIn } from '../../store/actions';
 import { IReduxState } from '../../store/store';
-import { axiosInstance, globalStyles } from '../../utils';
+import { axiosInstance, globalStyles, setRecoveryPass } from '../../utils';
 import { IS_SMALL_HEIGHT } from '../../utils/constants';
 import styles from '../styles';
 
@@ -35,7 +35,7 @@ class SigninConfirmCode extends PureComponent<IProps> {
 
   private onCodeFilled = async (code: string) => {
     try {
-      const { data } = await axiosInstance.post('/login', { email: this.props.email, password: code });
+      const { data } = await axiosInstance.post('/tempPassword/validate', { employeeEmail: this.props.email, password: code });
 
       if (!data.token) {
         return this.setState({ hasError: true });
@@ -62,7 +62,7 @@ class SigninConfirmCode extends PureComponent<IProps> {
 
   private async sendVerificationCode() {
     try {
-      await axiosInstance.post('/forgot', { email: this.props.email });
+      await setRecoveryPass(this.props.email);
     } catch (e) {
       Alert.alert('Something went wrong');
     } finally {

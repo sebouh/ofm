@@ -91,3 +91,8 @@ export const getIsoDate = (date: Date) => {
     dif + pad(tzo / 60) +
     ':' + pad(tzo % 60);
 };
+
+export const setRecoveryPass = async (email: string) => {
+  await axiosInstance.post('/tempPassword', { employeeEmail: email });
+  await axiosInstance.post('/tempPassword/sendEmail', { employeeEmail: email });
+};
