@@ -69,6 +69,7 @@ class RedeemConfirmation extends PureComponent<IProps> {
 
   public render() {
     const { redeem } = this.props;
+    const amount = redeem && redeem.id ? redeem.ptsAvailable * redeem.rate : 0;
     return (
       <View style={styles.redeem_initial.container}>
         <Header/>
@@ -76,7 +77,7 @@ class RedeemConfirmation extends PureComponent<IProps> {
         <View style={{ flex: 1 }}>
           <View style={styles.redeem_initial.card}>
             <Text style={styles.redeem_initial.confirm_info_text}>
-              <FormattedMessage id={'redeem_confirmation_info'} values={{ points: redeem.ptsAvailable, amount: `$${Math.round(redeem.ptsAvailable / 100)}` }}/>
+              <FormattedMessage id={'redeem_confirmation_info'} values={{ points: redeem.ptsAvailable, amount: `$${amount}` }}/>
             </Text>
             <Button
               onPress={this.onButtonPress}
