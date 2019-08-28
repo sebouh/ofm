@@ -12,11 +12,19 @@ const initialState: IRouterState = {
   prevRoute: ''
 };
 
-const callback = (state: IRouterState, { routeName }: AnyAction) => ({
-  ...state,
-  routeName,
-  prevRoute: state.routeName
-});
+const callback = (state: IRouterState, { routeName }: AnyAction) => {
+  let prevRoute = state.routeName;
+
+  if (routeName === 'main_dashboard' || routeName === 'redeem_initial') {
+    prevRoute = '';
+  }
+
+  return {
+    ...state,
+    routeName,
+    prevRoute
+  };
+};
 
 export default createReducer(initialState, {
   [ActionConst.FOCUS]: callback,
