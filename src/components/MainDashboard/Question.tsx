@@ -101,7 +101,8 @@ class Question extends PureComponent<IProps> {
 
     if (item.answered || item.question.answered) {
       return (
-        <View style={[styles.question.footer, { justifyContent: 'flex-end' }]}>
+        <View style={styles.question.footer}>
+          <Image source={require('../../assets/images/icons/photo.png')} />
           <Text style={styles.question.cancel_submit_text}>
             <FormattedMessage id={'main_dashboard_question_answered'}/>
           </Text>
