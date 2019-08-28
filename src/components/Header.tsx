@@ -1,7 +1,7 @@
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Image, LayoutChangeEvent, StatusBar, StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -16,6 +16,7 @@ interface IProps {
   readonly routeName: string;
   readonly replace?: string;
   readonly setMenuOpened: (menuOpened: boolean) => void;
+  readonly onLayout?: (height: number) => void;
   readonly menuOpened: boolean;
 }
 
@@ -58,12 +59,18 @@ class Header extends PureComponent<IProps> {
     return Actions.pop();
   };
 
+  private onViewLayout = (e: LayoutChangeEvent) => {
+    if (typeof this.props.onLayout === 'function') {
+      this.props.onLayout(e.nativeEvent.layout.height);
+    }
+  };
+
   public render() {
     const { routeName } = this.props;
     const isSmall = this.smallHeaderScreens.includes(routeName);
 
     return (
-      <View style={[styles.container, isSmall && styles.smallContainer]}>
+      <View style={[styles.container, isSmall && styles.smallContainer]} onLayout={this.onViewLayout}>
         <StatusBar barStyle={'light-content'}/>
         <LinearGradient colors={['#00008b', '#8b008b']} style={styles.gradient}/>
         {this.showBackButton.includes(routeName) ? (

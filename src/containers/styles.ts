@@ -9,7 +9,7 @@ export default {
     {
       container: {
         backgroundColor: globalStyles.colors.bgColor,
-        flex: 1
+        flex: 1,
       },
       inner_container: {
         paddingLeft: 24,

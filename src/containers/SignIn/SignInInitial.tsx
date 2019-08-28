@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import { Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -25,7 +25,8 @@ class SignInInitial extends PureComponent<IProps> {
     email: '',
     password: '',
     errorMessage: '',
-    isLoading: false
+    isLoading: false,
+    headerHeight: 0
   };
 
   private onChange = (val: string, key: string) => {
@@ -79,10 +80,10 @@ class SignInInitial extends PureComponent<IProps> {
     const { errorMessage } = this.state;
 
     return (
-      <View style={styles.common.container}>
-        <Header/>
-        <SafeAreaView style={{ flex: 1 }}>
-          <KeyboardAwareScrollView style={styles.common.inner_container}>
+      <KeyboardAwareScrollView style={styles.common.container} scrollEnabled={false}>
+        <Header onLayout={(height: number) => this.setState({ headerHeight: height })}/>
+        <SafeAreaView style={{ height: Dimensions.get('window').height - this.state.headerHeight }}>
+          <View style={styles.common.inner_container}>
             <Text style={styles.common.top_title}>
               <FormattedMessage id={'signin_title'}/>
             </Text>
@@ -114,7 +115,7 @@ class SignInInitial extends PureComponent<IProps> {
               </Text>
             </Button>
             <NextButton buttonStyle={{ marginTop: 40 }} onPress={this.onNextPress} disabled={this.state.isLoading}/>
-          </KeyboardAwareScrollView>
+          </View>
           <View style={[styles.common.bottom_button, { bottom: IS_SMALL_HEIGHT ? 10 : 30 }]}>
             <Button transparent={true} onPress={this.onSignUpPress} disabled={this.state.isLoading}>
               <Text style={styles.common.bottom_button_text}>
@@ -126,7 +127,7 @@ class SignInInitial extends PureComponent<IProps> {
             </Button>
           </View>
         </SafeAreaView>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }

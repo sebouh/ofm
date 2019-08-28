@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import { Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -24,7 +24,8 @@ class SignupEmailPassword extends PureComponent<IProps> {
     email: '',
     password: '',
     errorMessage: '',
-    isLoading: false
+    isLoading: false,
+    headerHeight: 0
   };
 
   private onChange = (val: string, key: string) => {
@@ -70,10 +71,10 @@ class SignupEmailPassword extends PureComponent<IProps> {
   public render() {
     const { errorMessage } = this.state;
     return (
-      <View style={styles.common.container}>
-        <Header/>
-        <SafeAreaView style={{ flex: 1 }}>
-          <KeyboardAwareScrollView style={styles.common.inner_container}>
+      <KeyboardAwareScrollView style={styles.common.container} scrollEnabled={false}>
+        <Header onLayout={(height: number) => this.setState({ headerHeight: height })}/>
+        <SafeAreaView style={{ height: Dimensions.get('window').height - this.state.headerHeight }}>
+          <View style={styles.common.inner_container}>
             <Text style={styles.common.top_title}>
               <FormattedMessage id={'signup_title'}/>
             </Text>
@@ -100,7 +101,7 @@ class SignupEmailPassword extends PureComponent<IProps> {
               </Text>
             ) : null}
             <NextButton disabled={this.state.isLoading} buttonStyle={{ marginTop: !errorMessage ? 64 : 36 }} onPress={this.onNextPress}/>
-          </KeyboardAwareScrollView>
+          </View>
           <View style={styles.common.bottom_button}>
             <Button transparent={true} onPress={this.onSignInPress} disabled={this.state.isLoading}>
               <Text style={styles.common.bottom_button_text}>
@@ -112,7 +113,7 @@ class SignupEmailPassword extends PureComponent<IProps> {
             </Button>
           </View>
         </SafeAreaView>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }

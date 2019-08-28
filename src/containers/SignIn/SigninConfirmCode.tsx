@@ -56,19 +56,15 @@ class SigninConfirmCode extends PureComponent<IProps> {
 
   private sendSmsAgain = () => {
     this.setState({ isSendingRequest: true }, async () => {
-      return this.sendVerificationCode();
+      try {
+        await setRecoveryPass(this.props.email);
+      } catch (e) {
+        Alert.alert('Something went wrong');
+      } finally {
+        this.setState({ isSendingRequest: false, wasSentAgain: true });
+      }
     });
   };
-
-  private async sendVerificationCode() {
-    try {
-      await setRecoveryPass(this.props.email);
-    } catch (e) {
-      Alert.alert('Something went wrong');
-    } finally {
-      this.setState({ isSendingRequest: false, wasSentAgain: true });
-    }
-  }
 
   private renderFooter() {
     const { isSendingRequest, isValid, wasSentAgain } = this.state;

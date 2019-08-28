@@ -2,7 +2,8 @@ import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Alert, Image, SafeAreaView, Text, View } from 'react-native';
+import { Alert, Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { Header, NextButton, PasswordInput } from '../../components';
 import { axiosInstance } from '../../utils';
@@ -13,7 +14,8 @@ class SignupNewPassword extends PureComponent {
     password: '',
     confirmPassword: '',
     errorMessage: '',
-    isLoading: false
+    isLoading: false,
+    headerHeight: 0
   };
 
   private onChange = (val: string, key: string) => {
@@ -63,9 +65,9 @@ class SignupNewPassword extends PureComponent {
     const { errorMessage } = this.state;
 
     return (
-      <View style={styles.common.container}>
-        <Header/>
-        <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAwareScrollView style={styles.common.container} scrollEnabled={false}>
+        <Header onLayout={(height: number) => this.setState({ headerHeight: height })}/>
+        <SafeAreaView style={{ height: Dimensions.get('window').height - this.state.headerHeight }}>
           <View style={styles.common.inner_container}>
             <Text style={styles.common.top_title}>
               <FormattedMessage id={'signup_title'}/>
@@ -111,7 +113,7 @@ class SignupNewPassword extends PureComponent {
             </Button>
           </View>
         </SafeAreaView>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
