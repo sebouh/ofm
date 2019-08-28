@@ -49,7 +49,7 @@ class SignInInitial extends PureComponent<IProps> {
         await tokenService.setToken(data.token);
         await this.props.setIsLoggedIn(
           async () => {
-            this.setState({ errorMessage: 'already_signed_up_error' });
+            this.setState({ errorMessage: 'not_signed_up_error' });
             await tokenService.removeToken();
             await this.props.setIsLoggedIn();
           },
