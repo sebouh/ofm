@@ -38,7 +38,7 @@ class App extends PureComponent<IProps> {
             side={'right'}
             content={menu}
             open={this.props.menuOpened}
-            openDrawerOffset={0.23}
+            openDrawerOffset={0.2}
             onClose={() => this.props.setMenuOpened(false)}
             acceptTap={true}
           >

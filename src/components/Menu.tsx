@@ -1,7 +1,7 @@
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
@@ -133,8 +133,8 @@ const styles = StyleSheet.create(
       paddingRight: 32,
       paddingTop: 25,
       paddingBottom: 32,
-      marginTop: 28,
-      marginBottom: 26,
+      marginTop: Platform.select({ ios: 28, android: 8 }),
+      marginBottom: 16,
       borderRadius: 10,
       shadowColor: globalStyles.colors.middleGray,
       shadowOffset: {
