@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
@@ -27,8 +28,9 @@ export const closeModal = () => {
   };
 };
 
-export const getCurrentUser: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (isLogout: false, callbackFirst, callbackSecond) => {
-  return async (dispatch): Promise<Action> => {
+export const getCurrentUser:
+  ActionCreator<ThunkAction<Promise<Action | void>, IReduxState, void, Action<any>>> = (isLogout: false, callbackFirst, callbackSecond) => {
+  return async (dispatch): Promise<Action | void> => {
     if (isLogout) {
       return dispatch({ type: settingTypes.setCurrentUser, user: {} });
     }
@@ -48,6 +50,10 @@ export const getCurrentUser: ActionCreator<ThunkAction<Promise<Action>, IReduxSt
 
       return dispatch({ type: settingTypes.setCurrentUser, user: data });
     } catch (err) {
+      if (err.message === 'internet') {
+        return Alert.alert('Please check internet connection and try again');
+      }
+
       Actions.reset('signup_email_pass');
       await tokenService.removeToken();
       dispatch(setIsLoggedIn());
@@ -56,8 +62,8 @@ export const getCurrentUser: ActionCreator<ThunkAction<Promise<Action>, IReduxSt
   };
 };
 
-export const setIsLoggedIn: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (callbackFirst, callbackSecond) => {
-  return async (dispatch): Promise<Action> => {
+export const setIsLoggedIn: ActionCreator<ThunkAction<Promise<Action | void>, IReduxState, void, Action<any>>> = (callbackFirst, callbackSecond) => {
+  return async (dispatch): Promise<Action | void> => {
     if (!tokenService.token) {
       dispatch(cleanupData());
       dispatch(getCurrentUser(true));

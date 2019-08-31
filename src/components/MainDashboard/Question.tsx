@@ -60,6 +60,10 @@ class Question extends PureComponent<IProps> {
 
       this.props.updateQuestion(item.question.id, { answered: true, answer: '', file: undefined });
     } catch (e) {
+      if (e.message === 'internet') {
+        return Alert.alert('Please check internet connection and try again');
+      }
+
       console.log(e);
       Alert.alert(e && e.response ? e.response.message : 'Something went wrong');
     }

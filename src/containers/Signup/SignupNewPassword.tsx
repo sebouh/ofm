@@ -46,6 +46,10 @@ class SignupNewPassword extends PureComponent {
 
         return Actions.push('signup_paypal');
       } catch (err) {
+        if (err.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
         this.setState({ errorMessage: 'unhandled_error' });
       } finally {
         this.setState({ isLoading: true });

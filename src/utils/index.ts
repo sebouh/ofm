@@ -1,4 +1,5 @@
-import axios from 'axios';
+import NetInfo from '@react-native-community/netinfo';
+import axios, { AxiosRequestConfig } from 'axios';
 import { Dimensions, Platform } from 'react-native';
 import config from '../config';
 
@@ -11,6 +12,18 @@ export const axiosInstance = axios.create(
     baseURL: config.api,
     timeout: 60000
   }
+);
+
+axiosInstance.interceptors.request.use(
+  async (axiosConfig: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
+    const result = await NetInfo.fetch();
+    const hasInternet = !['none', 'unknown'].includes(result.type);
+    if (!hasInternet) {
+      throw new axios.Cancel('internet');
+    }
+    return axiosConfig;
+  },
+  error => Promise.reject(error)
 );
 
 export const setAxiosAuthToken = (token: string) => {

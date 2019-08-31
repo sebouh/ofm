@@ -49,6 +49,10 @@ class Feedback extends PureComponent<IProps> {
           event: emitterEvents.on_feedback_sent_modal_close
         });
       } catch (e) {
+        if (e.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
         Alert.alert(e.response && e.response.message ? e.response.message : 'Something went wrong');
       } finally {
         this.setState({ isLoading: false });

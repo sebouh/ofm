@@ -57,6 +57,10 @@ class RedeemConfirmation extends PureComponent<IProps> {
           event: emitterEvents.on_redeem_modal_close
         });
       } catch (err) {
+        if (err.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
         console.log(err);
         Alert.alert(err.response ? err.response.message : 'Something went wrong');
       } finally {

@@ -43,6 +43,10 @@ class SigninNewPassword extends PureComponent {
 
         return Actions.reset('main_dashboard');
       } catch (e) {
+        if (e.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
         return this.setState({ errorMessage: 'unhandled_error' });
       } finally {
         this.setState({ isLoading: false });

@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import { Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import { Alert, Image, SafeAreaView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -54,6 +54,10 @@ class SigninRecoverPassword extends PureComponent<IProps> {
           event: emitterEvents.on_email_recover_modal_close
         });
       } catch (e) {
+        if (e.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
         console.log(e);
         return this.setState({ errorMessage: 'signin_recovery_error' });
       } finally {

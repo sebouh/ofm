@@ -47,6 +47,9 @@ class SigninConfirmCode extends PureComponent<IProps> {
       await this.props.setIsLoggedIn();
       return Actions.push('sign_in_new_password');
     } catch (e) {
+      if (e.message === 'internet') {
+        return Alert.alert('Please check internet connection and try again');
+      }
       console.log(e);
       this.setState({ hasError: true });
     }
@@ -61,6 +64,10 @@ class SigninConfirmCode extends PureComponent<IProps> {
       try {
         await setRecoveryPass(this.props.email);
       } catch (e) {
+        if (e.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
         Alert.alert('Something went wrong');
       } finally {
         this.setState({ isSendingRequest: false, wasSentAgain: true });

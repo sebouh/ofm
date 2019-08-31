@@ -1,7 +1,7 @@
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, Linking, Platform, RefreshControl, ScrollView, Text, View } from 'react-native';
+import { Alert, Image, Linking, Platform, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -60,6 +60,10 @@ class Refer extends PureComponent<IProps> {
     try {
       await Linking.openURL(url);
     } catch (e) {
+      if (e.message === 'internet') {
+        return Alert.alert('Please check internet connection and try again');
+      }
+
       console.log(e);
     }
   };
@@ -71,6 +75,10 @@ class Refer extends PureComponent<IProps> {
     try {
       await Linking.openURL(url);
     } catch (e) {
+      if (e.message === 'internet') {
+        return Alert.alert('Please check internet connection and try again');
+      }
+
       console.log(e);
     }
   };

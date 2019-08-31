@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
+import { Alert, Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -55,7 +55,12 @@ class SignInInitial extends PureComponent<IProps> {
           },
           () => Actions.reset('main_dashboard'));
       } catch (err) {
+        if (err.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
         console.log(err);
+
         return this.setState({ errorMessage: 'incorrect_email_pass' });
       } finally {
         this.setState({ isLoading: false });

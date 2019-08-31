@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
+import { Alert, Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -13,8 +13,8 @@ import { tokenService } from '../../services';
 import { setIsLoggedIn } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, validateEmail } from '../../utils';
-import styles from '../styles';
 import { IS_SMALL_HEIGHT } from '../../utils/constants';
+import styles from '../styles';
 
 interface IProps {
   readonly setIsLoggedIn: (callbackFirst?: () => void, callbackSecond?: () => void) => void;
@@ -53,6 +53,10 @@ class SignupEmailPassword extends PureComponent<IProps> {
           await this.props.setIsLoggedIn();
         });
       } catch (err) {
+        if (err.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
         console.log(err);
         return this.setState({ errorMessage: 'incorrect_email_pass' });
       } finally {

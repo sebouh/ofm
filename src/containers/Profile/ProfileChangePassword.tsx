@@ -84,6 +84,10 @@ class ProfileChangePassword extends PureComponent<IProps> {
         });
 
       } catch (err) {
+        if (err.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
         return this.setState({ errorMessage: 'profile_incorrect_old_pass' });
       } finally {
         this.setState({ isLoading: false });

@@ -85,6 +85,10 @@ class ProfileInitial extends PureComponent<IProps> {
         message: 'profile_initial_save_message',
       });
     } catch (err) {
+      if (err.message === 'internet') {
+        return Alert.alert('Please check internet connection and try again');
+      }
+
       this.setState({ errorMessage: 'unhandled_error' });
     }
   };

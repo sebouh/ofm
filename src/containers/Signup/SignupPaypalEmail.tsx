@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
+import { Alert, Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { EmailInput, Header, NextButton } from '../../components';
@@ -42,6 +42,10 @@ class SignupPaypalEmail extends PureComponent {
 
         return Actions.reset('main_dashboard');
       } catch (err) {
+        if (err.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
         this.setState({ errorMessage: 'unhandled_error' });
       } finally {
         this.setState({ isLoading: false });

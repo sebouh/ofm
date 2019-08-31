@@ -34,6 +34,8 @@ target 'OneFabric' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
   target 'OneFabricTests' do
     inherit! :search_paths
     # Pods for testing
