@@ -1,57 +1,63 @@
 import { AnyAction } from 'redux';
-import { IQuestions, IRedeem, IReferalPositions } from '../../utils';
+import { IQuestions, IQuestionsExtra, IRedeem, IReferalPositions } from '../../utils';
 import { createReducer } from '../store';
 import { dataTypes } from '../types';
 
 export interface IDataState {
   readonly questions: IQuestions[];
+  readonly questionsExtra: IQuestionsExtra[];
   readonly positions: IReferalPositions[];
   readonly redeem: IRedeem;
 }
 
 const defaultState: IDataState = {
   questions: [],
+  questionsExtra: [],
   positions: [],
   redeem: {} as IRedeem
 };
 
 export default createReducer(defaultState, {
-  [dataTypes.cleanupData]: (state: IDataState) => ({
-    ...state,
-    questions: [],
-    positions: [],
-    redeem: {}
+  [dataTypes.cleanupData]: () => ({
+    ...defaultState
   }),
   [dataTypes.setQuestions]: (state: IDataState, { questions }: AnyAction) => ({
     ...state,
     questions
   }),
   [dataTypes.updateQuestion]: (state: IDataState, { id, payload }: AnyAction) => {
-    const questions = state.questions.map(el => el);
-    const questionIndex = questions.findIndex(el => el.question.id === id);
+    const questionsExtra = state.questionsExtra.map(el => el);
+    const question = state.questions.find(el => el.question.id === id);
 
-    if (questionIndex < 0) {
-      return {
-        ...state
+    if (!question) {
+      return state;
+    }
+
+    const data = { id: question.id, ...payload };
+
+    if (!state.questionsExtra.some(el => el.id === question.id)) {
+      questionsExtra.push(data);
+    } else {
+      const extraIndex = questionsExtra.findIndex(el => el.id === question.id);
+      questionsExtra[extraIndex] = {
+        ...questionsExtra[extraIndex],
+        ...payload
       };
     }
 
-    questions[questionIndex] = {
-      ...questions[questionIndex],
-      ...payload
-    };
-
     return {
       ...state,
-      questions
+      questionsExtra
     };
   },
   [dataTypes.deleteQuestion]: (state: IDataState, { id }: AnyAction) => {
     const questions = state.questions.filter(el => el.id !== id);
+    const questionsExtra = state.questionsExtra.filter(el => el.id !== id);
 
     return {
       ...state,
-      questions
+      questions,
+      questionsExtra
     };
   },
   [dataTypes.setPositions]: (state: IDataState, { positions }: AnyAction) => ({

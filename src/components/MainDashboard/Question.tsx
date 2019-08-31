@@ -5,11 +5,12 @@ import { Alert, Image, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Dispatch, } from 'redux';
 import { deleteQuestion, setActiveQuestionId, setCameraStatus, updateQuestion } from '../../store/actions';
-import { axiosInstance, getDateDiff, getIsoDate, IQuestions } from '../../utils';
+import { axiosInstance, getDateDiff, getIsoDate, IQuestions, IQuestionsExtra } from '../../utils';
 import styles from './styles';
 
 interface IProps {
   readonly item: IQuestions;
+  readonly extra: IQuestionsExtra;
   readonly setCameraStatus: (stat: boolean) => void;
   readonly setActiveQuestionId: (id: null | number) => void;
   readonly updateQuestion: (id: number, payload: object) => void;
@@ -43,16 +44,16 @@ class Question extends PureComponent<IProps> {
   };
 
   private submitAnswer = async () => {
-    const { item } = this.props;
+    const { item, extra } = this.props;
     try {
       const formData = new FormData();
 
       if (item.question.pictureRequired) {
-        formData.append('file', item.file);
+        formData.append('file', extra.file);
       }
 
       formData.append('questionId', item.question.id);
-      formData.append('response', item.answer === 'yes');
+      formData.append('response', extra.answer === 'yes');
       formData.append('zonedDateTime', getIsoDate(new Date()));
 
       await axiosInstance.post('/response', formData);
@@ -65,16 +66,16 @@ class Question extends PureComponent<IProps> {
   };
 
   private renderMiddleContent() {
-    const { item } = this.props;
+    const { item, extra } = this.props;
 
     if (item.question.answered || item.answered) {
       return null;
     }
 
-    if (item.image) {
+    if (extra.image) {
       return (
         <View style={styles.question.photo_container}>
-          <Image source={{ uri: item.image }} style={{ width: 125, height: 125 }}/>
+          <Image source={{ uri: extra.image }} style={{ width: 125, height: 125 }}/>
           <Button transparent={true} style={styles.question.photo_delete_button} onPress={this.onDeleteImage}>
             <Image source={require('../../assets/images/icons/close_white.png')} style={{ width: 22, height: 22 }}/>
           </Button>
@@ -97,7 +98,7 @@ class Question extends PureComponent<IProps> {
   }
 
   private renderFooter() {
-    const { item } = this.props;
+    const { item, extra } = this.props;
 
     if (item.answered || item.question.answered) {
       return (
@@ -110,7 +111,7 @@ class Question extends PureComponent<IProps> {
       );
     }
 
-    if (item.question.pictureRequired && item.image && item.answer || !item.question.pictureRequired && item.answer) {
+    if (item.question.pictureRequired && extra.image && extra.answer || !item.question.pictureRequired && extra.answer) {
       return (
         <View style={styles.question.footer}>
           <Button transparent={true} onPress={() => this.answer('')}>
@@ -141,13 +142,13 @@ class Question extends PureComponent<IProps> {
         </View>
         <View style={styles.question.yes_no_container}>
           <Button transparent={true} style={styles.question.answer_button} onPress={() => this.answer('yes')}>
-            <Text style={[styles.question.answer_button_text, item.answer === 'yes' && styles.question.answer_button_text_active]}>
+            <Text style={[styles.question.answer_button_text, extra.answer === 'yes' && styles.question.answer_button_text_active]}>
               <FormattedMessage id={'main_dashboard_question_yes'}/>
             </Text>
           </Button>
           <View style={styles.question.vertical_separator}/>
           <Button transparent={true} style={styles.question.answer_button} onPress={() => this.answer('no')}>
-            <Text style={[styles.question.answer_button_text, item.answer === 'no' && styles.question.answer_button_text_active]}>
+            <Text style={[styles.question.answer_button_text, extra.answer === 'no' && styles.question.answer_button_text_active]}>
               <FormattedMessage id={'main_dashboard_question_no'}/>
             </Text>
           </Button>
@@ -161,7 +162,7 @@ class Question extends PureComponent<IProps> {
   };
 
   public render() {
-    const { item } = this.props;
+    const { item, extra } = this.props;
 
     return (
       <View style={styles.question.container}>
@@ -169,9 +170,9 @@ class Question extends PureComponent<IProps> {
           <Text style={styles.question.title}>{item.question.question}</Text>
           <Text style={styles.question.points}>{item.question.value} <FormattedMessage id={'main_dashboard_question_points'}/></Text>
         </View>
-        {item.answer !== '' && typeof item.answer !== 'undefined' ? (
+        {extra.answer !== '' && typeof extra.answer !== 'undefined' ? (
           <Text style={styles.question.answer}>
-            <FormattedMessage id={`main_dashboard_question_text_${item.answer.toLocaleLowerCase()}`}/>
+            <FormattedMessage id={`main_dashboard_question_text_${extra.answer.toLocaleLowerCase()}`}/>
           </Text>
         ) : null}
         {this.renderMiddleContent()}

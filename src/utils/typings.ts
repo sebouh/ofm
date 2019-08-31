@@ -7,6 +7,13 @@ export interface IModalConfigs {
   readonly event?: string;
 }
 
+export interface IQuestionsExtra {
+  readonly id: number;
+  readonly image?: string;
+  readonly answer?: string;
+  readonly file?: string;
+}
+
 export interface IQuestions {
   readonly day: string;
   readonly id: number;
@@ -22,9 +29,6 @@ export interface IQuestions {
     readonly answered: boolean;
   };
   readonly answered: boolean;
-  readonly image?: string;
-  readonly answer?: string;
-  readonly file?: string;
 }
 
 export interface IReferalPositions {

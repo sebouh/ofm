@@ -5,23 +5,35 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { getQuestions } from '../../store/actions';
 import { IReduxState } from '../../store/store';
-import { globalStyles, IQuestions } from '../../utils';
+import { globalStyles, IQuestions, IQuestionsExtra } from '../../utils';
 import Question from './Question';
 import styles from './styles';
 
 interface IProps {
   readonly questions: IQuestions[];
+  readonly questionsExtra: IQuestionsExtra[];
   readonly getQuestions: (callback?: () => void) => void;
 }
 
 class Questions extends PureComponent<IProps> {
+  private interval: number = 0;
   public readonly state = {
     refreshing: false
   };
 
+  public componentDidMount(): void {
+    this.interval = setInterval(() => this.props.getQuestions(), 60000);
+  }
+
+  public componentWillUnmount(): void {
+    clearInterval(this.interval);
+    this.interval = 0;
+  }
+
   private renderItem = ({ item }: { item: IQuestions }) => {
+    const extra = this.props.questionsExtra.find(el => item.id === el.id);
     return (
-      <Question item={item}/>
+      <Question item={item} extra={(extra || {}) as IQuestionsExtra}/>
     );
   };
 
@@ -52,7 +64,8 @@ class Questions extends PureComponent<IProps> {
 
 const mapStateToProps = ({ data }: IReduxState) => {
   return {
-    questions: data.questions
+    questions: data.questions,
+    questionsExtra: data.questionsExtra
   };
 };
 
