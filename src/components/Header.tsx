@@ -71,7 +71,7 @@ class Header extends PureComponent<IProps> {
 
     return (
       <View style={[styles.container, isSmall && styles.smallContainer]} onLayout={this.onViewLayout}>
-        <StatusBar barStyle={'light-content'}/>
+        <StatusBar barStyle={'light-content'} animated={true}/>
         <LinearGradient colors={['#00008b', '#8b008b']} style={styles.gradient}/>
         {this.showBackButton.includes(routeName) ? (
           <Button transparent={true} style={[styles.back_button, isSmall && styles.back_button_small]} onPress={this.onBackPress}>

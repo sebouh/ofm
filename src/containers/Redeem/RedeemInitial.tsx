@@ -62,7 +62,7 @@ class RedeemInitial extends PureComponent<IProps> {
                 <Text style={styles.redeem_initial.text_big}>
                   <FormattedMessage id={'redeem_currency'}/>
                 </Text>
-                <Text style={[styles.redeem_initial.text_big, styles.redeem_initial.text_big_bold]}>$ {Math.round(amount)}</Text>
+                <Text style={[styles.redeem_initial.text_big, styles.redeem_initial.text_big_bold]}>$ {amount}</Text>
               </View>
 
               <View style={styles.redeem_initial.separator}/>

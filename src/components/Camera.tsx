@@ -38,7 +38,7 @@ class Camera extends PureComponent<IProps> {
   public render() {
     return (
       <View style={[styles.hiddenContainer, this.props.isCameraOpened && styles.container]}>
-        <StatusBar hidden={true} animated={true} />
+        {this.props.isCameraOpened && <StatusBar hidden={true} animated={true} />}
         <Button transparent={true} style={styles.closeButton} onPress={this.closeCamera}>
           <Image style={{ width: 22, height: 22 }} source={require('../assets/images/icons/close_white.png')}/>
         </Button>
