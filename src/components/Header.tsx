@@ -1,7 +1,7 @@
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image, LayoutChangeEvent, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Image, LayoutChangeEvent, Platform, StatusBar, StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -93,7 +93,7 @@ class Header extends PureComponent<IProps> {
 const styles = StyleSheet.create(
   {
     container: {
-      height: isIphoneX() ? 161 : IS_SMALL_HEIGHT ? 119 : 139
+      height: Platform.OS === 'android' && !IS_SMALL_HEIGHT ? 119 : isIphoneX() ? 161 : IS_SMALL_HEIGHT ? 119 : 139
     },
     smallContainer: {
       height: isIphoneX() ? 123 : 101

@@ -48,7 +48,7 @@ const routes: IRoute[] = [
   },
   {
     key: 'sign_in_confirm_code',
-    component: SigninConfirmCode,
+    component: SigninConfirmCode
   },
   {
     key: 'sign_in_new_password',
