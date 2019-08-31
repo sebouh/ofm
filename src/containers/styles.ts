@@ -359,9 +359,7 @@ export default {
     {
       container: {
         flex: 1,
-        paddingTop: 24,
-        paddingLeft: 24,
-        paddingRight: 24
+        padding: 24
       },
       description: {
         ...globalStyles.fonts.regular,
@@ -385,7 +383,8 @@ export default {
         paddingTop: 6,
         paddingRight: 32,
         paddingBottom: 6,
-        paddingLeft: 32
+        paddingLeft: 32,
+        marginBottom: 50
       },
       button_disabled: {
         borderColor: 'rgba(112, 112, 112, 0.5)'
