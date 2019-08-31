@@ -1,13 +1,14 @@
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Alert, SafeAreaView, Text, View } from 'react-native';
+import { Alert, Dimensions, SafeAreaView, Text, View } from 'react-native';
 import CodeInput from 'react-native-confirmation-code-input';
 // @ts-ignore
 import CountDown from 'react-native-countdown-component';
 // @ts-ignore
 import Dash from 'react-native-dash';
 import { DotIndicator } from 'react-native-indicators';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
@@ -31,6 +32,7 @@ class SigninConfirmCode extends PureComponent<IProps> {
     isSendingRequest: false,
     isValid: false,
     wasSentAgain: false,
+    headerHeight: 0
   };
 
   private onCodeFilled = async (code: string) => {
@@ -124,9 +126,9 @@ class SigninConfirmCode extends PureComponent<IProps> {
   public render() {
     const { hasError } = this.state;
     return (
-      <View style={styles.common.container}>
-        <Header/>
-        <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAwareScrollView style={styles.common.container} scrollEnabled={false}>
+        <Header onLayout={(height: number) => this.setState({ headerHeight: height })}/>
+        <SafeAreaView style={{ height: Dimensions.get('window').height - this.state.headerHeight - 20 }}>
           <View style={[styles.common.inner_container, { flex: 1, position: 'relative' }]}>
             <Text style={styles.common.top_title}>
               <FormattedMessage id={'signin_recovery_title'}/>
@@ -152,7 +154,7 @@ class SigninConfirmCode extends PureComponent<IProps> {
             {this.renderFooter()}
           </View>
         </SafeAreaView>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
