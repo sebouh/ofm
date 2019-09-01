@@ -150,7 +150,9 @@ export default {
       },
       confirmation_countdown_container: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%'
       },
       confirmation_countdown_text: {
         color: globalStyles.colors.purple,
