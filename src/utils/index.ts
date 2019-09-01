@@ -58,7 +58,11 @@ export const getStatusBarHeight = (): number => {
   );
 };
 
-export const validateEmail = (email: string) => {
+export const validateEmail = (email: string | null) => {
+  if (!email) {
+    return false;
+  }
+
   // tslint:disable-next-line
   const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   return re.test(email);

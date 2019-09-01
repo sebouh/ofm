@@ -53,7 +53,7 @@ class ProfileInitial extends PureComponent<IProps> {
   private onSubmit = async () => {
     const { email, paypalEmail } = this.state;
 
-    if (!validateEmail(email) || !paypalEmail) {
+    if (!validateEmail(email) || !validateEmail(paypalEmail)) {
       return this.setState({ errorMessage: 'incorrect_email' });
     }
 
