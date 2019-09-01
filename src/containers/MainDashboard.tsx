@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { Camera, Header, Questions, Refer, TabBar } from '../components';
-import { getOpenPositions, getQuestions } from '../store/actions';
+import { getCurrentUser, getOpenPositions, getQuestions } from '../store/actions';
 import { IReduxState } from '../store/store';
 import styles from './styles';
 
@@ -29,6 +29,7 @@ interface IProps {
   isCameraOpened: boolean;
   getQuestions: () => void;
   getOpenPositions: () => void;
+  getCurrentUser: () => void;
 }
 
 class MainDashboard extends PureComponent<IProps> {
@@ -51,6 +52,7 @@ class MainDashboard extends PureComponent<IProps> {
   public componentDidMount(): void {
     this.props.getQuestions();
     this.props.getOpenPositions();
+    this.props.getCurrentUser();
   }
 
   public render() {
@@ -103,6 +105,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) 
   return {
     getQuestions: () => dispatch(getQuestions()),
     getOpenPositions: () => dispatch(getOpenPositions()),
+    getCurrentUser: () => dispatch(getCurrentUser())
   };
 };
 
