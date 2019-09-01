@@ -88,7 +88,8 @@ export default {
         ...globalStyles.fonts.regular,
         color: 'rgba(112, 112, 112, 0.7)',
         letterSpacing: 0.25,
-        marginTop: 8
+        marginTop: 8,
+        textAlign: 'center'
       },
       divider: {
         marginTop: 16,
