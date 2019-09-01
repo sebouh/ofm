@@ -10,7 +10,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { Header, LoaderIndicator, SubHeader, TabBar } from '../../components';
 import { getRedeemData } from '../../store/actions';
 import { IReduxState } from '../../store/store';
-import { globalStyles, IRedeem } from '../../utils';
+import { globalStyles, IRedeem, isFloat } from '../../utils';
 import styles from '../styles';
 
 interface IProps {
@@ -39,7 +39,8 @@ class RedeemInitial extends PureComponent<IProps> {
 
   public render() {
     const { redeem } = this.props;
-    const amount = redeem && redeem.id ? redeem.ptsAvailable * redeem.rate : 0;
+    let amount = redeem && redeem.id ? redeem.ptsAvailable * redeem.rate : 0;
+    amount = Number(isFloat(amount) ? amount.toFixed(2) : amount);
 
     return (
       <View style={styles.redeem_initial.container}>

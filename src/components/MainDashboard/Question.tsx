@@ -72,7 +72,7 @@ class Question extends PureComponent<IProps> {
   private renderMiddleContent() {
     const { item, extra } = this.props;
 
-    if (item.question.answered || item.answered) {
+    if (item.question.answered || item.answered || extra.answered) {
       return null;
     }
 
@@ -104,7 +104,7 @@ class Question extends PureComponent<IProps> {
   private renderFooter() {
     const { item, extra } = this.props;
 
-    if (item.answered || item.question.answered) {
+    if (item.answered || item.question.answered || extra.answered) {
       return (
         <View style={styles.question.footer}>
           <Image source={require('../../assets/images/icons/photo.png')} />

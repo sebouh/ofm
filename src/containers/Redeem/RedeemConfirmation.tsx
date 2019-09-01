@@ -11,7 +11,7 @@ import { Header, SubHeader } from '../../components';
 import { eventEmitter } from '../../services';
 import { getRedeemData, setModalConfigs } from '../../store/actions';
 import { IReduxState } from '../../store/store';
-import { axiosInstance, IModalConfigs, IRedeem } from '../../utils';
+import { axiosInstance, IModalConfigs, IRedeem, isFloat } from '../../utils';
 import { emitterEvents } from '../../utils/constants';
 import styles from '../styles';
 
@@ -73,7 +73,9 @@ class RedeemConfirmation extends PureComponent<IProps> {
 
   public render() {
     const { redeem } = this.props;
-    const amount = redeem && redeem.id ? redeem.ptsAvailable * redeem.rate : 0;
+    let amount = redeem && redeem.id ? redeem.ptsAvailable * redeem.rate : 0;
+    amount = Number(isFloat(amount) ? amount.toFixed(2) : amount);
+
     return (
       <View style={styles.redeem_initial.container}>
         <Header/>

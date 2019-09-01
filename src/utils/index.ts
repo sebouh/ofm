@@ -109,3 +109,7 @@ export const setRecoveryPass = async (email: string) => {
   await axiosInstance.post('/tempPassword', { employeeEmail: email });
   axiosInstance.post('/tempPassword/sendEmail', { employeeEmail: email });
 };
+
+export const isFloat = (n: number) => {
+  return Number(n) === n && n % 1 !== 0;
+};

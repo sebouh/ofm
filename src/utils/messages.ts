@@ -41,7 +41,7 @@ const en: IMessages = {
   signin_recovery_wrong_code: 'Invalid code. Please enter again',
   code_confirmation_sms_not: 'Didn’t get the code?',
   code_confirmation_send_again: 'SEND AGAIN',
-  code_confirmation_send_again_message: 'Sending a new code will be possible',
+  code_confirmation_send_again_message: 'Sending a new code will be possible after',
   code_confirmation_send_again_second: 'sec.',
   signin_recover_password_input_one: 'New Password',
   signin_recover_password_input_two: 'Confirm Password',
