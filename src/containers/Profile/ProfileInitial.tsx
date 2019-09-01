@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Alert, Image, Text, View } from 'react-native';
+import { Alert, Image, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -22,6 +22,9 @@ interface IProps {
 }
 
 class ProfileInitial extends PureComponent<IProps> {
+  private emailRef: any;
+  private paypalRef: any;
+
   public readonly state = {
     email: this.props.email,
     paypalEmail: this.props.paypalEmail,
@@ -93,6 +96,12 @@ class ProfileInitial extends PureComponent<IProps> {
     }
   };
 
+  private onEditPress = (ref: any) => {
+    if (ref && ref._root) {
+      ref._root.focus();
+    }
+  };
+
   private onChangePress = debounce(() => Actions.push('profile_change_pass'), 1000, { leading: true, trailing: false });
 
   private onSubmitPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
@@ -108,8 +117,16 @@ class ProfileInitial extends PureComponent<IProps> {
           </Text>
           <Item>
             <Image source={require('../../assets/images/icons/email.png')} style={{ marginTop: 5, width: 25, height: 14 }}/>
-            <EmailInput onChange={e => this.onChange(e, 'email')} style={styles.common.input} email={this.state.email} hidePlaceHolder={true}/>
-            <Image source={require('../../assets/images/icons/Edit.png')} />
+            <EmailInput
+              getRef={(ref: any) => this.emailRef = ref}
+              onChange={e => this.onChange(e, 'email')}
+              style={styles.common.input}
+              email={this.state.email}
+              hidePlaceHolder={true}
+            />
+            <Button transparent={true} style={{ height: 'auto' }} onPress={() => this.onEditPress(this.emailRef)}>
+              <Image source={require('../../assets/images/icons/Edit.png')}/>
+            </Button>
           </Item>
           <Text style={styles.profile_initial.label}>
             <FormattedMessage id={'paypal_email'}/>
@@ -117,12 +134,15 @@ class ProfileInitial extends PureComponent<IProps> {
           <Item>
             <Image source={require('../../assets/images/icons/email.png')} style={{ marginTop: 5, width: 25, height: 14 }}/>
             <EmailInput
+              getRef={(ref: any) => this.paypalRef = ref}
               onChange={e => this.onChange(e, 'paypalEmail')}
               style={styles.common.input}
               email={this.state.paypalEmail as string}
               hidePlaceHolder={true}
             />
-            <Image source={require('../../assets/images/icons/Edit.png')} />
+            <Button transparent={true} style={{ height: 'auto' }} onPress={() => this.onEditPress(this.paypalRef)}>
+              <Image source={require('../../assets/images/icons/Edit.png')}/>
+            </Button>
           </Item>
           {this.state.errorMessage ? (
             <Text style={styles.common.email_pass_error}>

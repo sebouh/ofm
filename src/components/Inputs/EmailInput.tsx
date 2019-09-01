@@ -1,7 +1,7 @@
 import { Input } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ViewStyle } from 'react-native';
+import { TextInput, ViewStyle } from 'react-native';
 import { globalStyles } from '../../utils';
 
 interface IProps {
@@ -11,6 +11,7 @@ interface IProps {
   readonly placeholderColor?: string;
   readonly placeholder?: string;
   readonly hidePlaceHolder?: boolean;
+  readonly getRef?: (instance: TextInput | null) => void;
 }
 
 class EmailInput extends PureComponent<IProps> {
@@ -23,6 +24,7 @@ class EmailInput extends PureComponent<IProps> {
       <FormattedMessage id={this.props.placeholder || 'email'}>
         {placeholder => (
           <Input
+            ref={this.props.getRef}
             placeholder={this.props.hidePlaceHolder ? '' : placeholder as string}
             style={this.props.style}
             autoCapitalize={'none'}
