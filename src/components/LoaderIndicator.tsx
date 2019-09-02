@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { globalStyles } from '../utils';
-import { IReduxState } from '../store/store';
-import { connect } from 'react-redux';
+import { ActivityIndicator, StyleSheet, View, ViewStyle } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { IReduxState } from '../store/store';
+import { globalStyles } from '../utils';
 
 interface IProps {
   readonly isLoggedIn: undefined | boolean;
+  readonly style?: ViewStyle | ViewStyle[];
+  readonly loaderColor?: string;
 }
 
 class LoaderIndicator extends PureComponent<IProps> {
@@ -32,8 +34,8 @@ class LoaderIndicator extends PureComponent<IProps> {
 
   public render() {
     return (
-      <View style={styles.loader}>
-        <ActivityIndicator size={'large'} color={globalStyles.colors.purple}/>
+      <View style={[styles.loader, this.props.style]}>
+        <ActivityIndicator size={'large'} color={this.props.loaderColor || globalStyles.colors.purple}/>
       </View>
     );
   }

@@ -1,12 +1,13 @@
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
-import { Image, StatusBar, StyleSheet, View } from 'react-native';
+import { Alert, Image, StatusBar, StyleSheet, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setActiveQuestionId, setCameraStatus, updateQuestion } from '../store/actions';
 import { IReduxState } from '../store/store';
 import { getStatusBarHeight } from '../utils';
+import LoaderIndicator from './LoaderIndicator';
 
 interface IProps {
   readonly activeQuestionId: number | null;
@@ -19,15 +20,27 @@ interface IProps {
 class Camera extends PureComponent<IProps> {
   private camera: RNCamera | null = null;
 
-  private takePicture = async () => {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true, forceUpOrientation: true };
-      const data = await this.camera.takePictureAsync(options);
+  public readonly state = {
+    isProcessing: false
+  };
 
-      this.props.updateQuestion(this.props.activeQuestionId as number, { image: data.uri, file: data.base64 });
-      this.props.setActiveQuestionId(null);
-      this.props.setCameraStatus(false);
-    }
+  private takePicture = async () => {
+    this.setState({ isProcessing: true }, async () => {
+      try {
+        if (this.camera) {
+          const options = { quality: 0.5, base64: true, fixOrientation: true, forceUpOrientation: true };
+          const data = await this.camera.takePictureAsync(options);
+
+          this.props.updateQuestion(this.props.activeQuestionId as number, { image: data.uri, file: data.base64 });
+          this.props.setActiveQuestionId(null);
+          return this.props.setCameraStatus(false);
+        }
+      } catch (e) {
+        Alert.alert('Image was not saved. Please try again.');
+      } finally {
+        this.setState({ isProcessing: false });
+      }
+    });
   };
 
   private closeCamera = () => {
@@ -38,7 +51,7 @@ class Camera extends PureComponent<IProps> {
   public render() {
     return (
       <View style={[styles.hiddenContainer, this.props.isCameraOpened && styles.container]}>
-        {this.props.isCameraOpened && <StatusBar hidden={true} animated={true} />}
+        {this.props.isCameraOpened && <StatusBar hidden={true} animated={true}/>}
         <Button transparent={true} style={styles.closeButton} onPress={this.closeCamera}>
           <Image style={{ width: 22, height: 22 }} source={require('../assets/images/icons/close_white.png')}/>
         </Button>
@@ -58,9 +71,13 @@ class Camera extends PureComponent<IProps> {
             captureAudio={false}
           />
         )}
-        <Button transparent={true} onPress={this.takePicture} style={styles.capture}>
-          <Image source={require('../assets/images/icons/camer_button.png')} style={{ width: 66, height: 66 }}/>
-        </Button>
+        {this.state.isProcessing ? (
+          <LoaderIndicator loaderColor={'#fff'} style={[styles.capture, { backgroundColor: 'transparent', width: 66, height: 66 }]}/>
+        ) : (
+          <Button transparent={true} onPress={this.takePicture} style={styles.capture}>
+            <Image source={require('../assets/images/icons/camer_button.png')} style={{ width: 66, height: 66 }}/>
+          </Button>
+        )}
       </View>
     );
   }
@@ -98,7 +115,7 @@ const styles = StyleSheet.create({
     bottom: 40,
     left: '50%',
     marginLeft: -33,
-    zIndex: 5
+    zIndex: 5,
   },
 });
 
