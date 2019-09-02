@@ -83,6 +83,7 @@ class Feedback extends PureComponent<IProps> {
                   placeholderTextColor={'rgba(112, 112, 112, 0.58)'}
                   autoCorrect={false}
                   style={styles.feedback.input}
+                  maxLength={2000}
                 />
               )}
             </FormattedMessage>
