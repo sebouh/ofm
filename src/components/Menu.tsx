@@ -9,7 +9,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { eventEmitter, tokenService } from '../services';
 import { setIsLoggedIn, setMenuOpened, setModalConfigs } from '../store/actions';
 import { IReduxState } from '../store/store';
-import { globalStyles, IModalConfigs } from '../utils';
+import { globalStyles, IModalConfigs, isIphoneX } from '../utils';
 import { emitterEvents } from '../utils/constants';
 
 interface IProps {
@@ -133,8 +133,8 @@ const styles = StyleSheet.create(
       paddingRight: 32,
       paddingTop: 25,
       paddingBottom: 32,
-      marginTop: Platform.select({ ios: 28, android: 8 }),
-      marginBottom: 16,
+      marginTop: Platform.select({ ios: isIphoneX() ? 48 : 28, android: 8 }),
+      marginBottom: isIphoneX() ? 26 : 16,
       borderRadius: 10,
       shadowColor: globalStyles.colors.middleGray,
       shadowOffset: {
