@@ -84,6 +84,8 @@ const en: IMessages = {
   profile_new_pass_title: 'Enter New Password',
   profile_new_pass_confirm_title: 'Re-Enter New Password',
   profile_new_pass_empty_fields: 'Old, New and Confirm Password fields should not be empty',
+  profile_new_pass_validation: 'Password should have at least one upper case letter and 6 characters',
+  profile_new_pass_validation_max: 'Password should not be greater than 30 characters',
   profile_incorrect_old_pass: 'Old password is incorrect',
   profile_new_pass_success_message: 'You password has been changed.',
   feedback_title: 'Feedback',

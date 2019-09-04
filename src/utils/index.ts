@@ -117,3 +117,23 @@ export const setRecoveryPass = async (email: string) => {
 export const isFloat = (n: number) => {
   return Number(n) === n && n % 1 !== 0;
 };
+
+export const passwordValidator = (newPass: string, newPassConfirm: string) => {
+  if (newPass.length < 6 || newPassConfirm.length < 6) {
+    return 'profile_new_pass_validation';
+  }
+
+  if (!/[A-Z]/.test(newPass) || !/[A-Z]/.test(newPassConfirm)) {
+    return 'profile_new_pass_validation';
+  }
+
+  if (newPass.length > 30 || newPassConfirm.length > 30) {
+    return 'profile_new_pass_validation_max';
+  }
+
+  if (newPass !== newPassConfirm) {
+    return 'signin_recover_password_not_corresponding';
+  }
+
+  return '';
+};

@@ -12,7 +12,7 @@ import { Header, PasswordInput, SubHeader } from '../../components';
 import { eventEmitter } from '../../services';
 import { setModalConfigs } from '../../store/actions';
 import { IReduxState } from '../../store/store';
-import { axiosInstance, IModalConfigs } from '../../utils';
+import { axiosInstance, IModalConfigs, passwordValidator } from '../../utils';
 import { emitterEvents } from '../../utils/constants';
 import styles from '../styles';
 
@@ -52,8 +52,10 @@ class ProfileChangePassword extends PureComponent<IProps> {
       return this.setState({ errorMessage: 'profile_new_pass_empty_fields' });
     }
 
-    if (newPass !== newPassConfirm) {
-      return this.setState({ errorMessage: 'signin_recover_password_not_corresponding' });
+    const errorMessage = passwordValidator(newPass, newPassConfirm);
+
+    if (errorMessage) {
+      return this.setState({ errorMessage });
     }
 
     this.setState({ isLoading: true }, async () => {

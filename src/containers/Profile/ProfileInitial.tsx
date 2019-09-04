@@ -68,16 +68,6 @@ class ProfileInitial extends PureComponent<IProps> {
       return this.setState(errors);
     }
 
-    if (email === this.props.email && paypalEmail === this.props.paypalEmail) {
-      return this.props.setModalConfigs({
-        isVisible: true,
-        title: 'modal_success_title',
-        confirm: false,
-        icon: 'success',
-        message: 'profile_initial_save_message',
-      });
-    }
-
     try {
       const { data } = await axiosInstance.post('/user/me', { email, paypalEmail });
 
@@ -129,6 +119,8 @@ class ProfileInitial extends PureComponent<IProps> {
   private onSubmitPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
 
   public render() {
+    const disabled = this.state.email === this.props.email && this.state.paypalEmail === this.props.paypalEmail;
+
     return (
       <View style={styles.redeem_initial.container}>
         <Header/>
@@ -187,8 +179,14 @@ class ProfileInitial extends PureComponent<IProps> {
               <FormattedMessage id={this.state.errorMessage}/>
             </Text>
           ) : null}
-          <Button rounded={true} bordered={true} style={styles.profile_initial.save_button} onPress={this.onSubmitPress}>
-            <Text style={styles.profile_initial.save_button_text}>
+          <Button
+            rounded={true}
+            bordered={true}
+            style={[styles.profile_initial.save_button, disabled && styles.feedback.button_disabled]}
+            onPress={this.onSubmitPress}
+            disabled={disabled}
+          >
+            <Text style={[styles.profile_initial.save_button_text, disabled && styles.feedback.button_disabled_text]}>
               <FormattedMessage id={'profile_initial_save'}/>
             </Text>
           </Button>
