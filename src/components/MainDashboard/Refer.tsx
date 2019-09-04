@@ -54,7 +54,7 @@ class Refer extends PureComponent<IProps> {
   private onEmailPress = async (position: IReferalPositions) => {
     let url = 'mailto:';
 
-    url += `?body=${encodeURIComponent(this.generateText(position))}&subject=${encodeURIComponent('Referral for a Job')}`;
+    url += `?body=${encodeURIComponent(this.generateText(position))}&subject=Referral for a Job`;
 
     try {
       await Linking.openURL(url);
