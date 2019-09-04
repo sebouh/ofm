@@ -1,3 +1,4 @@
+import debounce from 'lodash/debounce';
 import { Button, } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -21,7 +22,8 @@ class Question extends PureComponent<IProps> {
   private readonly interval: number;
 
   public readonly state = {
-    currentDate: new Date().getTime()
+    currentDate: new Date().getTime(),
+    isSendingRequest: false
   };
 
   constructor(props: IProps) {
@@ -44,33 +46,40 @@ class Question extends PureComponent<IProps> {
   };
 
   private submitAnswer = async () => {
-    const { item, extra } = this.props;
-    try {
-      const formData = new FormData();
+    this.setState({ isSendingRequest: true }, async () => {
+      const { item, extra } = this.props;
+      try {
+        const formData = new FormData();
 
-      if (item.question.pictureRequired) {
-        formData.append('file', extra.file);
+        if (item.question.pictureRequired) {
+          formData.append('file', extra.file);
+        }
+
+        formData.append('questionId', item.question.id);
+        formData.append('response', extra.answer === 'yes');
+        formData.append('zonedDateTime', getIsoDate(new Date()));
+
+        await axiosInstance.post('/response', formData);
+
+        this.props.updateQuestion(item.question.id, { answered: true, answer: '', file: undefined });
+      } catch (e) {
+        if (e.message === 'internet') {
+          return Alert.alert('Please check internet connection and try again');
+        }
+
+        console.log(e);
+        Alert.alert(e && e.response ? e.response.message : 'Something went wrong');
+      } finally {
+        this.setState({ isSendingRequest: false });
       }
-
-      formData.append('questionId', item.question.id);
-      formData.append('response', extra.answer === 'yes');
-      formData.append('zonedDateTime', getIsoDate(new Date()));
-
-      await axiosInstance.post('/response', formData);
-
-      this.props.updateQuestion(item.question.id, { answered: true, answer: '', file: undefined });
-    } catch (e) {
-      if (e.message === 'internet') {
-        return Alert.alert('Please check internet connection and try again');
-      }
-
-      console.log(e);
-      Alert.alert(e && e.response ? e.response.message : 'Something went wrong');
-    }
+    });
   };
+
+  private onSubmitPress = debounce(this.submitAnswer, 1000, { leading: true, trailing: false });
 
   private renderMiddleContent() {
     const { item, extra } = this.props;
+    const { isSendingRequest } = this.state;
 
     if (item.question.answered || item.answered || extra.answered) {
       return null;
@@ -80,7 +89,7 @@ class Question extends PureComponent<IProps> {
       return (
         <View style={styles.question.photo_container}>
           <Image source={{ uri: extra.image }} style={{ width: 125, height: 125 }}/>
-          <Button transparent={true} style={styles.question.photo_delete_button} onPress={this.onDeleteImage}>
+          <Button transparent={true} style={styles.question.photo_delete_button} onPress={this.onDeleteImage} disabled={isSendingRequest}>
             <Image source={require('../../assets/images/icons/close_white.png')} style={{ width: 22, height: 22 }}/>
           </Button>
         </View>
@@ -89,7 +98,7 @@ class Question extends PureComponent<IProps> {
 
     if (item.question.pictureRequired) {
       return (
-        <Button style={styles.question.camera_container} transparent={true} onPress={this.openCamera}>
+        <Button style={styles.question.camera_container} transparent={true} onPress={this.openCamera} disabled={isSendingRequest}>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Image source={require('../../assets/images/icons/photo.png')} style={{ width: 30, height: 30 }}/>
             <Text style={styles.question.photo_text}>
@@ -103,6 +112,7 @@ class Question extends PureComponent<IProps> {
 
   private renderFooter() {
     const { item, extra } = this.props;
+    const { isSendingRequest } = this.state;
 
     if (item.answered || item.question.answered || extra.answered) {
       return (
@@ -118,12 +128,12 @@ class Question extends PureComponent<IProps> {
     if (item.question.pictureRequired && extra.image && extra.answer || !item.question.pictureRequired && extra.answer) {
       return (
         <View style={styles.question.footer}>
-          <Button transparent={true} onPress={() => this.answer('')}>
+          <Button transparent={true} onPress={() => this.answer('')} disabled={isSendingRequest}>
             <Text style={styles.question.cancel_submit_text}>
               <FormattedMessage id={'main_dashboard_question_cancel'}/>
             </Text>
           </Button>
-          <Button transparent={true} onPress={this.submitAnswer}>
+          <Button transparent={true} onPress={this.onSubmitPress} disabled={isSendingRequest}>
             <Text style={styles.question.cancel_submit_text}>
               <FormattedMessage id={'main_dashboard_question_submit'}/>
             </Text>
@@ -145,13 +155,13 @@ class Question extends PureComponent<IProps> {
           <Text style={styles.question.timer_text}>{date}</Text>
         </View>
         <View style={styles.question.yes_no_container}>
-          <Button transparent={true} style={styles.question.answer_button} onPress={() => this.answer('yes')}>
+          <Button transparent={true} style={styles.question.answer_button} onPress={() => this.answer('yes')} disabled={isSendingRequest}>
             <Text style={[styles.question.answer_button_text, extra.answer === 'yes' && styles.question.answer_button_text_active]}>
               <FormattedMessage id={'main_dashboard_question_yes'}/>
             </Text>
           </Button>
           <View style={styles.question.vertical_separator}/>
-          <Button transparent={true} style={styles.question.answer_button} onPress={() => this.answer('no')}>
+          <Button transparent={true} style={styles.question.answer_button} onPress={() => this.answer('no')} disabled={isSendingRequest}>
             <Text style={[styles.question.answer_button_text, extra.answer === 'no' && styles.question.answer_button_text_active]}>
               <FormattedMessage id={'main_dashboard_question_no'}/>
             </Text>
