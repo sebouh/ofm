@@ -188,6 +188,11 @@ export default {
         color: globalStyles.colors.middleGray,
         textTransform: 'uppercase'
       },
+      item_expand_button: {
+        height: 'auto',
+        width: 70,
+        justifyContent: 'flex-end'
+      },
       additionalInfo: {
         marginTop: 16
       },
