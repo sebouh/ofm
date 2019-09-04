@@ -7,12 +7,11 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { getOpenPositions, getPositionUrl } from '../../store/actions';
 import { IReduxState } from '../../store/store';
-import { globalStyles, IReferalPositions, IUser } from '../../utils';
+import { globalStyles, IReferalPositions } from '../../utils';
 import styles from './styles';
 
 interface IProps {
   readonly positions: IReferalPositions[];
-  readonly user: IUser;
   readonly getPositionUrl: (id: number) => void;
   readonly getOpenPositions: (callback?: () => void) => void;
 }
@@ -55,7 +54,7 @@ class Refer extends PureComponent<IProps> {
   private onEmailPress = async (position: IReferalPositions) => {
     let url = 'mailto:';
 
-    url += `?body=${encodeURIComponent(this.generateText(position))}`;
+    url += `?body=${encodeURIComponent(this.generateText(position))}&subject=${encodeURIComponent('Referral for a Job')}`;
 
     try {
       await Linking.openURL(url);
@@ -84,15 +83,8 @@ class Refer extends PureComponent<IProps> {
   };
 
   private generateText(position: IReferalPositions) {
-    const { user } = this.props;
-
-    return `
-      Hello there!
-      You have a job referral for the ${position.companyName} company.
-      Your friend ${user.email} referred you for a position of a ${position.name} 
-      For more details, please follow the link attached
-      ${position.url}
-    `;
+    // tslint:disable-next-line:max-line-length
+    return `Hello there! I would like to refer you for a position of a ${position.name} for the ${position.companyName} company. For more details, please follow the link attached ${position.url}`;
   }
 
   public render() {
@@ -161,10 +153,9 @@ class Refer extends PureComponent<IProps> {
   }
 }
 
-const mapStateToProps = ({ data, settings }: IReduxState) => {
+const mapStateToProps = ({ data }: IReduxState) => {
   return {
-    positions: data.positions,
-    user: settings.user
+    positions: data.positions
   };
 };
 
