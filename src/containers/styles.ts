@@ -44,7 +44,7 @@ export default {
       },
       bottom_button: {
         position: 'absolute',
-        bottom: IS_SMALL_HEIGHT ? 10 : 40,
+        bottom: IS_SMALL_HEIGHT ? 20 : 40,
         left: 0,
         right: 0,
         display: 'flex',

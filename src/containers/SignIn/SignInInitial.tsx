@@ -121,7 +121,7 @@ class SignInInitial extends PureComponent<IProps> {
             </Button>
             <NextButton buttonStyle={{ marginTop: 40 }} onPress={this.onNextPress} disabled={this.state.isLoading}/>
           </View>
-          <View style={[styles.common.bottom_button, { bottom: IS_SMALL_HEIGHT ? 10 : 30 }]}>
+          <View style={[styles.common.bottom_button, { bottom: IS_SMALL_HEIGHT ? 20 : 30 }]}>
             <Button transparent={true} onPress={this.onSignUpPress} disabled={this.state.isLoading}>
               <Text style={styles.common.bottom_button_text}>
                 <FormattedMessage id={'signin_create_account_prefix'}/> {' '}
