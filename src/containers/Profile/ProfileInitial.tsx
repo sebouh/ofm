@@ -28,7 +28,9 @@ class ProfileInitial extends PureComponent<IProps> {
   public readonly state = {
     email: this.props.email,
     paypalEmail: this.props.paypalEmail,
-    errorMessage: ''
+    errorMessage: '',
+    emailError: '',
+    paypalError: ''
   };
 
   public componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IProps>, snapshot?: any): void {
@@ -47,14 +49,23 @@ class ProfileInitial extends PureComponent<IProps> {
   }
 
   private onChange = (val: string, key: string) => {
-    this.setState({ [key]: val, errorMessage: '' });
+    this.setState({ [key]: val, errorMessage: '', emailError: '', paypalError: '' });
   };
 
   private onSubmit = async () => {
     const { email, paypalEmail } = this.state;
+    const errors = {} as { [key: string]: string };
 
-    if (!validateEmail(email) || !validateEmail(paypalEmail)) {
-      return this.setState({ errorMessage: 'incorrect_email' });
+    if (!validateEmail(email)) {
+      errors.emailError = 'incorrect_email';
+    }
+
+    if (!validateEmail(paypalEmail)) {
+      errors.paypalError = 'incorrect_email';
+    }
+
+    if (Object.keys(errors).length) {
+      return this.setState(errors);
     }
 
     if (email === this.props.email && paypalEmail === this.props.paypalEmail) {
@@ -102,7 +113,18 @@ class ProfileInitial extends PureComponent<IProps> {
     }
   };
 
-  private onChangePress = debounce(() => Actions.push('profile_change_pass'), 1000, { leading: true, trailing: false });
+  private onChangPassPress = () => {
+    this.setState({
+      email: this.props.email, paypalEmail: this.props.paypalEmail,
+      errorMessage: '',
+      emailError: '',
+      paypalError: ''
+    });
+
+    return Actions.push('profile_change_pass');
+  };
+
+  private onChangePress = debounce(this.onChangPassPress, 1000, { leading: true, trailing: false });
 
   private onSubmitPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
 
@@ -128,6 +150,11 @@ class ProfileInitial extends PureComponent<IProps> {
               <Image source={require('../../assets/images/icons/Edit.png')}/>
             </Button>
           </Item>
+          {this.state.emailError ? (
+            <Text style={styles.common.email_pass_error}>
+              <FormattedMessage id={this.state.emailError}/>
+            </Text>
+          ) : null}
           <Text style={styles.profile_initial.label}>
             <FormattedMessage id={'paypal_email'}/>
           </Text>
@@ -144,9 +171,9 @@ class ProfileInitial extends PureComponent<IProps> {
               <Image source={require('../../assets/images/icons/Edit.png')}/>
             </Button>
           </Item>
-          {this.state.errorMessage ? (
+          {this.state.paypalError ? (
             <Text style={styles.common.email_pass_error}>
-              <FormattedMessage id={this.state.errorMessage}/>
+              <FormattedMessage id={this.state.paypalError}/>
             </Text>
           ) : null}
           <Button transparent={true} style={styles.profile_initial.change_pass} onPress={this.onChangePress}>
@@ -155,6 +182,11 @@ class ProfileInitial extends PureComponent<IProps> {
               <FormattedMessage id={'profile_initial_change_pass'}/>
             </Text>
           </Button>
+          {this.state.errorMessage ? (
+            <Text style={styles.common.email_pass_error}>
+              <FormattedMessage id={this.state.errorMessage}/>
+            </Text>
+          ) : null}
           <Button rounded={true} bordered={true} style={styles.profile_initial.save_button} onPress={this.onSubmitPress}>
             <Text style={styles.profile_initial.save_button_text}>
               <FormattedMessage id={'profile_initial_save'}/>
