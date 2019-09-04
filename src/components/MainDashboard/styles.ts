@@ -36,16 +36,16 @@ export default {
         justifyContent: 'space-between'
       },
       title: {
-        maxWidth: IS_SMALL_HEIGHT ? 150 : 223,
+        maxWidth: IS_SMALL_HEIGHT ? 120 : 223,
         ...globalStyles.fonts.regular,
         color: globalStyles.colors.black40,
-        fontSize: 17,
+        fontSize: IS_SMALL_HEIGHT ? 16 : 17,
         lineHeight: 22,
         letterSpacing: -0.41
       },
       points: {
         ...globalStyles.fonts.semiBold,
-        fontSize: 20,
+        fontSize: IS_SMALL_HEIGHT ? 18 : 20,
         fontWeight: 'bold',
         lineHeight: 25,
         letterSpacing: 0.38,
