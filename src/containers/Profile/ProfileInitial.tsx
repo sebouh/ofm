@@ -2,18 +2,18 @@ import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Alert, Image, Text, TextInput, View } from 'react-native';
+import { Alert, Image, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { EmailInput, Header, SubHeader } from '../../components';
+import { tokenService } from '../../services';
 import { getCurrentUser, setModalConfigs } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, IModalConfigs, validateEmail } from '../../utils';
 import styles from '../styles';
-import { tokenService } from '../../services';
 
 interface IProps {
   readonly email: string;
