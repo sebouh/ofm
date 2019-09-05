@@ -10,7 +10,7 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { EmailInput, Header, SubHeader } from '../../components';
 import { tokenService } from '../../services';
-import { getCurrentUser, setModalConfigs } from '../../store/actions';
+import { setIsLoggedIn, setModalConfigs } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, IModalConfigs, validateEmail } from '../../utils';
 import styles from '../styles';
@@ -19,7 +19,7 @@ interface IProps {
   readonly email: string;
   readonly paypalEmail: string | null;
   readonly setModalConfigs: (config: IModalConfigs) => void;
-  readonly getCurrentUser: () => void;
+  readonly setIsLoggedIn: () => void;
 }
 
 class ProfileInitial extends PureComponent<IProps> {
@@ -82,9 +82,8 @@ class ProfileInitial extends PureComponent<IProps> {
 
       if (data.token) {
         await tokenService.setToken(data.token);
+        await this.props.setIsLoggedIn();
       }
-
-      this.props.getCurrentUser();
 
       this.props.setModalConfigs({
         isVisible: true,
@@ -211,7 +210,7 @@ const mapStateToProps = ({ settings }: IReduxState) => {
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
     setModalConfigs: (config: IModalConfigs) => dispatch(setModalConfigs(config)),
-    getCurrentUser: () => dispatch(getCurrentUser())
+    setIsLoggedIn: () => dispatch(setIsLoggedIn())
   };
 };
 
