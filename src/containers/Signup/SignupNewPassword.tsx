@@ -6,7 +6,7 @@ import { Alert, Dimensions, Image, SafeAreaView, Text, View } from 'react-native
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { Header, NextButton, PasswordInput } from '../../components';
-import { axiosInstance } from '../../utils';
+import { axiosInstance, passwordValidator } from '../../utils';
 import styles from '../styles';
 
 class SignupNewPassword extends PureComponent {
@@ -24,12 +24,10 @@ class SignupNewPassword extends PureComponent {
 
   private onSubmit = () => {
     const { password, confirmPassword } = this.state;
-    if (!password.trim().length || !confirmPassword.trim().length) {
-      return this.setState({ errorMessage: 'signin_recover_password_empty_fields' });
-    }
+    const errorMessage = passwordValidator(password, confirmPassword);
 
-    if (password !== confirmPassword) {
-      return this.setState({ errorMessage: 'signin_recover_password_not_corresponding' });
+    if (errorMessage) {
+      return this.setState({ errorMessage });
     }
 
     this.setState({ isLoading: true }, async () => {

@@ -36,7 +36,7 @@ export default {
         justifyContent: 'space-between'
       },
       title: {
-        maxWidth: IS_SMALL_HEIGHT ? 120 : 223,
+        maxWidth: IS_SMALL_HEIGHT ? 120 : 180,
         ...globalStyles.fonts.regular,
         color: globalStyles.colors.black40,
         fontSize: IS_SMALL_HEIGHT ? 16 : 17,
