@@ -33,7 +33,8 @@ class Menu extends PureComponent<IProps> {
       title: 'menu_feedback',
       image: require('../assets/images/icons/Menu_feedback.png'),
       style: { marginTop: 27.5 },
-      action: () => this.onMenuItemPress('feedback')
+      action: () => this.onMenuItemPress('feedback'),
+      route: 'feedback'
     },
     {
       id: 3,
@@ -110,6 +111,7 @@ class Menu extends PureComponent<IProps> {
           <View style={styles.items}>
             {this.menu.map(item => (
               <Button key={item.id} style={[styles.button, item.style]} transparent={true} onPress={item.action} disabled={routeName === item.route}>
+                {console.log(routeName, item.route)}
                 <View style={styles.item}>
                   <Image source={item.image}/>
                   <Text style={styles.item_title}><FormattedMessage id={item.title}/></Text>
