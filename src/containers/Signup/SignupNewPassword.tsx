@@ -52,7 +52,7 @@ class SignupNewPassword extends PureComponent {
 
         this.setState({ errorMessage: 'unhandled_error' });
       } finally {
-        this.setState({ isLoading: true });
+        this.setState({ isLoading: false });
       }
     });
   };
