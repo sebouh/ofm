@@ -13,6 +13,7 @@ import { getCurrentUser, setModalConfigs } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { axiosInstance, IModalConfigs, validateEmail } from '../../utils';
 import styles from '../styles';
+import { tokenService } from '../../services';
 
 interface IProps {
   readonly email: string;
@@ -77,6 +78,10 @@ class ProfileInitial extends PureComponent<IProps> {
         }
 
         return this.setState({ errorMessage: 'unhandled_error' });
+      }
+
+      if (data.token) {
+        await tokenService.setToken(data.token);
       }
 
       this.props.getCurrentUser();
