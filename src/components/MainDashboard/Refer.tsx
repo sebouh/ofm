@@ -119,7 +119,11 @@ class Refer extends PureComponent<IProps> {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Text style={styles.refer.item_text}>{position.name}</Text>
                   <Button transparent={true} onPress={() => this.togglePosition(position.id)} style={styles.refer.item_expand_button}>
-                    <Image source={require('../../assets/images/icons/expand.png')}/>
+                    {isActive ? (
+                      <Image source={require('../../assets/images/icons/Arrow_opened.png')} />
+                    ) : (
+                      <Image source={require('../../assets/images/icons/Arrow_closed.png')} />
+                    )}
                   </Button>
                 </View>
                 {isActive && (
