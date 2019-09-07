@@ -67,8 +67,7 @@ class Question extends PureComponent<IProps> {
           return Alert.alert('Please check internet connection and try again');
         }
 
-        console.log(e);
-        Alert.alert(e && e.response ? e.response.message : 'Something went wrong');
+        Alert.alert(e && e.response && e.response.message ? e.response.message : 'Something went wrong');
       } finally {
         this.setState({ isSendingRequest: false });
       }
