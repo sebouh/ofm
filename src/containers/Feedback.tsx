@@ -12,6 +12,7 @@ import { setModalConfigs } from '../store/actions';
 import { axiosInstance, IModalConfigs } from '../utils';
 import { emitterEvents } from '../utils/constants';
 import styles from './styles';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface IProps {
   readonly setModalConfigs: (config: IModalConfigs) => void;
@@ -69,7 +70,7 @@ class Feedback extends PureComponent<IProps> {
         <Header/>
         <SubHeader title={'feedback_title'}/>
         <SafeAreaView style={{ flex: 1 }}>
-          <ScrollView style={styles.feedback.container}>
+          <KeyboardAwareScrollView style={styles.feedback.container} scrollEnabled={true}>
             <Text style={styles.feedback.description}>
               <FormattedMessage id={'feedback_message'}/>
             </Text>
@@ -98,7 +99,8 @@ class Feedback extends PureComponent<IProps> {
                 <FormattedMessage id={'feedback_submit'}/>
               </Text>
             </Button>
-          </ScrollView>
+            <View style={{ height: 40 }}/>
+          </KeyboardAwareScrollView>
         </SafeAreaView>
       </View>
     );

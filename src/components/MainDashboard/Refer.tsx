@@ -53,8 +53,9 @@ class Refer extends PureComponent<IProps> {
 
   private onEmailPress = async (position: IReferalPositions) => {
     let url = 'mailto:';
+    const text = this.generateText(position);
 
-    url += `?body=${encodeURIComponent(this.generateText(position))}&subject=Referral for a Job`;
+    url += `?body=${Platform.select({ ios: text, android: encodeURIComponent(text) })}&subject=Referral for a Job`;
 
     try {
       await Linking.openURL(url);
@@ -120,9 +121,9 @@ class Refer extends PureComponent<IProps> {
                   <Text style={styles.refer.item_text}>{position.name}</Text>
                   <Button transparent={true} onPress={() => this.togglePosition(position.id)} style={styles.refer.item_expand_button}>
                     {isActive ? (
-                      <Image source={require('../../assets/images/icons/Arrow_opened.png')} />
+                      <Image source={require('../../assets/images/icons/Arrow_opened.png')}/>
                     ) : (
-                      <Image source={require('../../assets/images/icons/Arrow_closed.png')} />
+                      <Image source={require('../../assets/images/icons/Arrow_closed.png')}/>
                     )}
                   </Button>
                 </View>

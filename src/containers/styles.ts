@@ -345,7 +345,7 @@ export default {
         borderRadius: 15,
         borderColor: globalStyles.colors.purple,
         marginTop: IS_SMALL_HEIGHT ? 30 : 100,
-        height: 'auto'
+        height: 'auto',
       },
       save_button_text: {
         color: globalStyles.colors.purple,
