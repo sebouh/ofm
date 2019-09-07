@@ -2,20 +2,53 @@ import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Alert, Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
+import { Alert, BackHandler, Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { Header, NextButton, PasswordInput } from '../../components';
+import { tokenService } from '../../services';
+import { setIsLoggedIn } from '../../store/actions';
+import { IReduxState } from '../../store/store';
 import { axiosInstance, passwordValidator } from '../../utils';
 import styles from '../styles';
 
-class SignupNewPassword extends PureComponent {
+interface IProps {
+  readonly setIsLoggedIn: () => void;
+}
+
+class SignupNewPassword extends PureComponent<IProps> {
   public readonly state = {
     password: '',
     confirmPassword: '',
     errorMessage: '',
     isLoading: false,
     headerHeight: 0
+  };
+
+  public componentDidMount(): void {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  public componentWillUnmount(): void {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  private onBackPress = async () => {
+    await this.logout(false);
+    Actions.pop();
+    return true;
+  };
+
+  private logout = async (redirect: boolean = true) => {
+    await tokenService.removeToken();
+    this.props.setIsLoggedIn();
+
+    if (redirect) {
+      Actions.pop();
+    }
   };
 
   private onChange = (val: string, key: string) => {
@@ -68,7 +101,7 @@ class SignupNewPassword extends PureComponent {
 
     return (
       <KeyboardAwareScrollView style={styles.common.container} scrollEnabled={false}>
-        <Header onLayout={(height: number) => this.setState({ headerHeight: height })}/>
+        <Header onLayout={(height: number) => this.setState({ headerHeight: height })} onBackPress={() => this.logout(true)}/>
         <SafeAreaView style={{ height: Dimensions.get('window').height - this.state.headerHeight }}>
           <View style={styles.common.inner_container}>
             <Text style={styles.common.top_title}>
@@ -120,4 +153,10 @@ class SignupNewPassword extends PureComponent {
   }
 }
 
-export default SignupNewPassword;
+const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
+  return {
+    setIsLoggedIn: () => dispatch(setIsLoggedIn()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SignupNewPassword);

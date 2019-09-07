@@ -18,6 +18,7 @@ interface IProps {
   readonly setMenuOpened: (menuOpened: boolean) => void;
   readonly onLayout?: (height: number) => void;
   readonly menuOpened: boolean;
+  readonly onBackPress?: () => void;
 }
 
 class Header extends PureComponent<IProps> {
@@ -30,8 +31,11 @@ class Header extends PureComponent<IProps> {
     'feedback'
   ];
   private readonly showBackButton = [
+    'signup_new_password',
+    'signup_paypal',
     'sign_in_recover_password',
     'sign_in_confirm_code',
+    'sign_in_new_password',
     'redeem_confirmation',
     'redeem_initial',
     'profile_initial',
@@ -52,6 +56,10 @@ class Header extends PureComponent<IProps> {
   };
 
   private onBackPress = () => {
+    if (typeof this.props.onBackPress === 'function') {
+      return this.props.onBackPress();
+    }
+
     if (this.props.replace) {
       return Actions.replace(this.props.replace);
     }

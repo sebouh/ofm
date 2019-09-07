@@ -2,7 +2,8 @@ import debounce from 'lodash/debounce';
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Alert, SafeAreaView, ScrollView, Text, TextInput, View } from 'react-native';
+import { Alert, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -12,7 +13,6 @@ import { setModalConfigs } from '../store/actions';
 import { axiosInstance, IModalConfigs } from '../utils';
 import { emitterEvents } from '../utils/constants';
 import styles from './styles';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface IProps {
   readonly setModalConfigs: (config: IModalConfigs) => void;
