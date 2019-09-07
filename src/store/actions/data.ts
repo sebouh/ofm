@@ -1,6 +1,6 @@
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { axiosInstance, getIsoDate } from '../../utils';
+import { axiosInstance, getIsoDate, IReferalPositions } from '../../utils';
 import { IReduxState } from '../store';
 import { dataTypes } from '../types';
 
@@ -40,26 +40,26 @@ export const getOpenPositions: ActionCreator<ThunkAction<Promise<Action>, IRedux
   return async (dispatch): Promise<Action> => {
     try {
       const { data } = await axiosInstance.get('/referal/open-positions');
+      let openPositions = data.openPositions;
 
-      return dispatch({ type: dataTypes.setPositions, positions: data.openPositions || [] });
+      openPositions = await Promise.all(openPositions.map(async (el: IReferalPositions) => {
+        try {
+          const { data: url } = await axiosInstance.get(`/referal/referral-link?position=${el.id}`);
+          el.url = url;
+
+          return el;
+        } catch (e) {
+          return el;
+        }
+      }));
+
+      return dispatch({ type: dataTypes.setPositions, positions: openPositions || [] });
     } catch (e) {
       return dispatch({ type: dataTypes.setPositions, positions: [] });
     } finally {
       if (typeof callback === 'function') {
         setTimeout(() => callback(), 1000);
       }
-    }
-  };
-};
-
-export const getPositionUrl: ActionCreator<ThunkAction<Promise<Action>, IReduxState, void, Action<any>>> = (id: number) => {
-  return async (dispatch): Promise<Action> => {
-    try {
-      const { data } = await axiosInstance.get(`/referal/referral-link?position=${id}`);
-
-      return dispatch({ type: dataTypes.updatePosition, id, payload: { url: data } });
-    } catch (e) {
-      return dispatch({ type: dataTypes.updatePosition, id, payload: {} });
     }
   };
 };

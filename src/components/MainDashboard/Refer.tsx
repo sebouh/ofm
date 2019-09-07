@@ -5,14 +5,13 @@ import { Alert, Image, Linking, Platform, RefreshControl, ScrollView, Text, View
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { getOpenPositions, getPositionUrl } from '../../store/actions';
+import { getOpenPositions } from '../../store/actions';
 import { IReduxState } from '../../store/store';
 import { globalStyles, IReferalPositions } from '../../utils';
 import styles from './styles';
 
 interface IProps {
   readonly positions: IReferalPositions[];
-  readonly getPositionUrl: (id: number) => void;
   readonly getOpenPositions: (callback?: () => void) => void;
 }
 
@@ -22,28 +21,17 @@ class Refer extends PureComponent<IProps> {
     refreshing: false
   };
 
-  private togglePosition = async (id: number) => {
+  private togglePosition = (id: number) => {
     const openedPositions = new Set(this.state.openedPositions);
 
     if (openedPositions.has(id)) {
       openedPositions.delete(id);
     } else {
-      await this.getQuestionUrl(id);
       openedPositions.add(id);
     }
 
     this.setState({ openedPositions });
   };
-
-  private async getQuestionUrl(id: number) {
-    const position = this.props.positions.find(el => el.id === id);
-
-    if (position && position.url) {
-      return;
-    }
-
-    await this.props.getPositionUrl(id);
-  }
 
   private onRefresh = () => {
     this.setState({ refreshing: true }, async () => {
@@ -166,7 +154,6 @@ const mapStateToProps = ({ data }: IReduxState) => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
-    getPositionUrl: (id: number) => dispatch(getPositionUrl(id)),
     getOpenPositions: (callback?: () => void) => dispatch(getOpenPositions(callback)),
   };
 };

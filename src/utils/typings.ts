@@ -38,7 +38,7 @@ export interface IReferalPositions {
   readonly description: string;
   readonly id: number;
   readonly name: string;
-  readonly url?: string;
+  url?: string;
 }
 
 export interface IUser {
