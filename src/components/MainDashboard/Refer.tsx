@@ -1,7 +1,7 @@
 import { Button } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Alert, Image, Linking, Platform, RefreshControl, ScrollView, Text, View } from 'react-native';
+import { Alert, AppState, AppStateStatus, Image, Linking, Platform, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -18,7 +18,24 @@ interface IProps {
 class Refer extends PureComponent<IProps> {
   public readonly state = {
     openedPositions: new Set(),
-    refreshing: false
+    refreshing: false,
+    appState: AppState.currentState
+  };
+
+  public componentDidMount(): void {
+    AppState.addEventListener('change', this.handleAppStateChange);
+  }
+
+  public componentWillUnmount(): void {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  private handleAppStateChange = (nextAppState: AppStateStatus) => {
+    if (this.state.appState.match('/inactive|background') && nextAppState === 'active') {
+      this.onRefresh();
+    }
+
+    this.setState({ appState: nextAppState });
   };
 
   private togglePosition = (id: number) => {

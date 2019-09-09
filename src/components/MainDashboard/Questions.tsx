@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
+import { AppState, AppStateStatus, FlatList, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -18,17 +18,28 @@ interface IProps {
 class Questions extends PureComponent<IProps> {
   private interval: number = 0;
   public readonly state = {
-    refreshing: false
+    refreshing: false,
+    appState: AppState.currentState
   };
 
   public componentDidMount(): void {
     this.interval = setInterval(() => this.props.getQuestions(), 60000);
+    AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   public componentWillUnmount(): void {
+    AppState.removeEventListener('change', this.handleAppStateChange);
     clearInterval(this.interval);
     this.interval = 0;
   }
+
+  private handleAppStateChange = (nextAppState: AppStateStatus) => {
+    if (this.state.appState.match('/inactive|background') && nextAppState === 'active') {
+      this.onRefresh();
+    }
+
+    this.setState({ appState: nextAppState });
+  };
 
   private renderItem = ({ item }: { item: IQuestions }) => {
     const extra = this.props.questionsExtra.find(el => item.id === el.id);
