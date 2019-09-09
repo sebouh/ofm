@@ -88,7 +88,7 @@ class Question extends PureComponent<IProps> {
     if (extra.image) {
       return (
         <View style={styles.question.photo_container}>
-          {!isSendingRequest && (
+          {isSendingRequest && (
             <React.Fragment>
               <View style={styles.question.overlay}/>
               <LoaderIndicator loaderColor={'#fff'} style={styles.question.loader}/>
