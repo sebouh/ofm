@@ -11,7 +11,6 @@ export interface IQuestionsExtra {
   readonly id: number;
   readonly image?: string;
   readonly answer?: string;
-  readonly file?: string;
   readonly answered?: boolean;
 }
 

@@ -53,7 +53,7 @@ class Question extends PureComponent<IProps> {
         const formData = new FormData();
 
         if (item.question.pictureRequired) {
-          formData.append('file', extra.file);
+          formData.append('file', { uri: extra.image, type: 'image/jpg', name: 'screen.jpg' });
         }
 
         formData.append('questionId', item.question.id);
