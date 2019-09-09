@@ -65,6 +65,24 @@ export default {
         width: 125,
         height: 125
       },
+      overlay: {
+        position: 'absolute',
+        zIndex: 4,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)'
+      },
+      loader: {
+        position: 'absolute',
+        zIndex: 5,
+        top: '50%',
+        marginTop: -18,
+        left: '50%',
+        marginLeft: -18,
+        backgroundColor: 'transparent'
+      },
       photo_delete_button: {
         position: 'absolute',
         top: 10,

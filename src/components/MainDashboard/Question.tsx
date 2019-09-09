@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Dispatch, } from 'redux';
 import { deleteQuestion, setActiveQuestionId, setCameraStatus, updateQuestion } from '../../store/actions';
 import { axiosInstance, getDateDiff, getIsoDate, IQuestions, IQuestionsExtra } from '../../utils';
+import LoaderIndicator from '../LoaderIndicator';
 import styles from './styles';
 
 interface IProps {
@@ -87,6 +88,12 @@ class Question extends PureComponent<IProps> {
     if (extra.image) {
       return (
         <View style={styles.question.photo_container}>
+          {!isSendingRequest && (
+            <React.Fragment>
+              <View style={styles.question.overlay}/>
+              <LoaderIndicator loaderColor={'#fff'} style={styles.question.loader}/>
+            </React.Fragment>
+          )}
           <Image source={{ uri: extra.image }} style={{ width: 125, height: 125 }}/>
           <Button transparent={true} style={styles.question.photo_delete_button} onPress={this.onDeleteImage} disabled={isSendingRequest}>
             <Image source={require('../../assets/images/icons/close_white.png')} style={{ width: 22, height: 22 }}/>
