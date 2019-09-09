@@ -31,7 +31,7 @@ class Refer extends PureComponent<IProps> {
   }
 
   private handleAppStateChange = (nextAppState: AppStateStatus) => {
-    if (this.state.appState.match('/inactive|background') && nextAppState === 'active') {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.onRefresh();
     }
 
