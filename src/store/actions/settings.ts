@@ -50,7 +50,7 @@ export const getCurrentUser:
 
       return dispatch({ type: settingTypes.setCurrentUser, user: data });
     } catch (err) {
-      if (err.message === 'internet') {
+      if (err && err.message === 'internet') {
         return Alert.alert('Please check internet connection and try again');
       }
 
@@ -61,6 +61,11 @@ export const getCurrentUser:
       Actions.reset('signup_email_pass');
       await tokenService.removeToken();
       dispatch(setIsLoggedIn());
+
+      if (err && err.response && err.response.status === 401) {
+        setTimeout(() => Alert.alert('You don\'t have permissions to use this app'), 500);
+      }
+
       return dispatch({ type: settingTypes.setCurrentUser, user: {} });
     }
   };
