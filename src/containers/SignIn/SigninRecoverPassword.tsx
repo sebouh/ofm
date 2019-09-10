@@ -21,7 +21,8 @@ class SigninRecoverPassword extends PureComponent<IProps> {
   public readonly state = {
     email: '',
     errorMessage: '',
-    isLoading: false
+    isLoading: false,
+    error: ''
   };
 
   public componentDidMount(): void {
@@ -54,11 +55,15 @@ class SigninRecoverPassword extends PureComponent<IProps> {
           event: emitterEvents.on_email_recover_modal_close
         });
       } catch (e) {
+        console.log(e);
         if (e.message === 'internet') {
           return Alert.alert('Please check internet connection and try again');
         }
 
-        console.log(e);
+        if (e.message) {
+          return this.setState({ error: e.message });
+        }
+
         return this.setState({ errorMessage: 'signin_recovery_error' });
       } finally {
         this.setState({ isLoading: false });
@@ -69,7 +74,7 @@ class SigninRecoverPassword extends PureComponent<IProps> {
   private onNextPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
 
   public render() {
-    const { errorMessage } = this.state;
+    const { errorMessage, error } = this.state;
     return (
       <View style={styles.common.container}>
         <Header/>
@@ -83,18 +88,27 @@ class SigninRecoverPassword extends PureComponent<IProps> {
             </Text>
             <Item rounded={true} style={[styles.common.input_container, { marginTop: 32 }]}>
               <Image source={require('../../assets/images/icons/email.png')} style={[styles.email_pass.icon, { width: 25, height: 14 }]}/>
-              <EmailInput email={this.state.email} onChange={(e) => this.setState({ email: e, errorMessage: '' })} style={styles.common.input}/>
+              <EmailInput
+                email={this.state.email}
+                onChange={(e) => this.setState({ email: e, errorMessage: '', error: '' })}
+                style={styles.common.input}
+              />
             </Item>
             {errorMessage ? (
               <Text style={styles.common.email_pass_error}>
                 <FormattedMessage id={this.state.errorMessage}/>
               </Text>
             ) : null}
+            {error ? (
+              <Text style={styles.common.email_pass_error}>
+                {error}
+              </Text>
+            ) : null}
             <NextButton
               disabled={this.state.isLoading}
               onPress={this.onNextPress}
               title={'submit_button'}
-              buttonStyle={{ marginTop: !errorMessage ? 64 : 36 }}
+              buttonStyle={{ marginTop: !errorMessage && !error ? 64 : 36 }}
             />
           </View>
         </SafeAreaView>

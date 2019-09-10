@@ -68,7 +68,13 @@ class Question extends PureComponent<IProps> {
           return Alert.alert('Please check internet connection and try again');
         }
 
-        Alert.alert(e && e.response && e.response.message ? e.response.message : 'Something went wrong');
+        let message = e && e.response && e.response.message ? e.response.message : 'Something went wrong';
+
+        if (e && e.response && e.response.status === 401) {
+          message = 'You don\'t have permissions to use this app';
+        }
+
+        Alert.alert(message);
       } finally {
         this.setState({ isSendingRequest: false });
       }

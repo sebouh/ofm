@@ -97,7 +97,13 @@ class ProfileInitial extends PureComponent<IProps> {
         return Alert.alert('Please check internet connection and try again');
       }
 
-      this.setState({ errorMessage: 'unhandled_error' });
+      let message = 'unhandled_error';
+
+      if (err && err.response && err.response.status === 401) {
+        message = 'authorization_error';
+      }
+
+      this.setState({ errorMessage: message });
     }
   };
 

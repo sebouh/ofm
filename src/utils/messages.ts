@@ -7,6 +7,7 @@ export interface ILanguages {
 }
 
 const en: IMessages = {
+  authorization_error: 'You don\'t have permissions to use this app',
   email: 'Email Address',
   paypal_email: 'Paypal Email Address',
   back_button: 'Back',

@@ -62,7 +62,13 @@ class RedeemConfirmation extends PureComponent<IProps> {
         }
 
         console.log(err);
-        Alert.alert(err.response ? err.response.message : 'Something went wrong');
+
+        let message = err && err.response && err.response.message ? err.response.message : 'Something went wrong';
+        if (err && err.response && err.response.status === 401) {
+          message = 'You don\'t have permissions to use this app';
+        }
+
+        Alert.alert(message);
       } finally {
         this.setState({ isLoading: false });
       }

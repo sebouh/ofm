@@ -90,7 +90,13 @@ class ProfileChangePassword extends PureComponent<IProps> {
           return Alert.alert('Please check internet connection and try again');
         }
 
-        return this.setState({ errorMessage: 'profile_incorrect_old_pass' });
+        let message = 'profile_incorrect_old_pass';
+
+        if (err && err.response && err.response.status === 401) {
+          message = 'authorization_error';
+        }
+
+        return this.setState({ errorMessage: message });
       } finally {
         this.setState({ isLoading: false });
       }

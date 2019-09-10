@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import debounce from 'lodash/debounce';
 import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
@@ -17,7 +18,7 @@ import { IS_SMALL_HEIGHT } from '../../utils/constants';
 import styles from '../styles';
 
 interface IProps {
-  readonly setIsLoggedIn: (callbackFirst?: () => void, callbackSecond?: () => void) => void;
+  readonly setIsLoggedIn: (callbackFirst?: (err?: AxiosError) => void, callbackSecond?: () => void) => void;
 }
 
 class SignInInitial extends PureComponent<IProps> {
@@ -48,8 +49,13 @@ class SignInInitial extends PureComponent<IProps> {
 
         await tokenService.setToken(data.token);
         await this.props.setIsLoggedIn(
-          async () => {
-            this.setState({ errorMessage: 'not_signed_up_error' });
+          async (err) => {
+            if (err && err.response && err.response.status === 401) {
+              this.setState({ errorMessage: 'authorization_error' });
+            } else {
+              this.setState({ errorMessage: 'not_signed_up_error' });
+            }
+
             await tokenService.removeToken();
             await this.props.setIsLoggedIn();
           },
@@ -58,8 +64,7 @@ class SignInInitial extends PureComponent<IProps> {
         if (err.message === 'internet') {
           return Alert.alert('Please check internet connection and try again');
         }
-
-        console.log(err);
+        console.log(err.response);
 
         return this.setState({ errorMessage: 'incorrect_email_pass' });
       } finally {
@@ -139,7 +144,7 @@ class SignInInitial extends PureComponent<IProps> {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IReduxState, void, Action>) => {
   return {
-    setIsLoggedIn: (callbackFirst?: () => void, callbackSecond?: () => void) => dispatch(setIsLoggedIn(callbackFirst, callbackSecond))
+    setIsLoggedIn: (callbackFirst?: (err?: AxiosError) => void, callbackSecond?: () => void) => dispatch(setIsLoggedIn(callbackFirst, callbackSecond))
   };
 };
 

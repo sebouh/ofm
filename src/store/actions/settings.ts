@@ -54,6 +54,10 @@ export const getCurrentUser:
         return Alert.alert('Please check internet connection and try again');
       }
 
+      if (typeof callbackFirst === 'function') {
+        return callbackFirst(err);
+      }
+
       Actions.reset('signup_email_pass');
       await tokenService.removeToken();
       dispatch(setIsLoggedIn());

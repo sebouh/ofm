@@ -109,7 +109,11 @@ export const getIsoDate = (date: Date) => {
 };
 
 export const setRecoveryPass = async (email: string) => {
-  await axiosInstance.post('/tempPassword', { employeeEmail: email });
+  const { data } = await axiosInstance.post('/tempPassword', { employeeEmail: email });
+  if (data && data.errors && data.errors.length) {
+    throw new Error(data.errors[0]);
+  }
+
   axiosInstance.post('/tempPassword/sendEmail', { employeeEmail: email });
 };
 

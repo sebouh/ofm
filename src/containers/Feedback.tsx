@@ -49,12 +49,18 @@ class Feedback extends PureComponent<IProps> {
           message: 'feedback_submit_success',
           event: emitterEvents.on_feedback_sent_modal_close
         });
-      } catch (e) {
-        if (e.message === 'internet') {
+      } catch (err) {
+
+        if (err.message === 'internet') {
           return Alert.alert('Please check internet connection and try again');
         }
 
-        Alert.alert(e.response && e.response.message ? e.response.message : 'Something went wrong');
+        let message = err && err.response && err.response.message ? err.response.message : 'Something went wrong';
+        if (err && err.response && err.response.status === 401) {
+          message = 'You don\'t have permissions to use this app';
+        }
+
+        Alert.alert(message);
       } finally {
         this.setState({ isLoading: false });
       }

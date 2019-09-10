@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { IntlProvider } from 'react-intl';
-import { Text, View } from 'react-native';
+import { AppState, AppStateStatus, Text, View } from 'react-native';
 import Drawer from 'react-native-drawer';
 import SplashScreen from 'react-native-splash-screen';
 import { connect } from 'react-redux';
@@ -16,14 +16,40 @@ interface IProps {
   readonly setIsLoggedIn: () => void;
   readonly setMenuOpened: (menuOpened: boolean) => void;
   readonly menuOpened: boolean;
+  readonly isLoggedIn: boolean | undefined;
 }
 
 class App extends PureComponent<IProps> {
+  private interval: number = 0;
+  public readonly state = {
+    appState: AppState.currentState
+  };
+
   public componentDidMount(): void {
     SplashScreen.hide();
 
     setTimeout(() => this.props.setIsLoggedIn(), 500);
+    AppState.addEventListener('change', this.handleAppStateChange);
+    this.interval = setInterval(this.props.setIsLoggedIn, 60000);
   }
+
+  public componentWillUnmount(): void {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+    clearInterval(this.interval);
+  }
+
+  private handleAppStateChange = (nextAppState: AppStateStatus) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      this.interval = setInterval(this.props.setIsLoggedIn, 60000);
+      this.props.setIsLoggedIn();
+    }
+
+    if (!this.state.appState.match(/inactive|background/)) {
+      clearInterval(this.interval);
+    }
+
+    this.setState({ appState: nextAppState });
+  };
 
   public render() {
     const { locale } = this.props;
@@ -54,7 +80,8 @@ class App extends PureComponent<IProps> {
 const mapStateToProps = ({ settings }: IReduxState) => {
   return {
     locale: settings.locale,
-    menuOpened: settings.menuOpened
+    menuOpened: settings.menuOpened,
+    isLoggedIn: settings.isLoggedIn
   };
 };
 
