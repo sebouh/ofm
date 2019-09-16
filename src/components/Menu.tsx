@@ -40,8 +40,15 @@ class Menu extends PureComponent<IProps> {
       id: 3,
       title: 'menu_logout',
       image: require('../assets/images/icons/Menu_logout.png'),
-      style: styles.logoutItem,
+      style: { marginTop: 27.5 },
       action: () => this.onLogoutPress()
+    },
+    {
+      id: 4,
+      title: 'menu_privacy',
+      style: styles.logoutItem,
+      action: () => this.onMenuItemPress('privacy_policy'),
+      route: 'privacy_policy'
     }
   ];
 

@@ -28,7 +28,8 @@ class Header extends PureComponent<IProps> {
     'redeem_confirmation',
     'profile_initial',
     'profile_change_pass',
-    'feedback'
+    'feedback',
+    'privacy_policy'
   ];
   private readonly showBackButton = [
     'signup_new_password',
@@ -40,7 +41,8 @@ class Header extends PureComponent<IProps> {
     'redeem_initial',
     'profile_initial',
     'profile_change_pass',
-    'feedback'
+    'feedback',
+    'privacy_policy'
   ];
   private readonly showMenuButton = [
     'main_dashboard',
@@ -48,7 +50,8 @@ class Header extends PureComponent<IProps> {
     'redeem_confirmation',
     'profile_initial',
     'profile_change_pass',
-    'feedback'
+    'feedback',
+    'privacy_policy'
   ];
 
   private onMenuButtonPress = () => {

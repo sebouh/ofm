@@ -2,6 +2,7 @@ import { ActionConstShort } from 'react-native-router-flux';
 import Feedback from './containers/Feedback';
 import Loader from './containers/Loader';
 import MainDashboard from './containers/MainDashboard';
+import PrivacyPolicy from './containers/PrivacyPolicy';
 import ProfileChangePassword from './containers/Profile/ProfileChangePassword';
 import ProfileInitial from './containers/Profile/ProfileInitial';
 import RedeemConfirmation from './containers/Redeem/RedeemConfirmation';
@@ -77,6 +78,10 @@ const routes: IRoute[] = [
   {
     key: 'feedback',
     component: Feedback
+  },
+  {
+    key: 'privacy_policy',
+    component: PrivacyPolicy
   }
 ];
 
