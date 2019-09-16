@@ -3,6 +3,8 @@ import { Button, Item } from 'native-base';
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Alert, Dimensions, Image, SafeAreaView, Text, View } from 'react-native';
+// @ts-ignore
+import Dash from 'react-native-dash';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -12,7 +14,7 @@ import { EmailInput, Header, NextButton, PasswordInput } from '../../components'
 import { tokenService } from '../../services';
 import { setIsLoggedIn } from '../../store/actions';
 import { IReduxState } from '../../store/store';
-import { axiosInstance, validateEmail } from '../../utils';
+import { axiosInstance, globalStyles, validateEmail } from '../../utils';
 import { IS_SMALL_HEIGHT } from '../../utils/constants';
 import styles from '../styles';
 
@@ -69,7 +71,12 @@ class SignupEmailPassword extends PureComponent<IProps> {
     return Actions.push('sign_in_initial');
   };
 
+  private navigateToPrivacy = () => {
+    return Actions.push('privacy_policy');
+  };
+
   private onSignInPress = debounce(this.navigateToSignin, 1000, { leading: true, trailing: false });
+  private onPrivacyPress = debounce(this.navigateToPrivacy, 1000, { leading: true, trailing: false });
 
   private onNextPress = debounce(this.onSubmit, 1000, { leading: true, trailing: false });
 
@@ -119,6 +126,17 @@ class SignupEmailPassword extends PureComponent<IProps> {
                   <FormattedMessage id={'signup_login_suffix'}/>
                 </Text>
               </Text>
+            </Button>
+            <Button
+              transparent={true}
+              onPress={this.onPrivacyPress}
+              disabled={this.state.isLoading}
+              style={{ height: 'auto', width: 96, flexDirection: 'column' }}
+            >
+              <Text style={styles.common.bottom_button_text}>
+                <FormattedMessage id={'menu_privacy'}/>
+              </Text>
+              <Dash style={{ width: '100%', height: 1, marginTop: 2 }} dashColor={globalStyles.colors.black}/>
             </Button>
           </View>
         </SafeAreaView>

@@ -19,6 +19,7 @@ interface IProps {
   readonly onLayout?: (height: number) => void;
   readonly menuOpened: boolean;
   readonly onBackPress?: () => void;
+  readonly isLoggedIn: boolean | undefined;
 }
 
 class Header extends PureComponent<IProps> {
@@ -78,7 +79,23 @@ class Header extends PureComponent<IProps> {
 
   public render() {
     const { routeName } = this.props;
-    const isSmall = this.smallHeaderScreens.includes(routeName);
+    const smallHeaderScreens = this.smallHeaderScreens.filter(route => {
+      if (route !== 'privacy_policy') {
+        return true;
+      }
+
+      return this.props.isLoggedIn;
+    });
+
+    const showMenuButton = this.showMenuButton.filter(route => {
+      if (route !== 'privacy_policy') {
+        return true;
+      }
+
+      return this.props.isLoggedIn;
+    });
+
+    const isSmall = smallHeaderScreens.includes(routeName);
 
     return (
       <View style={[styles.container, isSmall && styles.smallContainer]} onLayout={this.onViewLayout}>
@@ -91,7 +108,7 @@ class Header extends PureComponent<IProps> {
           </Button>
         ) : null}
         <Image style={[styles.image, isSmall && styles.smallImage]} source={require('../assets/images/logo.png')}/>
-        {this.showMenuButton.includes(routeName) ? (
+        {showMenuButton.includes(routeName) ? (
           <Button transparent={true} style={styles.menu_button} onPress={this.onMenuButtonPress}>
             <Image source={require('../assets/images/icons/menu.png')} style={{ width: 24, height: 16.5 }}/>
           </Button>
@@ -153,7 +170,8 @@ const styles = StyleSheet.create(
 const mapStateToProps = ({ router, settings }: IReduxState) => {
   return {
     routeName: router && router.routeName ? router.routeName : '',
-    menuOpened: settings.menuOpened
+    menuOpened: settings.menuOpened,
+    isLoggedIn: settings.isLoggedIn
   };
 };
 
