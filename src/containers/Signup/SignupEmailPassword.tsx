@@ -28,7 +28,8 @@ class SignupEmailPassword extends PureComponent<IProps> {
     password: '',
     errorMessage: '',
     isLoading: false,
-    headerHeight: 0
+    headerHeight: 0,
+    policyWidth: 100
   };
 
   private onChange = (val: string, key: string) => {
@@ -131,12 +132,12 @@ class SignupEmailPassword extends PureComponent<IProps> {
               transparent={true}
               onPress={this.onPrivacyPress}
               disabled={this.state.isLoading}
-              style={{ height: 'auto', width: 96, flexDirection: 'column' }}
+              style={{ height: 'auto', flexDirection: 'column' }}
             >
-              <Text style={styles.common.bottom_button_text}>
+              <Text style={styles.common.bottom_button_text} onLayout={e => this.setState({ policyWidth: e.nativeEvent.layout.width })}>
                 <FormattedMessage id={'menu_privacy'}/>
               </Text>
-              <Dash style={{ width: '100%', height: 1, marginTop: 2 }} dashColor={globalStyles.colors.black}/>
+              <Dash style={{ width: this.state.policyWidth, height: 1, marginTop: 2 }} dashColor={globalStyles.colors.black}/>
             </Button>
           </View>
         </SafeAreaView>

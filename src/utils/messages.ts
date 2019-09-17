@@ -96,7 +96,7 @@ const en: IMessages = {
   feedback_submit: 'SUBMIT',
   feedback_submit_success: 'Your feedback has been submitted.',
   privacy_policy_text: 'Effective date: September 12, 2019\n\n' +
-    'One Fabric ("us", "we", or "our") operates the One Fabric mobile application (hereinafter referred to as the "Service").\n\n' +
+    'Reza Inc ("us", "we", or "our") operates the One Fabric mobile application (hereinafter referred to as the "Service").\n\n' +
     'This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you ' +
     'have associated with that data.\n\n' +
     'We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance ' +
@@ -124,10 +124,10 @@ const en: IMessages = {
     '• Photos\n' +
     '  The service requires a camera to capture images.\n' +
     '• Cookies and Usage Data\n\n' +
+    'Usage Data\n\n' +
     'When you access the Service by or through a mobile device, we may collect certain information automatically, including, but not ' +
     'limited to, the type of mobile device you use, your mobile device unique ID, the IP address of your mobile device, your mobile operating system, ' +
-    'the type of mobile ' +
-    'Internet browser you use, unique device identifiers and other diagnostic data ("Usage Data").\n\n' +
+    'the type of mobile Internet browser you use, unique device identifiers and other diagnostic data ("Usage Data").\n\n' +
     'Tracking Cookies Data\n\n' +
     'We use cookies and similar tracking technologies to track the activity on our Service and we hold certain information.\n\n' +
     'Cookies are files with a small amount of data which may include an anonymous unique identifier. Cookies are sent to your browser from a website and ' +
@@ -191,7 +191,7 @@ const en: IMessages = {
     'are posted on this page.\n' +
     'Contact Us\n\n' +
     'If you have any questions about this Privacy Policy, please contact us:\n' +
-    '• By email: xxxxxxxxxxxxx\n'
+    '• By email:support@rezainc.com\n'
 };
 
 export const translationMessages: ILanguages = {
