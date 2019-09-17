@@ -95,6 +95,7 @@ const en: IMessages = {
   feedback_placeholder: 'Type here to start write a feedback',
   feedback_submit: 'SUBMIT',
   feedback_submit_success: 'Your feedback has been submitted.',
+  privacy_policy_text_link: 'GDPR Guide',
   privacy_policy_text: 'Effective date: September 12, 2019\n\n' +
     'Reza Inc ("us", "we", or "our") operates the One Fabric mobile application (hereinafter referred to as the "Service").\n\n' +
     'This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you ' +
@@ -134,7 +135,7 @@ const en: IMessages = {
     'stored on your device. Other tracking technologies are also used such as beacons, tags and scripts to collect and track information and ' +
     'to improve and analyse our Service.\n\n' +
     'You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you ' +
-    'may not be able to use some portions of our Service.\n' +
+    'may not be able to use some portions of our Service.\n\n' +
     'Examples of Cookies we use:\n\n' +
     '• Session Cookies. We use Session Cookies to operate our Service.\n' +
     '• Preference Cookies. We use Preference Cookies to remember your preferences and various settings.\n' +
@@ -156,7 +157,7 @@ const en: IMessages = {
     'Your consent to this Privacy Policy followed by your submission of such information represents your agreement to that transfer.\n\n' +
     'One Fabric will take all steps reasonably necessary to ensure that your data is treated securely and in accordance with this Privacy Policy ' +
     'and no transfer of your Personal Data will take place to an organization or a country unless there are adequate controls in place including the ' +
-    'security of your data and other personal information.\n' +
+    'security of your data and other personal information.\n\n' +
     'Disclosure Of Data\n\n' +
     'Legal Requirements\n\n' +
     'One Fabric may disclose your Personal Data in the good faith belief that such action is necessary to:\n' +
@@ -165,10 +166,10 @@ const en: IMessages = {
     '• To prevent or investigate possible wrongdoing in connection with the Service\n' +
     '• To protect the personal safety of users of the Service or the public\n' +
     '• To protect against legal liability\n\n' +
-    'As an European citizen, under GDPR, you have certain individual rights. You can learn more about these guides in the GDPR Guide.\n' +
-    'Security of Data\n\n' +
+    'As an European citizen, under GDPR, you have certain individual rights. You can learn more about these guides in the',
+  privacy_policy_text_second: '\nSecurity of Data\n\n' +
     'The security of your data is important to us but remember that no method of transmission over the Internet or method of electronic storage is 100% ' +
-    'secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.\n' +
+    'secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.\n\n' +
     'Service Providers\n\n' +
     'We may employ third party companies and individuals to facilitate our Service ("Service Providers"), to provide the Service on our behalf, to ' +
     'perform Service-related services or to assist us in analyzing how our Service is used.\n\n' +
@@ -188,7 +189,7 @@ const en: IMessages = {
     'We will let you know via email and/or a prominent notice on our Service, prior to the change becoming effective and update the "effective date" ' +
     'at the top of this Privacy Policy.\n\n' +
     'You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they ' +
-    'are posted on this page.\n' +
+    'are posted on this page.\n\n' +
     'Contact Us\n\n' +
     'If you have any questions about this Privacy Policy, please contact us:\n' +
     '• By email:support@rezainc.com\n'
